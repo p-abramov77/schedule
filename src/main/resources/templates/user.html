@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Надбавка</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+<div class="w3-container">
+    <div class="w3-container">
+        <h1>User</h1>
+        <p>
+            <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+    </div>
+
+    <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveUser}" th:object="${user}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+
+        <p>
+            <label>Введите username</label>
+            <input class="w3-input w3-border"  type="text" th:field="*{username}" placeholder="Введите username" value="" >
+            <label class="w3-red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</label>
+        <p>
+            <label>Введите password</label>
+            <input class="w3-input w3-border"  type="text" th:field="*{password}" placeholder="Введите password" value="" >
+            <label class="w3-red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</label>
+        <p>
+            <label>Введите email</label>
+            <input class="w3-input w3-border"  type="email" th:field="*{email}" placeholder="Введите email" value="" >
+            <label class="w3-red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</label>
+        <p>
+            <input type="checkbox" th:field="*{enabled}" value="true" />
+            <label th:for="*{enabled}"> Enable </label>
+        <p>
+            <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
+        <p>
+    </form>
+    <p>
+        <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/users}"> Не сохранять. Вернуться к списку</a>
+    </p>
+</div>
+</body>
+
+</html>

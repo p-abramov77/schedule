@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,8 +15,10 @@ public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-    String name;
-    String comment;
+    @NotNull
+    private Long creator_id;
+    private String name;
+    private String comment;
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -26,13 +29,27 @@ public class ProjectEntity {
     )
     private Set<TagEntity> tags = new HashSet<>();
 
-    public void add(TagEntity tag){
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<ToDoEntity> toDoEntitySet = new HashSet<>();
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoleEntity> roleEntities = new HashSet<>();
+
+    public void addTag(TagEntity tag){
         this.tags.add(tag);
         tag.getProjectEntities().add(this);
     }
-    public void remove(TagEntity tag){
+    public void removeTag(TagEntity tag){
         this.tags.remove(tag);
         tag.getProjectEntities().remove(this);
+    }
+    public void addRole(RoleEntity role){
+        this.roleEntities.add(role);
+        role.setProject(this);
+    }
+    public void removeRole(RoleEntity role){
+        this.roleEntities.remove(role);
+        role.setProject(null);
     }
     @Override
     public boolean equals(Object o) {
@@ -66,6 +83,14 @@ public class ProjectEntity {
         return tags;
     }
 
+    public Long getCreator_id() {
+        return creator_id;
+    }
+
+    public void setCreator_id(Long creator_id) {
+        this.creator_id = creator_id;
+    }
+
     public void setTags(Set<TagEntity> tags) {
         this.tags = tags;
     }
@@ -76,6 +101,6 @@ public class ProjectEntity {
 
     @Override
     public String toString() {
-        return "Name: " + name + " tags.size() = " + tags.size();
+        return "Name: " + name + " tags.size() = " + tags.size()+ " roleEntities.size() = " + roleEntities.size();
     }
 }

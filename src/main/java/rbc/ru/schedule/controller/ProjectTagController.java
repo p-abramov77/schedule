@@ -51,7 +51,7 @@ public class ProjectTagController {
         System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id);
-        projectEntity.add(tagService.getById(tag_id));
+        projectEntity.addTag(tagService.getById(tag_id));
 
         System.out.println("After add: "+ projectEntity);
 
@@ -67,7 +67,7 @@ public class ProjectTagController {
         System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id);
-        projectEntity.remove(tagService.getById(tag_id));
+        projectEntity.removeTag(tagService.getById(tag_id));
 
         projectService.save(projectEntity);
 

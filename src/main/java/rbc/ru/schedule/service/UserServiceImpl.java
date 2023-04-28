@@ -3,9 +3,11 @@ package rbc.ru.schedule.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.repository.UserRepo;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Service
@@ -46,5 +48,24 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<String> listNames() {
         return userRepo.findNames();
+    }
+
+    @Override
+    public Set<UserEntity> getAllUsers() {
+        return userRepo.findByUsernameStartingWith("");
+    }
+
+    @Override
+    public Set<UserEntity> available(Set<RoleEntity> roleEntities) {
+        Set<Long> longs = new HashSet<>();
+        for (RoleEntity role : roleEntities ) {
+            longs.add(role.getId());
+        }
+        return userRepo.findByIdNotIn(longs);
+    }
+
+    @Override
+    public void deleteByUsername(String name) {
+        userRepo.deleteByUsername(name);
     }
 }

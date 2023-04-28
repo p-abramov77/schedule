@@ -31,12 +31,14 @@
                       </script>
 
         <a class="w3-btn w3-border w3-round-large" href="projects" >Стереть фильтр и показать всех</a>
-      <p>
-        </th>
+
     </tr>
     <tr>
       <th>Project</th>
-      <th>Tags</th>
+       <th>Tags</th>
+      <th></th>
+      <th>Users</th>
+      <th></th>
       <th>Комментарий</th>
     </tr>
     </thead>
@@ -50,8 +52,16 @@
           </li>
         </menu>
       </td>
-      <td th:text="${project.comment}"></td>
       <td><a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Change tag list</a></td>
+      <td>
+        <menu>
+          <li th:each="role : ${project.roleEntities}">
+            <a  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
+          </li>
+        </menu>
+      </td>
+      <td><a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Change user list</a></td>
+      <td th:text="${project.comment}"></td>
       <td><a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
     </tr>
     </tbody>

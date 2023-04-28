@@ -13,9 +13,9 @@ import java.util.Set;
 public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
-    String name;
-    String comment;
+    private Long id;
+    private String name;
+    private String comment;
     @ManyToMany(mappedBy = "tags")
     private Set<ProjectEntity> projectEntities = new HashSet<>();
 

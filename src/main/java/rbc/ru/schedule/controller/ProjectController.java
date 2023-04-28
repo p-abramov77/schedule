@@ -28,13 +28,19 @@ public class ProjectController {
     @GetMapping("projects")
     public String list(Model model,
                        @RequestParam(name = "tag",  defaultValue = "") String id,
+                       @RequestParam(name = "user", defaultValue = "") String user,
                        @RequestParam(name = "name", defaultValue = "") String name) {
         Set<ProjectEntity> list;
         if(id.isEmpty()) {
             list = projectService.getByName(name);
-        } else {
+        } else
+        if (user.isEmpty()){
             System.out.println("id="+id);
             list = projectService.getByTag(Long.valueOf(id));
+        }
+        else {
+            System.out.println("user = " + user);
+            list = projectService.getByUsername(user);
         }
 
         model.addAttribute("name", name);
@@ -43,8 +49,10 @@ public class ProjectController {
         return "projects";
     }
     @GetMapping("newProject")
-    public String newOne(Model model) {
+    public String newOne(Model model, SessionStatus sessionStatus,
+                         Principal principal) {
         ProjectEntity projectEntity = new ProjectEntity();
+        projectEntity.setCreator_id(userService.findUserByUsername(principal.getName()).getId());
         model.addAttribute("project", projectEntity);
         Set<String> listNames = userService.listNames();
         model.addAttribute("users", listNames);
@@ -57,11 +65,9 @@ public class ProjectController {
         if(bindingResult.hasErrors()) {
             return "project";
         }
-        System.out.println("Username: "+principal.getName());
         projectService.save(projectEntity);
 
         return "redirect:/schedule/projects?name=" + projectEntity.getName();
-
     }
     @GetMapping("editProject/{id}")
     public String edit(Model model, @PathVariable(value = "id") long id) {

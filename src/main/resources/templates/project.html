@@ -16,6 +16,8 @@
 
   <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveProject}" th:object="${project}" method="POST">
     <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{creator_id}" />
+    <input type="hidden" th:field="*{tags}" />
 
     <p>
       <label>Введите name</label>

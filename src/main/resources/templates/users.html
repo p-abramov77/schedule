@@ -31,18 +31,19 @@
                     </script>
 
                 <a class="w3-btn w3-border w3-round-large" href="users" >Стереть фильтр и показать всех</a>
-            <p>
-                </th>
+
         </tr>
         <tr>
             <th>User</th>
             <th>Enabled</th>
+            <th>Is Producer</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
             <td th:text="${user.username}"></td>
             <td th:text="${user.enabled}"></td>
+            <td th:text="${user.producer} ? 'Yes' : '' "></td>
             <td><a th:href="@{/schedule/editUser/{id}(id=${user.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
         </tr>
         </tbody>

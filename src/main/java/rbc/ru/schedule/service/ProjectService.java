@@ -11,5 +11,5 @@ public interface ProjectService {
     Set<ProjectEntity> getByTag(Long id);
     ProjectEntity getById(Long id);
     void save(ProjectEntity projectEntity);
-
+    Set<ProjectEntity> getByUsername(String name);
 }

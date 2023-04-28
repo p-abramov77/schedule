@@ -30,4 +30,9 @@ public class ProjectServiceImpl implements ProjectService{
     public void save(ProjectEntity projectEntity) {
         projectRepo.save(projectEntity);
     }
+
+    @Override
+    public Set<ProjectEntity> getByUsername(String name) {
+        return null; //TODO
+    }
 }

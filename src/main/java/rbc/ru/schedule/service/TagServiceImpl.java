@@ -26,7 +26,6 @@ public class TagServiceImpl implements TagService{
 
     @Override
     public boolean save(TagEntity tagEntity) {
-
         try{
             tagRepo.save(tagEntity);
             return true;

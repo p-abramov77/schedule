@@ -31,7 +31,8 @@ public class UserEntity implements UserDetails {
     String password;
     @NotBlank()
     String email;
-    boolean enabled;
+    Boolean enabled;
+    Boolean producer;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -36,6 +36,8 @@ public class RoleController {
         model.addAttribute("project_name", projectEntity.getName());
         model.addAttribute("roles", projectEntity.getRoleEntities());
 
+//        System.out.println("Roles "+ projectEntity.getRoleEntities());
+
         Set<UserEntity> available_users;
         if(projectEntity.getRoleEntities().size() == 0)
             available_users = userService.getAllUsers();
@@ -46,9 +48,10 @@ public class RoleController {
         return "project_roles";
     }
 
-    @GetMapping("projectRoles/add/{project_id}/{user_id}")
+    @GetMapping("projectRoles/add/{project_id}/{user_id}/{isProducer}")
     public String add(Model model,
                       @PathVariable(value = "project_id") long project_id,
+                      @PathVariable(value = "isProducer") boolean isProducer,
                       @PathVariable(value = "user_id") long user_id) {
 
         System.out.println("project="+project_id+" user="+user_id);
@@ -59,11 +62,11 @@ public class RoleController {
         RoleEntity role = new RoleEntity();
         role.setProject(projectEntity);
         role.setUser(user);
-        role.setProducer(true); //TODO
+        role.setProducer(isProducer);
 
         projectEntity.addRole(role);
 
-        System.out.println("After add: "+ projectEntity);
+        System.out.println("After add: "+ projectEntity + " isProducer " + isProducer);
 
         projectService.save(projectEntity);
 

@@ -46,12 +46,21 @@
                 <thead>
                 </thead>
                 <tbody>
-                <tr th:each="role : ${roles}">
-                    <td th:if="${role.producer}" th:text="${role.user.username}"></td>
-                    <td><a th:if="${role.producer}" th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
-                </tr>
-                <tr th:each="role : ${roles}">
+                <tr th:each="role : ${roles}" th:if="${role.producer}">
                     <td th:text="${role.user.username}"></td>
+                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
+                </tr>
+                </tbody>
+            </table>
+        </td>
+        <td>
+            <!--      midle table -->
+            <table>
+                <thead>
+                </thead>
+                <tbody>
+                <tr th:each="role : ${roles}" th:if="${!role.producer}">
+                    <td  th:text="${role.user.username}"></td>
                     <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
                 </tr>
                 </tbody>
@@ -65,11 +74,11 @@
                 <tbody>
                 <tr th:each="available : ${available_users}">
                     <td th:text="${available.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Добавить</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/true(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Producer</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/false(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">User</a></td>
                 </tr>
                 </tbody>
             </table>
-
         </td>
         </tbody>
     </table>
@@ -91,10 +100,6 @@
     <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${totalPages}}">Последняя страница</a>-->
     <!--    </div>-->
     <!--  </div>-->
-
-
-
-
 
 </div>
 </body>

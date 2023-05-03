@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.repository.ProjectRepo;
+import rbc.ru.schedule.repository.UserRepo;
 
 import java.util.Set;
 
@@ -11,6 +12,8 @@ import java.util.Set;
 public class ProjectServiceImpl implements ProjectService{
     @Autowired
     ProjectRepo projectRepo;
+    @Autowired
+    UserRepo userRepo;
     @Override
     public Set<ProjectEntity> getByName(String name) {
         return projectRepo.findAllByNameStartingWithOrderByName(name);
@@ -33,6 +36,6 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Set<ProjectEntity> getByUsername(String name) {
-        return null; //TODO
+        return projectRepo.findByUser(userRepo.findByUsername(name).getId());
     }
 }

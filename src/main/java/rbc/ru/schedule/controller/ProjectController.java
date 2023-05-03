@@ -30,19 +30,23 @@ public class ProjectController {
                        @RequestParam(name = "tag",  defaultValue = "") String id,
                        @RequestParam(name = "user", defaultValue = "") String user,
                        @RequestParam(name = "name", defaultValue = "") String name) {
-        Set<ProjectEntity> list;
-        if(id.isEmpty()) {
-            list = projectService.getByName(name);
-        } else
-        if (user.isEmpty()){
+
+        String message = "Project name is started with : " + name;
+        if(name.isEmpty()) message = "";
+        Set<ProjectEntity> list = projectService.getByName(name);
+
+        if (!id.isEmpty()){
             System.out.println("id="+id);
             list = projectService.getByTag(Long.valueOf(id));
+            message = "Project tags contains : " + id;
         }
-        else {
+        if (!user.isEmpty()){
             System.out.println("user = " + user);
             list = projectService.getByUsername(user);
+            message = "Project users contains user : " + user;
         }
 
+        model.addAttribute("message", message);
         model.addAttribute("name", name);
         model.addAttribute("list", list);
 

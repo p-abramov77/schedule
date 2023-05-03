@@ -19,9 +19,9 @@ public class UserValidator {
     UserServiceImpl userService;
 
     @Value("${superuser.login}")
-    private String superLogin;
+    public String superLogin;
     @Value("${superuser.password}")
-    private String superPassword;
+    public String superPassword;
 
     @Bean
 //    @Transactional

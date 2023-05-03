@@ -14,9 +14,9 @@ import java.util.Set;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserRepo userRepo;
+    private UserRepo userRepo;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public UserEntity getById(Long id) {
@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return false;
         }
-
     }
 
     @Override

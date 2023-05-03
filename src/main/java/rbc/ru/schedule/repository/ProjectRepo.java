@@ -12,7 +12,11 @@ public interface ProjectRepo extends JpaRepository<ProjectEntity, Long> {
     Set<ProjectEntity> findAllByNameStartingWithOrderByName(String name);
 
     @Query(
-            value="select * from project where id in (select project_id from project_tag where tag_id = ?1)",
+            value="select * from project where id in (select distinct project_id from project_tag where tag_id = :tag_id)",
             nativeQuery = true)
-    Set<ProjectEntity> findByTag(Long id);
+    Set<ProjectEntity> findByTag(Long tag_id);
+    @Query(
+            value="select * from project where id in (select distinct project_id from roles where user_id = :user_id)",
+            nativeQuery = true)
+    Set<ProjectEntity> findByUser(Long user_id);
 }

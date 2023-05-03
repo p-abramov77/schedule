@@ -31,20 +31,32 @@
                       </script>
 
         <a class="w3-btn w3-border w3-round-large" href="projects" >Стереть фильтр и показать всех</a>
+        <div th:if="${message} != '' " >
+          <span class="w3-red w3-bold" th:text="${message}" ></span>
+        </div>
 
     </tr>
     <tr>
       <th>Project</th>
        <th>Tags</th>
-      <th></th>
       <th>Users</th>
-      <th></th>
       <th>Комментарий</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="project : ${list}">
-      <td th:text="${project.name}"></td>
+      <td>
+        <span th:text="${project.name}"> </span>
+        <br>
+        <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Membership request</a>
+        <a th:href="@{/schedule/projectTodos/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">TODO list</a>
+        <br>
+        <div th:if="true" >
+          <a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">User list</a>
+          <a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Tag list</a>
+          <a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>
+        </div>
+      </td>
       <td>
         <menu>
           <li th:each="tag : ${project.tags}">
@@ -52,17 +64,15 @@
           </li>
         </menu>
       </td>
-      <td><a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Change tag list</a></td>
       <td>
         <menu>
           <li th:each="role : ${project.roleEntities}">
-            <a  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
+              <a  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
+              <span th:if="${role.producer}"> *</span>
           </li>
         </menu>
       </td>
-      <td><a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Change user list</a></td>
       <td th:text="${project.comment}"></td>
-      <td><a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
     </tr>
     </tbody>
   </table>

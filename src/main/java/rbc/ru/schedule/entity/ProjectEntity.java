@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
@@ -43,14 +44,16 @@ public class ProjectEntity {
         this.tags.remove(tag);
         tag.getProjectEntities().remove(this);
     }
-    public void addRole(RoleEntity role){
-        this.roleEntities.add(role);
-        role.setProject(this);
-    }
-    public void removeRole(RoleEntity role){
-        this.roleEntities.remove(role);
-        role.setProject(null);
-    }
+//    @Transactional
+//    public void addRole(RoleEntity role){
+//        this.roleEntities.add(role);
+//        role.setProject(this);
+//    }
+//    @Transactional
+//    public void removeRole(RoleEntity role){
+//        this.roleEntities.remove(role);
+//        role.setProject(null);
+//    }
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -101,6 +104,10 @@ public class ProjectEntity {
 
     @Override
     public String toString() {
-        return "Name: " + name + " tags.size() = " + tags.size()+ " roleEntities.size() = " + roleEntities.size();
+        String entities = "";
+        for (RoleEntity ent: roleEntities) {
+            entities += ent.getUser().getUsername() + " " + ent.isProducer() + " ";
+        }
+        return "Name: " + name + " tags.size() = " + tags.size()+ " roleEntities = " + entities;
     }
 }

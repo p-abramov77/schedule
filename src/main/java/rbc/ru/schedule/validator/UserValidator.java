@@ -33,7 +33,7 @@ public class UserValidator {
             userEntity.setUsername(superLogin);
             userEntity.setPassword(encoder.encode(superPassword));
             userEntity.setEnabled(true);
-            userEntity.setProducer(true);
+            userEntity.setMaker(true);
             userEntity.setEmail("aa");
             repo.deleteByUsername(superLogin);
             repo.save(userEntity);

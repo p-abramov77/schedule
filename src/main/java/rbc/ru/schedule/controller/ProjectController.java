@@ -46,6 +46,11 @@ public class ProjectController {
             message = "Project users contains user : " + user;
         }
 
+        System.out.println("Projects:");
+        for(ProjectEntity project : list) {
+            System.out.println(project);
+        }
+
         model.addAttribute("message", message);
         model.addAttribute("name", name);
         model.addAttribute("list", list);

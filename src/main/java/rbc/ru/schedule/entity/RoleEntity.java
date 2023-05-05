@@ -14,10 +14,11 @@ public class RoleEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id")
     private ProjectEntity project;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @MapsId
+    @JoinColumn(name="user_id")
     private UserEntity user;
 
     @NotNull

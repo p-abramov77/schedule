@@ -54,7 +54,7 @@ public class RoleController {
                       @PathVariable(value = "isProducer") boolean isProducer,
                       @PathVariable(value = "user_id") long user_id) {
 
-        System.out.println("project="+project_id+" user="+user_id +" producer = "+isProducer);
+        System.out.println("\nADD: project="+project_id+" user="+user_id +" producer = "+isProducer);
 
         ProjectEntity projectEntity = projectService.getById(project_id);
         UserEntity user = userService.getById(user_id);
@@ -74,7 +74,7 @@ public class RoleController {
                          @PathVariable(value = "project_id") long project_id,
                          @PathVariable(value = "user_id") long user_id) {
 
-        System.out.println("Remove:    project="+project_id+" user="+user_id);
+        System.out.println("\nRemove:    project="+project_id+" user="+user_id);
 
         roleService.removeByProjectAndUser(project_id, user_id);
 

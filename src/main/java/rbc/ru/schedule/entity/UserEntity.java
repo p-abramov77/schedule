@@ -32,7 +32,7 @@ public class UserEntity implements UserDetails {
     @NotBlank()
     String email;
     Boolean enabled;
-    Boolean producer;
+    Boolean maker;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

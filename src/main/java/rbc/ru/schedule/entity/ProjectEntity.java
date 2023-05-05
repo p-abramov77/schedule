@@ -30,10 +30,10 @@ public class ProjectEntity {
     )
     private Set<TagEntity> tags = new HashSet<>();
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<ToDoEntity> toDoEntitySet = new HashSet<>();
 
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<RoleEntity> roleEntities = new HashSet<>();
 
     public void addTag(TagEntity tag){
@@ -108,6 +108,6 @@ public class ProjectEntity {
         for (RoleEntity ent: roleEntities) {
             entities += ent.getUser().getUsername() + " " + ent.isProducer() + " ";
         }
-        return "Name: " + name + " tags.size() = " + tags.size()+ " roleEntities = " + entities;
+        return "Name: " + name + " roleEntities = " + entities;
     }
 }

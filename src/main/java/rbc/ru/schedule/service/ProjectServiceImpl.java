@@ -30,8 +30,9 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public void save(ProjectEntity projectEntity) {
-        projectRepo.save(projectEntity);
+    public Long save(ProjectEntity projectEntity) {
+        ProjectEntity project = projectRepo.save(projectEntity);
+        return project.getId();
     }
 
     @Override

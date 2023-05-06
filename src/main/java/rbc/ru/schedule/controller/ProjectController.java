@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
 import rbc.ru.schedule.entity.ProjectEntity;
+import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.service.ProjectServiceImpl;
+import rbc.ru.schedule.service.RoleServiceImpl;
 import rbc.ru.schedule.service.UserService;
 import rbc.ru.schedule.service.UserServiceImpl;
 
@@ -24,6 +26,8 @@ public class ProjectController {
     private ProjectServiceImpl projectService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    private RoleServiceImpl roleService;
 
     @GetMapping("projects")
     public String list(Model model,
@@ -62,9 +66,11 @@ public class ProjectController {
                          Principal principal) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setCreator_id(userService.findUserByUsername(principal.getName()).getId());
-        model.addAttribute("project", projectEntity);
         Set<String> listNames = userService.listNames();
+
+        model.addAttribute("project", projectEntity);
         model.addAttribute("users", listNames);
+
         return "project";
     }
     @PostMapping("saveProject")
@@ -74,7 +80,20 @@ public class ProjectController {
         if(bindingResult.hasErrors()) {
             return "project";
         }
-        projectService.save(projectEntity);
+        // project_id == 0 when newProject was called
+        if(projectEntity.getId() == null ) {
+            Long project_id = projectService.save(projectEntity);
+            projectEntity.setId(project_id);
+
+            RoleEntity roleEntity = new RoleEntity();
+            roleEntity.setProducer(true);
+            roleEntity.setUser(userService.findUserByUsername(principal.getName()));
+            roleEntity.setProject(projectEntity);
+
+            roleService.save(roleEntity);
+        } else {
+            projectService.save(projectEntity);
+        }
 
         return "redirect:/schedule/projects?name=" + projectEntity.getName();
     }

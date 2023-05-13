@@ -14,7 +14,8 @@ public interface UserRepo extends JpaRepository<UserEntity, Long> {
 
     @Query(value = "select username from users", nativeQuery = true)
     Set<String> findNames();
-    Set<UserEntity> findByIdNotIn(Set<Long> userIds);
+    @Query(value = "select * from users where id not in (select r.user_id from roles r where r.project_id = :project_id)", nativeQuery = true)
+    Set<UserEntity> available(Long project_id);
     Set<UserEntity> findAllByUsernameStartingWithOrderByUsername(String name);
     @Modifying
     @Transactional

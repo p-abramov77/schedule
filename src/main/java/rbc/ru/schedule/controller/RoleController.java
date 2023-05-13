@@ -39,10 +39,13 @@ public class RoleController {
 //        System.out.println("Roles "+ projectEntity.getRoleEntities());
 
         Set<UserEntity> available_users;
-        if(projectEntity.getRoleEntities().size() == 0)
+        if(projectEntity.getRoleEntities().size() == 0) {
             available_users = userService.getAllUsers();
-        else
-            available_users = userService.available(projectEntity.getRoleEntities());
+            System.out.println("All users");
+        } else {
+            available_users = userService.available(project_id);
+        }
+
         model.addAttribute("available_users", available_users);
 
         return "project_roles";

@@ -12,6 +12,6 @@ public interface UserService {
     public Set<UserEntity> listUsers(String name);
     public Set<String> listNames();
     public Set<UserEntity> getAllUsers();
-    Set<UserEntity> available(Set<RoleEntity> roleEntities);
+    Set<UserEntity> available(Long project_id);
     void deleteByUsername(String name);
 }

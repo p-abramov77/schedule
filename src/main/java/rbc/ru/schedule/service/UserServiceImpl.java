@@ -55,12 +55,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Set<UserEntity> available(Set<RoleEntity> roleEntities) {
-        Set<Long> longs = new HashSet<>();
-        for (RoleEntity role : roleEntities ) {
-            longs.add(role.getId());
-        }
-        return userRepo.findByIdNotIn(longs);
+    public Set<UserEntity> available(Long project_id) {
+        return userRepo.available(project_id);
     }
 
     @Override

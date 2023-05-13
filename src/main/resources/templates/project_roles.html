@@ -48,7 +48,7 @@
                 <tbody>
                 <tr th:each="role : ${roles}" th:if="${role.producer}">
                     <td th:text="${role.user.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
                 </tr>
                 </tbody>
             </table>
@@ -61,7 +61,7 @@
                 <tbody>
                 <tr th:each="role : ${roles}" th:if="${!role.producer}">
                     <td  th:text="${role.user.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
                 </tr>
                 </tbody>
             </table>

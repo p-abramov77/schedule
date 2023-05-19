@@ -12,6 +12,7 @@ import rbc.ru.schedule.service.ProjectServiceImpl;
 import rbc.ru.schedule.service.TagServiceImpl;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.List;
 import java.util.Set;
 
@@ -25,9 +26,10 @@ public class ProjectTagController {
     TagServiceImpl tagService;
 
     @GetMapping("projectTags/{project_id}")
-    public String list(Model model,  @PathVariable(value = "project_id") long project_id) {
+    public String list(Model model, Principal principal,
+                       @PathVariable(value = "project_id") long project_id) {
 
-        ProjectEntity projectEntity = projectService.getById(project_id);
+        ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         System.out.println(projectEntity);
 
         model.addAttribute("project_id", project_id);
@@ -44,13 +46,13 @@ public class ProjectTagController {
         return "project_tags";
     }
     @GetMapping("projectTags/add/{project_id}/{tag_id}")
-    public String add(Model model,
+    public String add(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
 
         System.out.println("project="+project_id+" tag="+tag_id);
 
-        ProjectEntity projectEntity = projectService.getById(project_id);
+        ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         projectEntity.addTag(tagService.getById(tag_id));
 
         System.out.println("After add: "+ projectEntity);
@@ -60,13 +62,13 @@ public class ProjectTagController {
         return "redirect:/schedule/projectTags/" + project_id;
     }
     @GetMapping("projectTags/remove/{project_id}/{tag_id}")
-    public String remove(Model model,
+    public String remove(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
 
         System.out.println("project="+project_id+" tag="+tag_id);
 
-        ProjectEntity projectEntity = projectService.getById(project_id);
+        ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         projectEntity.removeTag(tagService.getById(tag_id));
 
         projectService.save(projectEntity);

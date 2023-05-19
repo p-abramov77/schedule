@@ -9,10 +9,7 @@ import org.springframework.web.bind.support.SessionStatus;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
-import rbc.ru.schedule.service.ProjectServiceImpl;
-import rbc.ru.schedule.service.RoleServiceImpl;
-import rbc.ru.schedule.service.UserService;
-import rbc.ru.schedule.service.UserServiceImpl;
+import rbc.ru.schedule.service.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -28,32 +25,43 @@ public class ProjectController {
     private UserServiceImpl userService;
     @Autowired
     private RoleServiceImpl roleService;
+    @Autowired
+    private TagServiceImpl tagService;
 
+    @ModelAttribute("principal")
+    public UserEntity getUser(Principal principal) {
+        return userService.findUserByUsername(principal.getName());
+    }
     @GetMapping("projects")
-    public String list(Model model,
+    public String list(Model model, Principal principal,
                        @RequestParam(name = "tag",  defaultValue = "") String id,
                        @RequestParam(name = "user", defaultValue = "") String user,
                        @RequestParam(name = "name", defaultValue = "") String name) {
 
-        String message = "Project name is started with : " + name;
-        if(name.isEmpty()) message = "";
-        Set<ProjectEntity> list = projectService.getByName(name);
+        String message;
+        if(name.isEmpty())
+            message = "";
+        else
+            message  = "Project name is started with : " + name;
+
+        Set<ProjectEntity> list = projectService.getByName(name, principal.getName());
 
         if (!id.isEmpty()){
-            System.out.println("id="+id);
-            list = projectService.getByTag(Long.valueOf(id));
-            message = "Project tags contains : " + id;
+//            System.out.println("id="+id);
+            list = projectService.getByTag(Long.valueOf(id), principal.getName());
+            message = "Project tags contains : " + tagService.getById(Long.valueOf(id)).getName();
         }
+
         if (!user.isEmpty()){
-            System.out.println("user = " + user);
-            list = projectService.getByUsername(user);
+//            System.out.println("user = " + user);
+            list = projectService.getByUsername(user, principal.getName());
             message = "Project users contains user : " + user;
         }
 
-        System.out.println("Projects:");
-        for(ProjectEntity project : list) {
-            System.out.println(project);
-        }
+//        System.out.println("Projects:");
+//        for(ProjectEntity project : list) {
+//            System.out.println(project);
+//        }
 
         model.addAttribute("message", message);
         model.addAttribute("name", name);
@@ -98,8 +106,9 @@ public class ProjectController {
         return "redirect:/schedule/projects?name=" + projectEntity.getName();
     }
     @GetMapping("editProject/{id}")
-    public String edit(Model model, @PathVariable(value = "id") long id) {
-        ProjectEntity projectEntity = projectService.getById(id);
+    public String edit(Model model, Principal principal,
+                       @PathVariable(value = "id") long id) {
+        ProjectEntity projectEntity = projectService.getById(id, principal.getName());
         model.addAttribute("project", projectEntity);
         return "project";
     }

@@ -14,7 +14,10 @@
   <a class="w3-btn w3-blue w3-round-large" href="/schedule/">Вернуться на главный экран</a>
 
   <p>
+
+  <div th:if="${principal.maker}">
     <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить </a>
+  </div>
 
   <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
     <thead>
@@ -51,7 +54,7 @@
         <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Membership request</a>
         <a th:href="@{/schedule/projectTodos/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">TODO list</a>
         <br>
-        <div th:if="true" >
+        <div th:if="${project.producer}" >
           <a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">User list</a>
           <a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Tag list</a>
           <a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>

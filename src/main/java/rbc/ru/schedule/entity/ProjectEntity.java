@@ -20,6 +20,7 @@ public class ProjectEntity {
     private Long creator_id;
     private String name;
     private String comment;
+    private Boolean producer;
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -29,10 +30,6 @@ public class ProjectEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<TagEntity> tags = new HashSet<>();
-
-    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private Set<ToDoEntity> toDoEntitySet = new HashSet<>();
-
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<RoleEntity> roleEntities = new HashSet<>();
 
@@ -44,16 +41,7 @@ public class ProjectEntity {
         this.tags.remove(tag);
         tag.getProjectEntities().remove(this);
     }
-//    @Transactional
-//    public void addRole(RoleEntity role){
-//        this.roleEntities.add(role);
-//        role.setProject(this);
-//    }
-//    @Transactional
-//    public void removeRole(RoleEntity role){
-//        this.roleEntities.remove(role);
-//        role.setProject(null);
-//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o)

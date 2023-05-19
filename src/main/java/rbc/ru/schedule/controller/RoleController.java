@@ -14,6 +14,7 @@ import rbc.ru.schedule.service.ProjectServiceImpl;
 import rbc.ru.schedule.service.RoleServiceImpl;
 import rbc.ru.schedule.service.UserServiceImpl;
 
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -27,9 +28,10 @@ public class RoleController {
     ProjectServiceImpl projectService;
 
     @GetMapping("projectRoles/{project_id}")
-    public String list(Model model, @PathVariable(value = "project_id") long project_id) {
+    public String list(Model model, Principal principal,
+                       @PathVariable(value = "project_id") long project_id) {
 
-        ProjectEntity projectEntity = projectService.getById(project_id);
+        ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         System.out.println(projectEntity);
 
         model.addAttribute("project_id", project_id);
@@ -52,14 +54,14 @@ public class RoleController {
     }
 
     @GetMapping("projectRoles/add/{project_id}/{user_id}/{isProducer}")
-    public String add(Model model,
+    public String add(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "isProducer") boolean isProducer,
                       @PathVariable(value = "user_id") long user_id) {
 
         System.out.println("\nADD: project="+project_id+" user="+user_id +" producer = "+isProducer);
 
-        ProjectEntity projectEntity = projectService.getById(project_id);
+        ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         UserEntity user = userService.getById(user_id);
 
         RoleEntity role = new RoleEntity();

@@ -13,6 +13,8 @@ import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.repository.UserRepo;
 import rbc.ru.schedule.service.UserServiceImpl;
 
+import javax.annotation.PostConstruct;
+
 @Component
 public class UserValidator {
     @Autowired
@@ -22,10 +24,9 @@ public class UserValidator {
     public String superLogin;
     @Value("${superuser.password}")
     public String superPassword;
+    public static String login;
 
     @Bean
-//    @Transactional
-//    @Scope(proxyMode = ScopedProxyMode.INTERFACES)
 	public ApplicationRunner dataLoader(
             UserRepo repo, PasswordEncoder encoder) {
         return args -> {
@@ -39,8 +40,8 @@ public class UserValidator {
             repo.save(userEntity);
         };
     }
-    public boolean isProducer(Long project_id, String username) {
-        //TODO Add superuser
-        return true; // TODO
+    @PostConstruct
+    public void setLogin() {
+        login = superLogin;
     }
 }

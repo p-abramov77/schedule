@@ -7,7 +7,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -20,7 +19,7 @@ public class SecurityConfig {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/design", "/orders").access("hasRole('USER')")
+//                .antMatchers("/design", "/orders").access("hasRole('USER')")
                 .antMatchers("/", "/**").access("permitAll")
 
                 .and()
@@ -29,18 +28,18 @@ public class SecurityConfig {
 
                 .and()
                 .logout()
-                .logoutSuccessUrl("/")
+                .logoutSuccessUrl("/schedule/projects")
 
-                // Make H2-Console non-secured; for debug purposes
-                .and()
-                .csrf()
-                .ignoringAntMatchers("/schedule/**")
-
-                // Allow pages to be loaded in frames from the same origin; needed for H2-Console
-                .and()
-                .headers()
-                .frameOptions()
-                .sameOrigin()
+//                // Make H2-Console non-secured; for debug purposes
+//                .and()
+//                .csrf()
+//                .ignoringAntMatchers("/schedule/**")
+//
+//                // Allow pages to be loaded in frames from the same origin; needed for H2-Console
+//                .and()
+//                .headers()
+//                .frameOptions()
+//                .sameOrigin()
         ;
     }
 

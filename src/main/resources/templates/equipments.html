@@ -2,14 +2,14 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Equipments</title>
+    <title>Оборудование</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div class="w3-container">
     <div class="w3-container">
-        <h1>Equipments</h1>
+        <h1>Оборудование</h1>
     </div>
 
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
@@ -36,7 +36,7 @@
 
         </tr>
         <tr>
-            <th>Equipment</th>
+            <th>Оборудование</th>
             <th> </th>
         </tr>
         </thead>
@@ -45,7 +45,7 @@
             <td th:text="${equipment.name}"></td>
             <td>
                 <a th:if="${isAdmin}" th:href="@{/schedule/editEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
-                <a th:href="@{/schedule/busyEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Когда занят?</a>
+                <a th:href="@{/schedule/busyEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Когда занято?</a>
             </td>
         </tr>
         </tbody>

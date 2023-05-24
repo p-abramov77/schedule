@@ -13,6 +13,9 @@ import rbc.ru.schedule.service.*;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.List;
 import java.util.Set;
@@ -48,20 +51,20 @@ public class ProjectController {
         if(name.isEmpty())
             message = "";
         else
-            message  = "Project name is started with : " + name;
+            message  = "Имя события начинается с : " + name;
 
         Set<ProjectEntity> list = projectService.getByName(name, principal.getName());
 
         if (!id.isEmpty()){
 //            System.out.println("id="+id);
             list = projectService.getByTag(Long.valueOf(id), principal.getName());
-            message = "Project tags contains : " + tagService.getById(Long.valueOf(id)).getName();
+            message = "Тэг события : " + tagService.getById(Long.valueOf(id)).getName();
         }
 
         if (!user.isEmpty()){
 //            System.out.println("user = " + user);
             list = projectService.getByUsername(user, principal.getName());
-            message = "Project users contains user : " + user;
+            message = "События, в которых участвует : " + user;
         }
 
 //        System.out.println("Projects:");
@@ -112,7 +115,11 @@ public class ProjectController {
         }
         //TODO отправить уведомление по почте
 
-        return "redirect:/schedule/projects?name=" + projectEntity.getName();
+        try {
+            return "redirect:/schedule/projects?name=" + URLEncoder.encode(projectEntity.getName(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "redirect:/schedule/projects";
+        }
     }
     @GetMapping("editProject/{id}")
     public String edit(Model model, Principal principal,

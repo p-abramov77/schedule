@@ -10,6 +10,9 @@ import rbc.ru.schedule.service.EquipmentServiceImpl;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Set;
 
@@ -54,7 +57,11 @@ public class EquipmentController {
             return "equipment";
         }
 
-        return "redirect:/schedule/equipments?name=" + equipment.getName();
+        try {
+            return "redirect:/schedule/equipments?name=" + URLEncoder.encode(equipment.getName(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "redirect:/schedule/equipments";
+        }
 
     }
     @GetMapping("editEquipment/{id}")

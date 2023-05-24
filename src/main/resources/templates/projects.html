@@ -2,22 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Projects</title>
+  <title>События</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div class="w3-container">
-  <div class="w3-container">
-    <h1>Projects</h1>
-  </div>
-
   <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
-
   <p>
 
+  <div class="w3-container">
+    <h1>События</h1>
+  </div>
+
   <div th:if="${principal.maker}">
-    <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить </a>
+    <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить событие </a>
   </div>
 
   <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
@@ -36,40 +35,42 @@
 
         <a class="w3-btn w3-border w3-round-large" href="projects" >Стереть фильтр и показать всех</a>
         <div th:if="${message} != '' " >
-          <span class="w3-red w3-bold" th:text="${message}" ></span>
+          <h3 class="w3-red w3-bold" th:text="${message}" ></h3>
         </div>
+        <br>
 
     </tr>
     <tr>
-      <th>Project</th>
-      <th>TODO</th>
-      <th>Tags</th>
-      <th>Users</th>
-      <th>Комментарий</th>
+      <th>Событие</th>
+      <th>Список дел и результатов</th>
+      <th>Тэги события</th>
+      <th>Участники</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="project : ${list}">
       <td>
-        <span th:text="${project.name}"> </span>
+        <b><span th:text="${project.name}"> </span></b>
         <br>
-        <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Membership request</a>
-        <a th:href="@{/schedule/todos?id={id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">TODO list</a>
+        <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Запрос на участие</a>
         <br>
-        <div th:if="${project.producer}" >
-          <a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">User list</a>
-          <a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Tag list</a>
-          <a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>
-        </div>
+        <a th:if="${project.producer}" th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить название события</a>
       </td>
       <td>
+        <a th:href="@{/schedule/todos?id={id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Просмотреть/изменить</a>
+        <br>
         <menu>
           <li th:each="todo : ${project.todos}">
-            <span  th:text="${todo.content}"></span>
+            <span  th:text="${#temporals.format(todo.start, 'dd-MM-yyyy HH:mm')}"></span>
+            <b><span  th:text="${todo.content}"></span></b>
+            <br>
+            <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
           </li>
         </menu>
       </td>
       <td>
+        <a th:if="${project.producer}" th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить тэги</a>
+        <br>
         <menu>
           <li th:each="tag : ${project.tags}">
             <a  th:text="${tag.name}" th:href="@{/schedule/projects?tag={id}(id=${tag.id})}">tag name</a>
@@ -77,6 +78,8 @@
         </menu>
       </td>
       <td>
+        <a th:if="${project.producer}" th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список</a>
+        <br>
         <menu>
           <li th:each="role : ${project.roleEntities}">
               <a  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
@@ -84,7 +87,6 @@
           </li>
         </menu>
       </td>
-      <td th:text="${project.comment}"></td>
     </tr>
     </tbody>
   </table>

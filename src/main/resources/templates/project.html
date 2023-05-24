@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Project</title>
+  <title>Событие</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 </head>
@@ -11,7 +11,7 @@
 <body>
 <div class="w3-container">
   <div class="w3-container">
-    <h1>Project</h1>
+    <h1>Событие</h1>
   </div>
 
   <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveProject}" th:object="${project}" method="POST">
@@ -20,14 +20,9 @@
     <input type="hidden" th:field="*{tags}" />
 
     <p>
-      <label>Введите name</label>
+      <label>Введите наименование</label>
       <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите name" value="" >
       <label class="w3-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</label>
-    <p>
-      <label>Введите комментарий</label>
-      <input class="w3-input w3-border"  type="text" th:field="*{comment}" placeholder="Введите комментарий" value="" >
-      <label class="w3-red" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">comment Error</label>
-
 
 <!--    User Name:-->
 <!--    <input list="list_names" name="names" />-->
@@ -37,7 +32,6 @@
 <!--        </option>-->
 <!--      </select>-->
 <!--    </datalist>-->
-
 
     <p>
       <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>

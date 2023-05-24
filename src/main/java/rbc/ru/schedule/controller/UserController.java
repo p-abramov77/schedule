@@ -12,6 +12,8 @@ import rbc.ru.schedule.service.UserServiceImpl;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.Set;
 
@@ -53,7 +55,11 @@ public class UserController {
             return "user";
         }
         //TODO отправить уведомление по почте
-        return "redirect:/schedule/users?name=" + userEntity.getUsername();
+        try {
+            return "redirect:/schedule/users?name=" + URLEncoder.encode(userEntity.getUsername(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "redirect:/schedule/users";
+        }
 
     }
     @GetMapping("editUser/{id}")

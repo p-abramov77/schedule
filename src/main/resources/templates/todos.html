@@ -8,40 +8,42 @@
 </head>
 <body>
 <div class="w3-container">
-    <div class="w3-container">
-        <h1>Todo list of project </h1>
-        <h1 th:text="${project.name}"></h1>
-    </div>
 
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
-
     <p>
 
+    <div class="w3-container">
+        <h1 th:text="'TODO для события : ' + ${project.name}"></h1>
+    </div>
+
     <div th:if="${project.producer}">
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить </a>
+        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить TODO </a>
+        <p>
     </div>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
         <tr>
             <th>TODO</th>
-            <th>Equipment</th>
-            <th>Result</th>
+            <th>Оборудование</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="todo : ${list}">
             <td>
-                <span th:text="${todo.content}"> </span>
+                <span  th:text="${#temporals.format(todo.start, 'dd-MM-yyyy HH:mm')}"></span>
+                <b><span  th:text="${todo.content}"></span></b>
                 <br>
-                <a th:href="@{/schedule/todoResults/{id}(id=${todo.id})}" class="w3-btn w3-red w3-border w3-round-large ">Results</a>
-                <br>
-                <div th:if="${project.producer}" >
-                    <a th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>
-                    <a th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Equipment</a>
-                </div>
+                <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
+
+                <a th:if="${project.producer}" th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+
+                <a th:href="@{/schedule/todoResults/{id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
+
             </td>
             <td>
+                <a th:if="${project.producer}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>
+                <p>
                 <menu>
                     <li th:each="equip : ${todo.equipments}">
                         <span  th:text="${equip.name}"></span>

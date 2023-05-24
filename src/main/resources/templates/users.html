@@ -2,20 +2,20 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Users</title>
+    <title>Пользователи</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div class="w3-container">
     <div class="w3-container">
-        <h1>Users</h1>
+        <h1>Пользователи</h1>
     </div>
 
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
 
     <p>
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newUser'}" > Добавить </a>
+        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newUser'}" > Добавить поьзователя </a>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
@@ -35,16 +35,16 @@
 
         </tr>
         <tr>
-            <th>User</th>
-            <th>Enabled</th>
-            <th>Is Producer</th>
+            <th>Пользователь</th>
+            <th>Заблокирован?</th>
+            <th>Продюссер?</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
             <td th:text="${user.username}"></td>
-            <td th:text="${user.enabled}"></td>
-            <td th:text="${user.maker} ? 'Yes' : '' "></td>
+            <td th:text="${!user.enabled}  ? 'Да' : '' "></td>
+            <td th:text="${user.maker}     ? 'Да' : '' "></td>
             <td><a th:href="@{/schedule/editUser/{id}(id=${user.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
         </tr>
         </tbody>
@@ -67,10 +67,6 @@
     <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${totalPages}}">Последняя страница</a>-->
     <!--    </div>-->
     <!--  </div>-->
-
-
-
-
 
 </div>
 </body>

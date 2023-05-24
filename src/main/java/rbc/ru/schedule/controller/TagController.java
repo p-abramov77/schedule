@@ -10,6 +10,8 @@ import rbc.ru.schedule.service.TagServiceImpl;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.Principal;
 import java.util.Set;
 
@@ -52,8 +54,11 @@ public class TagController {
             return "tag";
         }
 
-        return "redirect:/schedule/tags?name=" + tagEntity.getName();
-
+        try {
+            return "redirect:/schedule/tags?name=" + URLEncoder.encode(tagEntity.getName(), "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "redirect:/schedule/tags";
+        }
     }
     @GetMapping("editTag/{id}")
     public String edit(Model model, @PathVariable(value = "id") long id) {

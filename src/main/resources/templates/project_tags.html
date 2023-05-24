@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>page title</title>
+  <title>Тэги события</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div class="w3-container w3-border">
   <div class="w3-container w3-dark">
-    <h1> <span th:text="${'Tags of project ' + project_name}"></span> </h1>
+    <h1> <span th:text="${'Tэги события : ' + project_name}"></span> </h1>
   </div>
 
-
   <a class="w3-btn w3-blue w3-round-large" href="/schedule/projects">Вернуться к списку</a>
+  <p>
 
   <table border="1" >
     <thead>
@@ -34,8 +34,8 @@
     <!--      </th>-->
     <!--    </tr>-->
     <tr>
-      <th>Project tags</th>
-      <th>Available tags</th>
+      <th>Тэги</th>
+      <th>Доступные тэги</th>
     </tr>
     </thead>
     <tbody>

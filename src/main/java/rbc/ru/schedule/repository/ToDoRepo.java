@@ -8,7 +8,7 @@ import java.util.Set;
 
 public interface ToDoRepo extends JpaRepository<ToDoEntity, Long> {
 
-    @Query(value = "select * from todo_s where project_id = :project_id", nativeQuery = true)
-    Set<ToDoEntity> findAllByProjectId(Long project_id);
+    @Query(value = "select * from todo_s where project_id = :project_id order by start", nativeQuery = true)
+    Set<ToDoEntity> findAllByProjectIdOrderByStart(Long project_id);
 
 }

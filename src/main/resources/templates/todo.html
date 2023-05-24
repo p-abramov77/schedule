@@ -11,7 +11,7 @@
 <body>
 <div class="w3-container">
   <div class="w3-container">
-    <h1>User</h1>
+    <h1>TODO</h1>
     <p>
       <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
   </div>
@@ -26,7 +26,7 @@
 
     <p>
       <label>Введите название</label>
-      <input class="w3-input w3-border"  type="text" th:field="*{content}" placeholder="Введите название" value="" >
+      <input class="w3-input w3-border"  type="text" th:field="*{content}" placeholder="Введите описание дела" value="" >
       <label class="w3-red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content Error</label>
     <p>
       <label>Введите время начала</label>
@@ -41,7 +41,7 @@
 
   </form>
   <p>
-    <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}"> Не сохранять. Вернуться к списку</a>
+    <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}"> Не сохранять. Вернуться к списку дел</a>
   </p>
 </div>
 </body>

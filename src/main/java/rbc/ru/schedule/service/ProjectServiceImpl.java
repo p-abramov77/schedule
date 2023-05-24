@@ -4,12 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.RoleEntity;
+import rbc.ru.schedule.entity.ToDoEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.repository.ProjectRepo;
 import rbc.ru.schedule.repository.UserRepo;
 import rbc.ru.schedule.validator.UserValidator;
 
+import java.util.Comparator;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService{
@@ -34,12 +37,28 @@ public class ProjectServiceImpl implements ProjectService{
         ProjectEntity project = projectRepo.save(projectEntity);
         return project.getId();
     }
+    private Set<ProjectEntity> sortingTODO(Set<ProjectEntity> projectEntities) {
+        for(ProjectEntity project : projectEntities) {
+            project.setTodos(
+                    project.getTodos().stream()
+                            .sorted(new Comparator<ToDoEntity>() {
+                                @Override
+                                public int compare(ToDoEntity o1, ToDoEntity o2) {
+                                    return o1.getStart().compareTo(o2.getStop());
+                                }
+                            })
+                            .collect(Collectors.toSet()));
+        }
+        return projectEntities;
+    }
     @Override
     public Set<ProjectEntity> getByName(String name, String principal) {
         Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameStartingWithOrderByName(name);
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }
+        projectEntities = sortingTODO(projectEntities);
+
         return projectEntities;
     }
 

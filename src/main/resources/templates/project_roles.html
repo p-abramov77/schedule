@@ -2,18 +2,18 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>page title</title>
+    <title>Участники</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <body>
 <div class="w3-container w3-border">
     <div class="w3-container w3-dark">
-        <h1> <span th:text="${'Users of project ' + project_name}"></span> </h1>
+        <h3> <span th:text="${'Участники события : ' + project_name}"></span> </h3>
     </div>
 
-
     <a class="w3-btn w3-blue w3-round-large" href="/schedule/projects">Вернуться к списку</a>
+    <p>
 
     <table border="1" >
         <thead>
@@ -34,9 +34,9 @@
         <!--      </th>-->
         <!--    </tr>-->
         <tr>
-            <th>Project producers</th>
-            <th>Project users</th>
-            <th>Available users</th>
+            <th>Продюссеры</th>
+            <th>Исполнители</th>
+            <th>Доступные пользователи</th>
         </tr>
         </thead>
         <tbody>
@@ -50,7 +50,7 @@
                     <td th:text="${role.user.username}"></td>
                     <td>
                         <a  th:if="${isNotLastProducer}" th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a>
-                        <a  th:if="${!isNotLastProducer}" th:href="@{/schedule/projectRoles/{project_id}(project_id=${project_id})}" class="w3-btn w3-gray w3-border w3-round-large">Удалить</a>
+                        <a  th:if="${!isNotLastProducer}" class="w3-btn w3-gray w3-border w3-round-large">Удалить</a>
                     </td>
                 </tr>
                 </tbody>
@@ -77,8 +77,8 @@
                 <tbody>
                 <tr th:each="available : ${available_users}">
                     <td th:text="${available.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/true(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Producer</a></td>
-                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/false(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">User</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/true(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Продюссер</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/false(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Исполнитель</a></td>
                 </tr>
                 </tbody>
             </table>

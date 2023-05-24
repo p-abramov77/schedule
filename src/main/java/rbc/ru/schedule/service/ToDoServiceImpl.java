@@ -14,7 +14,7 @@ public class ToDoServiceImpl implements ToDoService{
 
     @Override
     public Set<ToDoEntity> findAllByProjectId(Long projectId) {
-        return toDoRepo.findAllByProjectId(projectId);
+        return toDoRepo.findAllByProjectIdOrderByStart(projectId);
     }
 
     @Override

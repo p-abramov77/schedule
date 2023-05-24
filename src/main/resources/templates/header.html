@@ -9,14 +9,12 @@
   <p>
     <span>Вы вошли в систему под именем: </span>
     <span th:text="${userName}"></span>
-    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/projects">Projects</a>
-    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/equipments">Equipment</a>
+    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/projects">События</a>
+    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/equipments">Оборудование</a>
     <a class="w3-btn w3-round-large w3-black" href="/logout">Выйти</a>
-    <div th:if="${isAdmin}">
-      <a class="w3-btn w3-round-large w3-yellow" href="/schedule/users">Users</a>
-      <a class="w3-btn w3-round-large w3-yellow" href="/schedule/tags">Tags</a>
 
-    </div>
+    <a th:if="${isAdmin}" class="w3-btn w3-round-large w3-yellow" href="/schedule/users">Пользователи</a>
+    <a th:if="${isAdmin}" class="w3-btn w3-round-large w3-yellow" href="/schedule/tags">Тэги</a>
 
   </p>
 </div>

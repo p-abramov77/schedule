@@ -19,7 +19,6 @@ public class ProjectEntity {
     @NotNull
     private Long creator_id;
     private String name;
-    private String comment;
     private Boolean producer;
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -63,14 +62,6 @@ public class ProjectEntity {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
     }
 
     public Set<TagEntity> getTags() {

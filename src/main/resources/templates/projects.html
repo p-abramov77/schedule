@@ -11,7 +11,8 @@
   <div class="w3-container">
     <h1>Projects</h1>
   </div>
-  <a class="w3-btn w3-blue w3-round-large" href="/schedule/">Вернуться на главный экран</a>
+
+  <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
 
   <p>
 
@@ -41,7 +42,8 @@
     </tr>
     <tr>
       <th>Project</th>
-       <th>Tags</th>
+      <th>TODO</th>
+      <th>Tags</th>
       <th>Users</th>
       <th>Комментарий</th>
     </tr>
@@ -52,13 +54,20 @@
         <span th:text="${project.name}"> </span>
         <br>
         <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Membership request</a>
-        <a th:href="@{/schedule/projectTodos/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">TODO list</a>
+        <a th:href="@{/schedule/todos?id={id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">TODO list</a>
         <br>
         <div th:if="${project.producer}" >
           <a th:href="@{/schedule/projectRoles/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">User list</a>
           <a th:href="@{/schedule/projectTags/{id}(id=${project.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Tag list</a>
           <a th:href="@{/schedule/editProject/{id}(id=${project.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>
         </div>
+      </td>
+      <td>
+        <menu>
+          <li th:each="todo : ${project.todos}">
+            <span  th:text="${todo.content}"></span>
+          </li>
+        </menu>
       </td>
       <td>
         <menu>

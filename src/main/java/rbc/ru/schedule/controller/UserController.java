@@ -9,8 +9,10 @@ import rbc.ru.schedule.entity.TagEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.service.TagServiceImpl;
 import rbc.ru.schedule.service.UserServiceImpl;
+import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -18,11 +20,15 @@ import java.util.Set;
 public class UserController {
     @Autowired
     private UserServiceImpl userService;
-
+    @Autowired
+    UserValidator userValidator;
     @GetMapping("users")
-    public String list(Model model, @RequestParam(defaultValue = "") String name) {
+    public String list(Model model, Principal principal,
+                       @RequestParam(defaultValue = "") String name) {
         Set<UserEntity> list = userService.listUsers(name);
 
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
         model.addAttribute("name", name);
         model.addAttribute("list", list);
 
@@ -37,6 +43,8 @@ public class UserController {
     @PostMapping("saveUser")
     public String save(Model model, @ModelAttribute("user") @Valid UserEntity userEntity,
                        BindingResult bindingResult) {
+        //TODO проверить права
+
         if(bindingResult.hasErrors()) {
             return "user";
         }
@@ -44,7 +52,7 @@ public class UserController {
             model.addAttribute("errorMessage", "Пользователь с указанным именем существует");
             return "user";
         }
-
+        //TODO отправить уведомление по почте
         return "redirect:/schedule/users?name=" + userEntity.getUsername();
 
     }

@@ -11,7 +11,8 @@
     <div class="w3-container">
         <h1>Users</h1>
     </div>
-    <a class="w3-btn w3-blue w3-round-large" href="/schedule/">Вернуться на главный экран</a>
+
+    <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
 
     <p>
         <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newUser'}" > Добавить </a>

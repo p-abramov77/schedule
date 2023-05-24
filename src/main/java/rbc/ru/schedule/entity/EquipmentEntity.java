@@ -18,7 +18,7 @@ public class EquipmentEntity {
     @Size(min = 4)
     private String name;
 
-    @ManyToMany(mappedBy = "equipmentEntities")
+    @ManyToMany(mappedBy = "equipments")
     private Set<ToDoEntity> toDoEntities = new HashSet<>();
     @Override
     public boolean equals(Object o) {

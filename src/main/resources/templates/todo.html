@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>TODO</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+
+</head>
+
+<body>
+<div class="w3-container">
+  <div class="w3-container">
+    <h1>User</h1>
+    <p>
+      <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+  </div>
+
+  <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveTODO}" th:object="${todo}" method="POST">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{equipments}" />
+    <!--    <input type="hidden" th:field="*{results}" />-->
+    <input type="hidden" th:field="*{project}" />
+    <input type="hidden" th:field="*{dateTime}" />
+    <input type="hidden" th:field="*{changedByUser}" />
+
+    <p>
+      <label>Введите название</label>
+      <input class="w3-input w3-border"  type="text" th:field="*{content}" placeholder="Введите название" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content Error</label>
+    <p>
+      <label>Введите время начала</label>
+      <input class="w3-input w3-border"  type="text" th:field="*{start}" placeholder="Введите время начала" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">start Error</label>
+    <p>
+      <label>Введите время окончания</label>
+      <input class="w3-input w3-border"  type="text" th:field="*{stop}" placeholder="Введите время окончания" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('stop')}" th:errors="*{stop}">stop Error</label>
+    </p>
+      <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
+
+  </form>
+  <p>
+    <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}"> Не сохранять. Вернуться к списку</a>
+  </p>
+</div>
+</body>
+
+</html>

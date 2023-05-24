@@ -1,0 +1,29 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="header (userName,isAdmin)">
+  <p>
+    <span>Вы вошли в систему под именем: </span>
+    <span th:text="${userName}"></span>
+    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/projects">Projects</a>
+    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/equipments">Equipment</a>
+    <a class="w3-btn w3-round-large w3-black" href="/logout">Выйти</a>
+    <div th:if="${isAdmin}">
+      <a class="w3-btn w3-round-large w3-yellow" href="/schedule/users">Users</a>
+      <a class="w3-btn w3-round-large w3-yellow" href="/schedule/tags">Tags</a>
+
+    </div>
+
+  </p>
+</div>
+
+</body>
+
+</html>
+
+
+

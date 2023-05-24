@@ -10,6 +10,7 @@ import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.service.*;
+import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
 import java.security.Principal;
@@ -27,6 +28,8 @@ public class ProjectController {
     private RoleServiceImpl roleService;
     @Autowired
     private TagServiceImpl tagService;
+    @Autowired
+    UserValidator userValidator;
 
     @ModelAttribute("principal")
     public UserEntity getUser(Principal principal) {
@@ -37,6 +40,9 @@ public class ProjectController {
                        @RequestParam(name = "tag",  defaultValue = "") String id,
                        @RequestParam(name = "user", defaultValue = "") String user,
                        @RequestParam(name = "name", defaultValue = "") String name) {
+
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
 
         String message;
         if(name.isEmpty())
@@ -70,7 +76,7 @@ public class ProjectController {
         return "projects";
     }
     @GetMapping("newProject")
-    public String newOne(Model model, SessionStatus sessionStatus,
+    public String newOne(Model model,
                          Principal principal) {
         ProjectEntity projectEntity = new ProjectEntity();
         projectEntity.setCreator_id(userService.findUserByUsername(principal.getName()).getId());
@@ -88,6 +94,8 @@ public class ProjectController {
         if(bindingResult.hasErrors()) {
             return "project";
         }
+        //TODO проверить права
+
         // project_id == 0 when newProject was called
         if(projectEntity.getId() == null ) {
             Long project_id = projectService.save(projectEntity);
@@ -102,6 +110,7 @@ public class ProjectController {
         } else {
             projectService.save(projectEntity);
         }
+        //TODO отправить уведомление по почте
 
         return "redirect:/schedule/projects?name=" + projectEntity.getName();
     }

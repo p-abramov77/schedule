@@ -33,6 +33,9 @@ public class ProjectEntity {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<RoleEntity> roleEntities = new HashSet<>();
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private Set<ToDoEntity> todos = new HashSet<>();
+
     public void addTag(TagEntity tag){
         this.tags.add(tag);
         tag.getProjectEntities().add(this);
@@ -92,10 +95,10 @@ public class ProjectEntity {
 
     @Override
     public String toString() {
-        String entities = "";
+        StringBuilder entities = new StringBuilder();
         for (RoleEntity ent: roleEntities) {
-            entities += ent.getUser().getUsername() + " " + ent.isProducer() + " ";
+            entities.append(ent.getUser().getUsername() + " " + ent.isProducer() + " ");
         }
-        return "Name: " + name + " roleEntities = " + entities;
+        return "Name: " + name + " roleEntities = " + entities.toString();
     }
 }

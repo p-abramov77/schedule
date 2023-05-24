@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Projects</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+</head>
+<body>
+<div class="w3-container">
+    <div class="w3-container">
+        <h1>Todo list of project </h1>
+        <h1 th:text="${project.name}"></h1>
+    </div>
+
+    <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
+
+    <p>
+
+    <div th:if="${project.producer}">
+        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить </a>
+    </div>
+
+    <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
+        <thead>
+        <tr>
+            <th>TODO</th>
+            <th>Equipment</th>
+            <th>Result</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${list}">
+            <td>
+                <span th:text="${todo.content}"> </span>
+                <br>
+                <a th:href="@{/schedule/todoResults/{id}(id=${todo.id})}" class="w3-btn w3-red w3-border w3-round-large ">Results</a>
+                <br>
+                <div th:if="${project.producer}" >
+                    <a th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Edit</a>
+                    <a th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Equipment</a>
+                </div>
+            </td>
+            <td>
+                <menu>
+                    <li th:each="equip : ${todo.equipments}">
+                        <span  th:text="${equip.name}"></span>
+                    </li>
+                </menu>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
+</body>
+</html>

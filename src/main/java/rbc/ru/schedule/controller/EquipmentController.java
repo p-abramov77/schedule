@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rbc.ru.schedule.entity.EquipmentEntity;
 import rbc.ru.schedule.service.EquipmentServiceImpl;
+import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -16,15 +18,23 @@ import java.util.Set;
 public class EquipmentController {
     @Autowired
     private EquipmentServiceImpl equipmentService;
+    @Autowired
+    UserValidator userValidator;
 
     @GetMapping("equipments")
-    public String list(Model model, @RequestParam(defaultValue = "") String name) {
+    public String list(Model model, Principal principal,
+                       @RequestParam(defaultValue = "") String name) {
+        //TODO проверить права
         Set<EquipmentEntity> list = equipmentService.getByName(name);
 
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
         model.addAttribute("name", name);
         model.addAttribute("list", list);
 
         return "equipments";
+
+
     }
     @GetMapping("newEquipment")
     public String newOne(Model model) {
@@ -35,6 +45,7 @@ public class EquipmentController {
     @PostMapping("saveEquipment")
     public String save(Model model, @ModelAttribute("equipments") @Valid EquipmentEntity equipment,
                        BindingResult bindingResult) {
+        //TODO проверить права
         if(bindingResult.hasErrors()) {
             return "equipment";
         }

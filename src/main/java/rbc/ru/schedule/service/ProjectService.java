@@ -12,4 +12,6 @@ public interface ProjectService {
     ProjectEntity getById(Long id, String principal);
     Long save(ProjectEntity projectEntity);
     Set<ProjectEntity> getByUsername(String name, String principal);
+
+    boolean isNotLastProducer(ProjectEntity project);
 }

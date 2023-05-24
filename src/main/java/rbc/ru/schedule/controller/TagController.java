@@ -7,8 +7,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rbc.ru.schedule.entity.TagEntity;
 import rbc.ru.schedule.service.TagServiceImpl;
+import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.Set;
 
 @Controller
@@ -16,11 +18,16 @@ import java.util.Set;
 public class TagController {
     @Autowired
     private TagServiceImpl tagService;
+    @Autowired
+    UserValidator userValidator;
 
     @GetMapping("tags")
-    public String list(Model model, @RequestParam(defaultValue = "") String name) {
+    public String list(Model model, Principal principal,
+                       @RequestParam(defaultValue = "") String name) {
         Set<TagEntity> list = tagService.getByName(name);
 
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
         model.addAttribute("name", name);
         model.addAttribute("list", list);
 
@@ -38,6 +45,8 @@ public class TagController {
         if(bindingResult.hasErrors()) {
             return "tag";
         }
+        //TODO проверить права
+
         if(!tagService.save(tagEntity)) {
             model.addAttribute("errorMessage", "Тэг с указанным именем существует");
             return "tag";

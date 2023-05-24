@@ -49,7 +49,7 @@ public class ProjectTagController {
     public String add(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
-
+        //TODO проверить права
         System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
@@ -58,21 +58,21 @@ public class ProjectTagController {
         System.out.println("After add: "+ projectEntity);
 
         projectService.save(projectEntity);
-
+        //TODO отправить уведомление по почте
         return "redirect:/schedule/projectTags/" + project_id;
     }
     @GetMapping("projectTags/remove/{project_id}/{tag_id}")
     public String remove(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
-
+        //TODO проверить права
         System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         projectEntity.removeTag(tagService.getById(tag_id));
 
         projectService.save(projectEntity);
-
+        //TODO отправить уведомление по почте
         return "redirect:/schedule/projectTags/" + project_id;
     }
 

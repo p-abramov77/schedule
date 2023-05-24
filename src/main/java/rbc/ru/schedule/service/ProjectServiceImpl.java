@@ -61,6 +61,17 @@ public class ProjectServiceImpl implements ProjectService{
         }
         return projectEntities;
     }
+
+    @Override
+    public boolean isNotLastProducer(ProjectEntity project) {
+        int countOfProduccers = 0;
+        for(RoleEntity role : project.getRoleEntities()) {
+            if(role.isProducer()) countOfProduccers++;
+        }
+        System.out.println(countOfProduccers > 1);
+        return countOfProduccers > 1;
+    }
+
     @Override
     public Set<ProjectEntity> getByTag(Long id, String principal) {
         Set<ProjectEntity> projectEntities = projectRepo.findByTag(id);

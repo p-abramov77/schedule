@@ -30,5 +30,5 @@ public class ResultEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="todo_s_id")
-    private ToDoEntity toDoEntity;
+    private ToDoEntity todo;
 }

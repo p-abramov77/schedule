@@ -1,10 +1,9 @@
 package rbc.ru.schedule.entity;
 
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -21,15 +20,16 @@ public class ToDoEntity {
     @JoinColumn(name="project_id")
     private ProjectEntity project;
 
-    @NotBlank
     private String content;
-    @NotNull
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime start;
-    @NotNull
+
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime stop;
-    @NotNull
+
     private Long changedByUser;
-    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     LocalDateTime dateTime;
 
     @ManyToMany(cascade = {
@@ -40,17 +40,17 @@ public class ToDoEntity {
             joinColumns = @JoinColumn(name = "todo_s_id"),
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
-    private Set<EquipmentEntity> equipmentEntities = new HashSet<>();
+    private Set<EquipmentEntity> equipments = new HashSet<>();
 
-    @OneToMany(mappedBy = "toDoEntity", cascade = CascadeType.ALL)
-    private Set<ResultEntity> resultEntities = new HashSet<>();
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    private Set<ResultEntity> results = new HashSet<>();
 
     public void addEquipment(EquipmentEntity equipment){
-        this.equipmentEntities.add(equipment);
+        this.equipments.add(equipment);
         equipment.getToDoEntities().add(this);
     }
     public void removeEquipment(EquipmentEntity equipment){
-        this.equipmentEntities.remove(equipment);
+        this.equipments.remove(equipment);
         equipment.getToDoEntities().remove(this);
     }
     @Override

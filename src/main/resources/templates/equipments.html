@@ -11,10 +11,11 @@
     <div class="w3-container">
         <h1>Equipments</h1>
     </div>
-    <a class="w3-btn w3-blue w3-round-large" href="/schedule/">Вернуться на главный экран</a>
+
+    <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
 
     <p>
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newEquipment'}" > Добавить </a>
+        <a th:if="${isAdmin}" class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newEquipment'}" > Добавить </a>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
@@ -36,13 +37,16 @@
         </tr>
         <tr>
             <th>Equipment</th>
-            <th>Комментарий</th>
+            <th> </th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="equipment : ${list}">
             <td th:text="${equipment.name}"></td>
-            <td><a th:href="@{/schedule/editEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
+            <td>
+                <a th:if="${isAdmin}" th:href="@{/schedule/editEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+                <a th:href="@{/schedule/busyEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Когда занят?</a>
+            </td>
         </tr>
         </tbody>
     </table>

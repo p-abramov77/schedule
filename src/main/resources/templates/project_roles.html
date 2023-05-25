@@ -34,7 +34,7 @@
         <!--      </th>-->
         <!--    </tr>-->
         <tr>
-            <th>Продюссеры</th>
+            <th>Продюсеры</th>
             <th>Исполнители</th>
             <th>Доступные пользователи</th>
         </tr>
@@ -77,7 +77,7 @@
                 <tbody>
                 <tr th:each="available : ${available_users}">
                     <td th:text="${available.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/true(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Продюссер</a></td>
+                    <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/true(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Продюсер</a></td>
                     <td><a th:href="@{/schedule/projectRoles/add/{project_id}/{id}/false(project_id=${project_id},id=${available.id})}" class="w3-btn w3-green w3-border w3-round-large">Исполнитель</a></td>
                 </tr>
                 </tbody>

@@ -1,5 +1,6 @@
 package rbc.ru.schedule.controller;
 
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,13 +13,16 @@ import rbc.ru.schedule.validator.UserValidator;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/schedule")
 public class EquipmentController {
+
+    static {
+        SpringDocUtils.getConfig().addRestControllers(EquipmentController.class);
+    }
     @Autowired
     private EquipmentServiceImpl equipmentService;
     @Autowired

@@ -1,5 +1,6 @@
 package rbc.ru.schedule.controller;
 
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +24,10 @@ import java.util.Set;
 @Controller
 @RequestMapping("/schedule")
 public class ProjectController {
+
+    static {
+        SpringDocUtils.getConfig().addRestControllers(ProjectController.class);
+    }
     @Autowired
     private ProjectServiceImpl projectService;
     @Autowired

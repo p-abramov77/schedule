@@ -1,6 +1,7 @@
 package rbc.ru.schedule.controller;
 
 import org.apache.catalina.User;
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,10 @@ import java.util.Set;
 @Controller
 @RequestMapping("/schedule")
 public class RoleController {
+
+    static {
+        SpringDocUtils.getConfig().addRestControllers(RoleController.class);
+    }
     @Autowired
     RoleServiceImpl roleService;
     @Autowired

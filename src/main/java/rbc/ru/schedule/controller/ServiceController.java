@@ -1,5 +1,6 @@
 package rbc.ru.schedule.controller;
 
+import org.springdoc.core.SpringDocUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/schedule")
 public class ServiceController {
 
+    static {
+        SpringDocUtils.getConfig().addRestControllers(ServiceController.class);
+    }
     @GetMapping("/alive")
     public String alive(){
 

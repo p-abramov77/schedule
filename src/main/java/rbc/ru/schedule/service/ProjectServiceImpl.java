@@ -10,7 +10,10 @@ import rbc.ru.schedule.repository.ProjectRepo;
 import rbc.ru.schedule.repository.UserRepo;
 import rbc.ru.schedule.validator.UserValidator;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Comparator;
+import java.sql.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,7 +47,7 @@ public class ProjectServiceImpl implements ProjectService{
                             .sorted(new Comparator<ToDoEntity>() {
                                 @Override
                                 public int compare(ToDoEntity o1, ToDoEntity o2) {
-                                    return o1.getStart().compareTo(o2.getStop());
+                                    return o1.getStart().compareTo(o2.getStart());
                                 }
                             })
                             .collect(Collectors.toSet()));
@@ -53,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService{
     }
     @Override
     public Set<ProjectEntity> getByName(String name, String principal) {
-        Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameStartingWithOrderByName(name);
+        Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameStartingWithOrderByStart(name);
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }
@@ -70,6 +73,7 @@ public class ProjectServiceImpl implements ProjectService{
             if(principal_id == role.getUser().getId() && role.isProducer()) return true;
         }
         return false;
+
     }
 
     @Override
@@ -79,6 +83,26 @@ public class ProjectServiceImpl implements ProjectService{
             project.setProducer(isProducer(project, principal));
         }
         return projectEntities;
+    }
+
+    @Override
+    public Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop) {
+        return projectRepo.findInPeriod(start, stop);
+    }
+
+    @Override
+    public Set<ProjectEntity> findInDay(LocalDate day, Set<ProjectEntity> all) {
+
+        Date date = Date.valueOf(day);
+        return all.stream()
+                .filter(x -> ! (x.getStop().before(date) || x.getStart().after(date) ) )
+                .sorted(new Comparator<ProjectEntity>() {
+                    @Override
+                    public int compare(ProjectEntity o1, ProjectEntity o2) {
+                        return o1.getStart().compareTo(o2.getStart());
+                    }
+                })
+                .collect(Collectors.toSet());
     }
 
     @Override

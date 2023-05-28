@@ -21,18 +21,16 @@
 
     <p>
       <label>Введите наименование</label>
-      <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите name" value="" >
+      <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите имя события" value="" autofocus>
       <label class="w3-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">name Error</label>
-
-<!--    User Name:-->
-<!--    <input list="list_names" name="names" />-->
-<!--    <datalist id="list_names">-->
-<!--      <select>-->
-<!--        <option th:each="user: ${users}" th:value=" ${user}">-->
-<!--        </option>-->
-<!--      </select>-->
-<!--    </datalist>-->
-
+    <p>
+      <label>Введите дату начала</label>
+      <input class="w3-input w3-border"  type="date" th:field="*{start}" placeholder="Введите дату начала" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('start')}" th:errors="*{start}">start Error</label>
+    <p>
+      <label>Введите дату окончания</label>
+      <input class="w3-input w3-border"  type="date" th:field="*{stop}" placeholder="Введите дату окончания" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('stop')}" th:errors="*{stop}">stop Error</label>
     <p>
       <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
     <p>

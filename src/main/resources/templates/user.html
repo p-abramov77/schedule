@@ -21,7 +21,7 @@
 
         <p>
             <label>Введите username</label>
-            <input class="w3-input w3-border"  type="text" th:field="*{username}" placeholder="Введите username" value="" >
+            <input class="w3-input w3-border"  type="text" th:field="*{username}" placeholder="Введите username" value="" autofocus>
             <label class="w3-red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">username Error</label>
         <p>
             <label>Введите password</label>

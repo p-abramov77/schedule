@@ -120,11 +120,14 @@ public class ProjectController {
         }
         //TODO отправить уведомление по почте
 
+
         try {
             return "redirect:/schedule/projects?name=" + URLEncoder.encode(projectEntity.getName(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             return "redirect:/schedule/projects";
         }
+
+
     }
     @GetMapping("editProject/{id}")
     public String edit(Model model, Principal principal,

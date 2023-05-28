@@ -64,6 +64,7 @@ public class RoleController {
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "isProducer") boolean isProducer,
                       @PathVariable(value = "user_id") long user_id) {
+
         //TODO проверить права
         System.out.println("\nADD: project="+project_id+" user="+user_id +" producer = "+isProducer);
 
@@ -85,7 +86,7 @@ public class RoleController {
                          @PathVariable(value = "project_id") long project_id,
                          @PathVariable(value = "user_id") long user_id) {
         //TODO проверить права
-
+        //TODO Не удалять себя из списка заказчиков (продюсеров)
         System.out.println("\nRemove:    project="+project_id+" user="+user_id);
 
         roleService.removeByProjectAndUser(project_id, user_id);

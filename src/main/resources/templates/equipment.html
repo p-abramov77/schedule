@@ -23,7 +23,7 @@
 
     <p>
       <label>Введите название оборудования</label>
-      <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите название оборудования<" value="" >
+      <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите название оборудования<" value="" autofocus>
       <label class="w3-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">equipment Error</label>
     <p>
       <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>

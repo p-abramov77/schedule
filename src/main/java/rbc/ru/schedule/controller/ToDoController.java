@@ -6,12 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
-import rbc.ru.schedule.entity.ProjectEntity;
-import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.ToDoEntity;
+import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.service.ProjectServiceImpl;
 import rbc.ru.schedule.service.ToDoServiceImpl;
 import rbc.ru.schedule.service.UserServiceImpl;
@@ -59,11 +56,13 @@ public class ToDoController {
 
         ToDoEntity toDoEntity = new ToDoEntity();
         toDoEntity.setProject(projectService.getById(project_id,principal.getName()));
-        toDoEntity.setChangedByUser(userService.findUserByUsername(principal.getName()).getId());
+        toDoEntity.setProducer_id(userService.findUserByUsername(principal.getName()).getId());
         toDoEntity.setStart(LocalDateTime.now());
         toDoEntity.setStop(LocalDateTime.now());
         toDoEntity.setDateTime(LocalDateTime.now());
 
+        Set<UserEntity> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
         return "todo";
@@ -75,9 +74,11 @@ public class ToDoController {
                          @RequestParam(value = "id") long id) {
 
         ToDoEntity toDoEntity = toDoService.findById(id);
-        toDoEntity.setChangedByUser(userService.findUserByUsername(principal.getName()).getId());
+        toDoEntity.setProducer_id(userService.findUserByUsername(principal.getName()).getId());
         toDoEntity.setDateTime(LocalDateTime.now());
 
+        Set<UserEntity> users = userService.getAllUsers();
+        model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
         return "todo";

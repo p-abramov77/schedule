@@ -1,6 +1,6 @@
-# Redirector
+# Schedule
 
-Redirector is a web service that takes url query parameter, decodes it, and does a 302 redirect
+Schedule is a web service that takes 
 
 Сервис предоставляет переадресацию по зарегистрированным коротким URL при обращении в виде:
 

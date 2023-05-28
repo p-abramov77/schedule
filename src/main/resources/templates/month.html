@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Schedule System</title>
+
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    .rbc-dark {
+        background-color: #00878d;
+        color:#FFFFFF;
+    }
+    .rbc-light {
+        background-color: #68BE9B;
+        color:#FFFFFF;
+    }
+    </style>
+</head>
+<body>
+<div class="w3-container w3-border">
+
+  <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
+  <p>
+
+  <div class="w3-container rbc-dark">
+    <h1>Календарь событий</h1>
+  </div>
+
+  <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
+    <thead>
+    <tr>
+      <th colspan="7">
+        <p align="center">
+          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/minusMonth?dateString={date}(date=${date})}">-</a>
+          <label th:text="${#temporals.format(date, 'MM-yyyy')}" ></label>
+          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/plusMonth?dateString={date}(date=${date})}">+</a>
+        </p>
+      </th>
+    </tr>
+    <tr>
+      <th class = "w3-center">Пн</th>
+      <th class = "w3-center">Вт</th>
+      <th class = "w3-center">Ср</th>
+      <th class = "w3-center">Чт</th>
+      <th class = "w3-center">Пт</th>
+      <th class = "w3-center">Сб</th>
+      <th class = "w3-center">Вс</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="weekdays : ${cells}">
+      <div th:each="cell : ${weekdays}">
+        <td>
+<!--          <span class = "w3-center w3-btn" th:text="${#temporal.format(cell.date, 'dd-MM-yyyy')}"></span>-->
+          <i><span class = "w3-center w3-btn" th:text="${cell.date}"></span></i>
+          <div th:each="project : ${cell.list}">
+<!--            <span th:text="${#dates.format(project.start, 'dd-MM-yyyy ')}"></span>-->
+            <a class = "w3-center w3-btn" th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
+            <br>
+<!--            <span th:text="${#dates.format(project.stop, 'dd-MM-yyyy')}"></span>-->
+          </div>
+        </td>
+      </div>
+     </tr>
+    </tbody>
+  </table>
+
+
+
+
+
+
+
+</div>
+</body>
+</html>

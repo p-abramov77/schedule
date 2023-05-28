@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import rbc.ru.schedule.entity.ToDoEntity;
 import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.repository.UserRepo;
 import rbc.ru.schedule.service.UserServiceImpl;
@@ -15,7 +16,7 @@ import javax.annotation.PostConstruct;
 @Component
 public class UserValidator {
     @Autowired
-    UserServiceImpl userService;
+    private UserServiceImpl userService;
 
     @Value("${superuser.login}")
     public String superLogin;
@@ -42,6 +43,12 @@ public class UserValidator {
         login = superLogin;
     }
     public boolean isAdmin(String userName) {
+
         return login.equals(userName);
+    }
+
+    public  boolean isTodoMember(String username, ToDoEntity toDoEntity) {
+        //TODO написать
+        return true;
     }
 }

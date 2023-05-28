@@ -28,9 +28,14 @@ public class ToDoEntity {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime stop;
 
-    private Long changedByUser;
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     LocalDateTime dateTime;
+
+    private Long producer_id; // producer
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="user_id")
+    private UserEntity executor; // member
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,

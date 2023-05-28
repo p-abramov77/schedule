@@ -2,10 +2,12 @@ package rbc.ru.schedule.entity;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,7 +21,11 @@ public class ProjectEntity {
     @NotNull
     private Long creator_id;
     private String name;
-    private Boolean producer;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date start;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date stop;
+    private Boolean producer; // вычисляемое поле для отображения только в projects.html
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE

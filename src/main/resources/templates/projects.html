@@ -5,43 +5,64 @@
   <title>События</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <style>
+    .rbc-dark {
+        background-color: #00878d;
+        color:#FFFFFF;
+    }
+    .rbc-light {
+        background-color: #68BE9B;
+        color:#FFFFFF;
+    }
+    </style>
 </head>
 <body>
-<div class="w3-container">
+<div class="w3-container w3-border">
   <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
   <p>
 
-  <div class="w3-container">
+  <div class="w3-container rbc-dark">
     <h1>События</h1>
   </div>
+  <p>
 
-  <div th:if="${principal.maker}">
-    <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить событие </a>
-  </div>
+
+
 
   <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
     <thead>
     <tr>
-      <!--          <th colspan="8">-->
-
-      <input type="text" id="name" name="name" th:attr="value=${name}" placeholder="Введите сюда часть имени (если не заполнено, ищутся все имеющиеся)" class="w3-input">
+      <label>Начало интервала поиска </label>
+      <input type="date" id="start" name="start" th:attr="value=${start}"  >
       <p>
-        <button id="button" class="w3-btn w3-border w3-round-large"> Нажмите для поиска по части имени </button>
-        <script>
-                          button.onclick = function() {
-                             window.location.href = "?name=" + document.getElementById("name").value;
-                          };
-                      </script>
+      <label>Конец интервала поиска </label>
+      <input type="date" id="stop" name="stop" th:attr="value=${stop}" >
+      <p>
 
-        <a class="w3-btn w3-border w3-round-large" href="projects" >Стереть фильтр и показать всех</a>
-        <div th:if="${message} != '' " >
-          <h3 class="w3-red w3-bold" th:text="${message}" ></h3>
-        </div>
-        <br>
+      <input type="text" id="name" name="name" th:attr="value=${name}" placeholder="Введите сюда часть имени (если не заполнено, ищутся все имеющиеся)" class="w3-input w3-border" >
+
+      <button id="button" class="w3-btn w3-border w3-round-large w3-yellow"> Нажмите сюда для поиска </button>
+      <script>
+                          button.onclick = function() {
+                             window.location.href = "?name=" + document.getElementById("name").value
+                                                  + "&start=" + document.getElementById("start").value
+                                                  + "&stop=" + document.getElementById("stop").value;
+                          };
+      </script>
+
+      <a class="w3-btn w3-border w3-round-large w3-red" href="projects" >Стереть фильтр и показать всех</a>
+
+      <div th:if="${message} != '' " >
+          <h3 class="rbc-light w3-bold" th:text="${message}" ></h3>
+      </div>
+      <p>
 
     </tr>
     <tr>
-      <th>Событие</th>
+      <th>
+          <span th:text="Событие  "> </span>
+          <a th:if="${principal.maker}" class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить событие </a>
+      </th>
       <th>Список дел и результатов</th>
       <th>Тэги события</th>
       <th>Участники</th>
@@ -82,8 +103,9 @@
         <br>
         <menu>
           <li th:each="role : ${project.roleEntities}">
-              <a  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
-              <span th:if="${role.producer}"> *</span>
+            <b><a th:if="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a></b>
+            <a th:unless="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
+<!--              <span th:if="${role.producer}"> (*)</span>-->
           </li>
         </menu>
       </td>

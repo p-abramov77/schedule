@@ -33,7 +33,7 @@
       <th colspan="7">
         <p align="center">
           <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/minusMonth?dateString={date}(date=${date})}">-</a>
-          <label th:text="${#temporals.format(date, 'MM-yyyy')}" ></label>
+          <label class="w3-bold " th:text="${#temporals.format(date, 'MM-yyyy')}" ></label>
           <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/plusMonth?dateString={date}(date=${date})}">+</a>
         </p>
       </th>
@@ -53,13 +53,21 @@
       <div th:each="cell : ${weekdays}">
         <td>
 <!--          <span class = "w3-center w3-btn" th:text="${#temporal.format(cell.date, 'dd-MM-yyyy')}"></span>-->
-          <i><span class = "w3-center w3-btn" th:text="${cell.date}"></span></i>
-          <div th:each="project : ${cell.list}">
-<!--            <span th:text="${#dates.format(project.start, 'dd-MM-yyyy ')}"></span>-->
-            <a class = "w3-center w3-btn" th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
-            <br>
-<!--            <span th:text="${#dates.format(project.stop, 'dd-MM-yyyy')}"></span>-->
-          </div>
+          <b><a  th:text="${#temporals.format(cell.date,'dd')}" th:href ="@{/schedule/projects?start={date}&stop={date}(date=${cell.date})}"></a></b>
+          <p>
+
+          <menu>
+               <li th:each="project : ${cell.list}">
+                   <div th:if="${project.todos.size} > 0" class="w3-orange" >
+                        <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
+                        <span th:text="@{ ({size}) (size=${project.todos.size})}"></span>
+                   </div>
+                   <div th:unless="${project.todos.size} > 0" class="w3-pink">
+                       <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
+                   </div>
+               </li>
+          </menu>
+
         </td>
       </div>
      </tr>

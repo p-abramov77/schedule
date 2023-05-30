@@ -22,8 +22,10 @@ public class ProjectEntity {
     private Long creator_id;
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Поле должно быть заполнено")
     private Date start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @NotNull(message = "Поле должно быть заполнено")
     private Date stop;
     private Boolean producer; // вычисляемое поле для отображения только в projects.html
     @ManyToMany(cascade = {

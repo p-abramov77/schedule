@@ -57,6 +57,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public Set<ProjectEntity> getByName(String name, String principal) {
         Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameStartingWithOrderByStart(name);
+
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }
@@ -78,7 +79,9 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Set<ProjectEntity> getByUsername(String username, String principal) {
+
         Set<ProjectEntity> projectEntities = projectRepo.findByUser(userRepo.findByUsername(username).getId());
+
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }
@@ -117,7 +120,9 @@ public class ProjectServiceImpl implements ProjectService{
 
     @Override
     public Set<ProjectEntity> getByTag(Long id, String principal) {
+
         Set<ProjectEntity> projectEntities = projectRepo.findByTag(id);
+
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }

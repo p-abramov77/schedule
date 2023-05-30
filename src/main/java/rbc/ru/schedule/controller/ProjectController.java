@@ -2,6 +2,7 @@ package rbc.ru.schedule.controller;
 
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,6 +19,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Set;
 
@@ -28,6 +33,9 @@ public class ProjectController {
     static {
         SpringDocUtils.getConfig().addRestControllers(ProjectController.class);
     }
+    @Value("${max-length-of-period}")
+    public int maxLengthOfPeriod;
+
     @Autowired
     private ProjectServiceImpl projectService;
     @Autowired
@@ -47,16 +55,34 @@ public class ProjectController {
     public String list(Model model, Principal principal,
                        @RequestParam(name = "tag",  defaultValue = "") String id,
                        @RequestParam(name = "user", defaultValue = "") String user,
-                       @RequestParam(name = "name", defaultValue = "") String name) {
-
+                       @RequestParam(name = "name", defaultValue = "") String name,
+                       @RequestParam(name = "start", defaultValue = "") String startString,
+                       @RequestParam(name = "stop" , defaultValue = "") String stopString
+    ) {
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
+
+        LocalDate start, stop;
+        try {
+            start = LocalDate.parse(startString);
+            stop = LocalDate.parse(stopString);
+        } catch (DateTimeParseException e) {
+            start = LocalDate.now();
+            stop = LocalDate.now().plusDays(maxLengthOfPeriod);
+        }
+        if(start.isAfter(stop)) stop = start;
+        if(start.until(stop, ChronoUnit.DAYS) > maxLengthOfPeriod) stop = start.plusDays(maxLengthOfPeriod);
+
+        model.addAttribute("start", start);
+        model.addAttribute("stop", stop);
 
         String message;
         if(name.isEmpty())
             message = "";
         else
             message  = "Имя события начинается с : " + name;
+
+//        Set<ProjectEntity> list = projectService.findInPeriod(start, stop); //TODO Обновить по образцу getName ???
 
         Set<ProjectEntity> list = projectService.getByName(name, principal.getName());
 

@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Repository
 public interface ProjectRepo extends JpaRepository<ProjectEntity, Long> {
-    Set<ProjectEntity> findAllByNameStartingWithOrderByStart(String name);
+    Set<ProjectEntity> findAllByNameStartingWithOrderByStart(String name);  //TODO from start to stop
 
     @Query(
             value="select * from project where id in (select distinct project_id from project_tag where tag_id = :tag_id) order by start",
@@ -21,7 +21,7 @@ public interface ProjectRepo extends JpaRepository<ProjectEntity, Long> {
             nativeQuery = true)
     Set<ProjectEntity> findByUser(Long user_id);
     @Query(
-            value="select * from project where (not(stop < :start or :stop < start)) order by start",
+            value="select * from project where ( not (stop < :start or :stop < start) ) order by start",
             nativeQuery = true)
-    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop);
+    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop); //TODO объединить с findAllByNameStartingWithOrderByStart
 }

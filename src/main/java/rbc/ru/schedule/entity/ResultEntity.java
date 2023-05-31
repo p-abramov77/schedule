@@ -24,10 +24,6 @@ public class ResultEntity {
     @NotNull
     LocalDateTime dateTime;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private UserEntity userEntity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="todo_s_id")
     private ToDoEntity todo;

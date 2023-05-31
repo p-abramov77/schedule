@@ -56,12 +56,12 @@ public class ToDoController {
 
         ToDoEntity toDoEntity = new ToDoEntity();
         toDoEntity.setProject(projectService.getById(project_id,principal.getName()));
-        toDoEntity.setProducer_id(userService.findUserByUsername(principal.getName()).getId());
+        toDoEntity.setProducer(userService.findUserByUsername(principal.getName()));
         toDoEntity.setStart(LocalDateTime.now());
         toDoEntity.setStop(LocalDateTime.now());
         toDoEntity.setDateTime(LocalDateTime.now());
 
-        Set<UserEntity> users = userService.getAllUsers();
+        Set<UserEntity> users = userService.getAllUsers();  //TODO только членов проекта
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
@@ -74,10 +74,10 @@ public class ToDoController {
                          @RequestParam(value = "id") long id) {
 
         ToDoEntity toDoEntity = toDoService.findById(id);
-        toDoEntity.setProducer_id(userService.findUserByUsername(principal.getName()).getId());
+        toDoEntity.setProducer(userService.findUserByUsername(principal.getName()));
         toDoEntity.setDateTime(LocalDateTime.now());
 
-        Set<UserEntity> users = userService.getAllUsers();
+        Set<UserEntity> users = userService.getAllUsers();  //TODO только членов проекта
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
@@ -88,7 +88,6 @@ public class ToDoController {
     public String save(@ModelAttribute("todo") @Valid ToDoEntity toDoEntity,
                        BindingResult bindingResult,
                        Principal principal) {
-        //TODO проверить права
 
         if(bindingResult.hasErrors()) {
             System.out.println("todo save Errors");
@@ -98,6 +97,7 @@ public class ToDoController {
             return "todo";
         }
 
+        //TODO проверить права
         toDoService.save(toDoEntity);
         //TODO отправить уведомление по почте
         return "redirect:/schedule/todos?id=" + toDoEntity.getProject().getId();

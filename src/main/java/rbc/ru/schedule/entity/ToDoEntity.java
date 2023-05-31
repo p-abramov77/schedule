@@ -4,6 +4,8 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -20,22 +22,31 @@ public class ToDoEntity {
     @JoinColumn(name="project_id")
     private ProjectEntity project;
 
+    @NotEmpty
     private String content;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @NotNull
     private LocalDateTime start;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @NotNull
     private LocalDateTime stop;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
+    @NotNull
     LocalDateTime dateTime;
 
-    private Long producer_id; // producer
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "producer_id", referencedColumnName="id")
+    private UserEntity producer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private UserEntity executor; // member
+    @JoinColumn(name = "executor_id", referencedColumnName = "id")
+    private UserEntity executor;
+
+    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    private Set<ResultEntity> results = new HashSet<>();
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
@@ -46,9 +57,6 @@ public class ToDoEntity {
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private Set<EquipmentEntity> equipments = new HashSet<>();
-
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
-    private Set<ResultEntity> results = new HashSet<>();
 
     public void addEquipment(EquipmentEntity equipment){
         this.equipments.add(equipment);

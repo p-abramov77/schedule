@@ -52,15 +52,15 @@ public class EquipmentController {
     @PostMapping("saveEquipment")
     public String save(Model model, @ModelAttribute("equipments") @Valid EquipmentEntity equipment,
                        BindingResult bindingResult) {
-        //TODO проверить права
+
         if(bindingResult.hasErrors()) {
             return "equipment";
         }
+        //TODO проверить права
         if(!equipmentService.save(equipment)) {
             model.addAttribute("errorMessage", "Оборудование с указанным именем существует");
             return "equipment";
         }
-
         try {
             return "redirect:/schedule/equipments?name=" + URLEncoder.encode(equipment.getName(), "UTF-8");
         } catch (UnsupportedEncodingException e) {

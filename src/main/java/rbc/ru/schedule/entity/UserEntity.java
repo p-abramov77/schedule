@@ -26,11 +26,14 @@ public class UserEntity implements UserDetails {
     @Size(min = 3)
     @Column(unique = true)
     String username;
+
     @NotNull
     @Size(min = 3)
     String password;
+
     @NotBlank()
     String email;
+
     Boolean enabled;
     Boolean maker;
 

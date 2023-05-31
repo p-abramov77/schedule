@@ -48,7 +48,7 @@ public class UserValidator {
     }
 
     public  boolean isTodoMember(String username, ToDoEntity toDoEntity) {
-        //TODO написать
+        //TODO написать isTodoMember
         return true;
     }
 }

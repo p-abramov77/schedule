@@ -35,11 +35,9 @@ public class CommentController {
     @Autowired
     UserServiceImpl userService;
 
-    @GetMapping("comment{id}")
+    @GetMapping("comments{id}")
     public String list(Model model, Principal principal,
                        @RequestParam(value = "id") long todo_id) {
-
-        //TODO изменить может только создатель комментария
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
@@ -72,13 +70,16 @@ public class CommentController {
         return "comment";
     }
 
-    @GetMapping("commentEdit{id}")
+    @GetMapping("editComment{id}")
     public String edit(Model model,
                        Principal principal,
                        @RequestParam(value = "id") long id) {
 
         CommentEntity commentEntity = commentService.getById(id);
         commentEntity.setUserEntity(userService.findUserByUsername(principal.getName()));
+
+        //TODO изменить может только создатель комментария
+
         commentEntity.setDateTime(LocalDateTime.now());
 
         model.addAttribute("comment", commentEntity);
@@ -90,7 +91,8 @@ public class CommentController {
     public String save(@ModelAttribute("todo") @Valid CommentEntity commentEntity,
                        BindingResult bindingResult,
                        Principal principal) {
-        //TODO проверить права
+
+        //TODO изменить может только создатель комментария
 
         if(bindingResult.hasErrors()) {
             System.out.println("comment save Errors");
@@ -99,7 +101,7 @@ public class CommentController {
             }
             return "comment";
         }
-
+        //TODO проверить права
         commentService.save(commentEntity);
         //TODO отправить уведомление по почте
         return "redirect:/schedule/comments?id=" + commentEntity.getToDoEntity().getId();

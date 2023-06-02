@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <title>Тэг</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-
+    <link rel="stylesheet" href="/rbc.css">
 </head>
 
 <body>
 <div class="w3-container">
-    <div class="w3-container">
+    <div class="w3-container rbc-dark">
         <h1>Тэг</h1>
-        <p>
-            <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
     </div>
+    <p>
+         <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
 
     <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveTag}" th:object="${tag}" method="POST">
         <input type="hidden" th:field="*{id}" />

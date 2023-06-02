@@ -5,6 +5,7 @@
     <title>Пользователи</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/rbc.css">
 </head>
 <body>
 <div class="w3-container">
@@ -12,11 +13,10 @@
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
     <p>
 
-    <div class="w3-container">
+    <div class="w3-container rbc-dark">
         <h1>Пользователи</h1>
     </div>
 
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newUser'}" > Добавить поьзователя </a>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
@@ -36,17 +36,27 @@
 
         </tr>
         <tr>
-            <th>Пользователь</th>
+            <th>
+                Пользователь
+                <a th:if="${isAdmin}" class="w3-btn w3-teal w3-border w3-round-large w3-right" th:href="@{'/schedule/newUser'}" > Добавить поьзователя </a>
+
+            </th>
+            <th>Может создавать события?</th>
+            <th>Группы</th>
             <th>Заблокирован?</th>
-            <th>Продюссер?</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="user : ${list}">
-            <td th:text="${user.username}"></td>
-            <td th:text="${!user.enabled}  ? 'Да' : '' "></td>
+            <td>
+                <span th:text="${user.username} "></span>
+                <a class="w3-btn w3-teal w3-border w3-round-large w3-right" th:if="${isAdmin}" th:href="@{/schedule/editUser/{id}(id=${user.id})}" >Изменить</a>
+            </td>
             <td th:text="${user.maker}     ? 'Да' : '' "></td>
-            <td><a th:href="@{/schedule/editUser/{id}(id=${user.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a></td>
+            <td>
+                <a th:if="${isAdmin}" th:href="@{/schedule/userGroups/{id}(id=${user.id})}" class="w3-btn w3-green w3-border w3-round-large ">Группы</a>
+            </td>
+            <td th:text="${!user.enabled}  ? 'Да' : '' "></td>
         </tr>
         </tbody>
     </table>

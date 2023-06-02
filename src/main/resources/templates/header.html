@@ -11,11 +11,12 @@
     <span th:text="${userName}"></span>
     <a class="w3-btn w3-round-large w3-yellow" href="/schedule/month">Календарь</a>
     <a class="w3-btn w3-round-large w3-yellow" href="/schedule/projects">События</a>
+    <a class="w3-btn w3-round-large w3-yellow" href="/schedule/users">Пользователи</a>
     <a class="w3-btn w3-round-large w3-yellow" href="/schedule/equipments">Оборудование</a>
     <a class="w3-btn w3-round-large w3-black" href="/logout">Выйти</a>
 
-    <a th:if="${isAdmin}" class="w3-btn w3-round-large w3-yellow" href="/schedule/users">Пользователи</a>
     <a th:if="${isAdmin}" class="w3-btn w3-round-large w3-yellow" href="/schedule/tags">Тэги</a>
+    <a th:if="${isAdmin}" class="w3-btn w3-round-large w3-yellow" href="/schedule/groups">Группы</a>
 
   </p>
 </div>

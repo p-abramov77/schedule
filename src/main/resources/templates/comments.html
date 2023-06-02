@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Comments</title>
-
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/rbc.css">
 </head>
 <body>
 <div class="w3-container">
@@ -12,7 +12,7 @@
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
     <p>
 
-    <div class="w3-container">
+    <div class="w3-container rbc-dark">
         <h1 th:text="'Comment для события : ' + ${todo.name}"></h1>
     </div>
 

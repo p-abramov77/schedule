@@ -5,16 +5,7 @@
   <title>События</title>
 
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-  <style>
-    .rbc-dark {
-        background-color: #00878d;
-        color:#FFFFFF;
-    }
-    .rbc-light {
-        background-color: #68BE9B;
-        color:#FFFFFF;
-    }
-    </style>
+  <link rel="stylesheet" href="/rbc.css">
 </head>
 <body>
 <div class="w3-container w3-border">
@@ -61,7 +52,7 @@
     <tr>
       <th>
           <span th:text="Событие  "> </span>
-          <a th:if="${principal.maker}" class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newProject'}" > Добавить событие </a>
+          <a th:if="${principal.maker}" class="w3-btn w3-teal w3-border w3-round-large w3-right" th:href="@{'/schedule/newProject'}" > Добавить событие </a>
       </th>
       <th>Список дел и результатов</th>
       <th>Тэги события</th>

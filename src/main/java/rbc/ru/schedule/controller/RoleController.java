@@ -87,6 +87,7 @@ public class RoleController {
                          Principal principal,
                          @PathVariable(value = "project_id") long project_id,
                          @PathVariable(value = "user_id") long user_id) {
+
         //TODO проверить права
 
         //Не удалять себя из списка заказчиков (продюсеров)

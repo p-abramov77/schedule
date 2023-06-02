@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>TODO</title>
+  <title>Задание</title>
   <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 
 </head>
@@ -11,7 +11,7 @@
 <body>
 <div class="w3-container">
   <div class="w3-container">
-    <h1>TODO</h1>
+    <h1>Задание</h1>
     <p>
       <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
   </div>
@@ -25,7 +25,7 @@
     <input type="hidden" th:field="*{producer_id}" />
 
     <p>
-      <label>Введите название</label>
+      <label>Введите название задачи</label>
       <input class="w3-input w3-border"  type="text" th:field="*{content}" placeholder="Введите описание дела" value="" autofocus>
       <label class="w3-red" th:if="${#fields.hasErrors('content')}" th:errors="*{content}">content Error</label>
     <p>

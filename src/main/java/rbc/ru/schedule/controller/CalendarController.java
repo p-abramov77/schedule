@@ -15,6 +15,7 @@ import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
@@ -27,27 +28,11 @@ public class CalendarController {
     UserValidator userValidator;
     @Autowired
     ProjectServiceImpl projectService;
-    private LocalDate tryToConvert(String dateString) {
-        LocalDate date;
-        if (!dateString.equals("")) {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                formatter = formatter.withLocale(Locale.US);
-                date = LocalDate.parse(dateString, formatter);
-            } catch (Exception e) {
-                System.out.println(dateString + " exception: " + e.getMessage());
-                date = LocalDateTime.now().toLocalDate();
-            }
-        } else {
-            date = LocalDateTime.now().toLocalDate();
-        }
-        return date;
-    }
 
     @GetMapping("minusMonth")
     public String minusMonth(Model model,
                             @RequestParam String dateString) {
-        LocalDate date = tryToConvert(dateString);
+        LocalDate date = LocalDate.parse(dateString);
         date = date.minusMonths(1);
 
         return "redirect:/schedule/month?dateString=" + date.toString();
@@ -56,7 +41,7 @@ public class CalendarController {
     @GetMapping("plusMonth")
     public String plusMonth(Model model,
                             @RequestParam String dateString) {
-        LocalDate date = tryToConvert(dateString);
+        LocalDate date = LocalDate.parse(dateString);
         date = date.plusMonths(1);
 
         return "redirect:/schedule/month?dateString=" + date.toString();
@@ -67,7 +52,12 @@ public class CalendarController {
                         Principal principal,
                         @RequestParam(defaultValue = "") String dateString) {
 
-        LocalDate date = tryToConvert(dateString);
+        LocalDate date;
+        try {
+            date = LocalDate.parse(dateString);
+        } catch (DateTimeParseException e) {
+            date = LocalDate.now();
+        }
 
         LocalDate[][] list = new LocalDate[5][7];
         LocalDate d = date.minusDays(date.getDayOfMonth() - 1); // first day of the current month

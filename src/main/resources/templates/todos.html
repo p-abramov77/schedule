@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Projects</title>
+    <title>Задачи</title>
 
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
@@ -13,7 +13,7 @@
     <p>
 
     <div class="w3-container">
-        <h1 th:text="'TODO для события : ' + ${project.name}"></h1>
+        <h1 th:text="'Задачи для события : ' + ${project.name}"></h1>
     </div>
 
     <div th:if="${project.producer}">
@@ -24,7 +24,7 @@
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
         <tr>
-            <th>TODO</th>
+            <th>Задачи</th>
             <th>Оборудование</th>
         </tr>
         </thead>

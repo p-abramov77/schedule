@@ -86,24 +86,6 @@
         </tbody>
     </table>
 
-    <!--  <div class="w3-border" th:if="${totalPages > 1}">-->
-    <!--    <div class="w3-container">-->
-    <!--      Всего записей: [[${totalItems}]]-->
-    <!--    </div>-->
-    <!--    <p>-->
-    <!--    <div class="w3-container w3-bar">-->
-    <!--                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
-    <!--                    <a class="w3-button" th:if="${currentPage != i}" th:href="@{'/active/?currentPage=' + ${i}}">[[${i}]]</a>-->
-    <!--                    <span class="w3-button" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
-    <!--                </span>-->
-    <!--    </div>-->
-    <!--    <p>-->
-    <!--    <div class="w3-container">-->
-    <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${currentPage + 1}}">Следующая страница</a>-->
-    <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${totalPages}}">Последняя страница</a>-->
-    <!--    </div>-->
-    <!--  </div>-->
-
 </div>
 </body>
 </html>

@@ -51,4 +51,12 @@ public class UserValidator {
         //TODO написать isTodoMember
         return true;
     }
+    public boolean isTodoProducer(String username, ToDoEntity toDoEntity) {
+        //TODO написать isTodoProducer
+        return true;
+    }
+    public boolean isTodoExecutor(String username, ToDoEntity toDoEntity) {
+        //TODO написать isTodoExecutor
+        return true;
+    }
 }

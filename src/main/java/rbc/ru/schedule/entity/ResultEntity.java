@@ -21,6 +21,8 @@ public class ResultEntity {
 
     String url;
 
+    Boolean approved;
+
     @NotNull
     LocalDateTime dateTime;
 

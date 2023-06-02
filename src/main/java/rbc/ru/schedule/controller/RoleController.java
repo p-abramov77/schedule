@@ -88,7 +88,11 @@ public class RoleController {
                          @PathVariable(value = "project_id") long project_id,
                          @PathVariable(value = "user_id") long user_id) {
         //TODO проверить права
-        //TODO Не удалять себя из списка заказчиков (продюсеров)
+
+        //Не удалять себя из списка заказчиков (продюсеров)
+        if(user_id == userService.findUserByUsername(principal.getName()).getId())
+            return "redirect:/schedule/projectRoles/" + project_id;
+
         System.out.println("\nRemove:    project="+project_id+" user="+user_id);
 
         roleService.removeByProjectAndUser(project_id, user_id);

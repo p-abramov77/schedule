@@ -17,7 +17,7 @@
     </div>
 
     <div th:if="${project.producer}">
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить TODO </a>
+        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить задачу </a>
         <p>
     </div>
 
@@ -38,8 +38,8 @@
 
                 <a th:if="${project.producer}" th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
 
-                <a th:href="@{/schedule/todoResults/{id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
-                <a th:href="@{/schedule/todoComments/{id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Комментарии</a>
+                <a th:href="@{/schedule/results?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
+                <a th:href="@{/schedule/comments?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Комментарии</a>
 
             </td>
             <td>

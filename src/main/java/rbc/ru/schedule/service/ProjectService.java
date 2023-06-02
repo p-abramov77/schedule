@@ -14,10 +14,8 @@ public interface ProjectService {
     ProjectEntity getById(Long id, String principal);
     Long save(ProjectEntity projectEntity);
     Set<ProjectEntity> getByUsername(String name, String principal);
-
     Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop);
-
     Set<ProjectEntity> findInDay(LocalDate day, Set<ProjectEntity> all);
-
     boolean isNotLastProducer(ProjectEntity project);
+    public boolean isPeriod(ProjectEntity project);
 }

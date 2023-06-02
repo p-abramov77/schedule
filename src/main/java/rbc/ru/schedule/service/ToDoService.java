@@ -12,4 +12,5 @@ public interface ToDoService {
     ToDoEntity findById(Long id);
     void deleteById(Long id);
     void save(ToDoEntity toDoEntity);
+    public boolean isPeriod(ToDoEntity toDoEntity);
 }

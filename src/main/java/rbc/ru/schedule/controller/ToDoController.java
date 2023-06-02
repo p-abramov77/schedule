@@ -85,9 +85,15 @@ public class ToDoController {
     }
 
     @PostMapping("saveTODO")
-    public String save(@ModelAttribute("todo") @Valid ToDoEntity toDoEntity,
+    public String save(Model model,
+                       @ModelAttribute("todo") @Valid ToDoEntity toDoEntity,
                        BindingResult bindingResult,
                        Principal principal) {
+
+        if (!toDoService.isPeriod(toDoEntity)) {
+            model.addAttribute("errorMessage", "Начало периода превышает конец периода");
+            return "todo";
+        }
 
         if(bindingResult.hasErrors()) {
             System.out.println("todo save Errors");

@@ -22,7 +22,10 @@
     <!--    <input type="hidden" th:field="*{results}" />-->
     <input type="hidden" th:field="*{project}" />
     <input type="hidden" th:field="*{dateTime}" />
-    <input type="hidden" th:field="*{producer_id}" />
+    <input type="hidden" th:field="*{producer}" />
+    <p>
+      <span th:text="*{producer.username}"></span>
+
 
     <p>
       <label>Введите название задачи</label>

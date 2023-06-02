@@ -31,4 +31,9 @@ public class ToDoServiceImpl implements ToDoService{
     public void save(ToDoEntity toDoEntity) {
         toDoRepo.save(toDoEntity);
     }
+
+    @Override
+    public boolean isPeriod(ToDoEntity toDoEntity) {
+        return toDoEntity.getStart().isBefore(toDoEntity.getStop().plusMinutes(1L));
+    }
 }

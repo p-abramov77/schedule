@@ -1,13 +1,11 @@
 package rbc.ru.schedule.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -23,10 +21,10 @@ public class ProjectEntity {
     private String name;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Поле должно быть заполнено")
-    private Date start;
+    private LocalDate start;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Поле должно быть заполнено")
-    private Date stop;
+    private LocalDate stop;
     private Boolean producer; // вычисляемое поле для отображения только в projects.html
     @ManyToMany(cascade = {
             CascadeType.PERSIST,

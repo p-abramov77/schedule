@@ -13,6 +13,8 @@
   <div class="w3-container">
     <h1>Событие</h1>
   </div>
+  <p>
+    <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
 
   <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveProject}" th:object="${project}" method="POST">
     <input type="hidden" th:field="*{id}" />

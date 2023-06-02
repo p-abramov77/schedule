@@ -122,9 +122,16 @@ public class ProjectController {
         return "project";
     }
     @PostMapping("saveProject")
-    public String save(@ModelAttribute("project") @Valid ProjectEntity projectEntity,
-                       BindingResult bindingResult, SessionStatus sessionStatus,
-                       Principal principal) {
+    public String save( Model model,
+                        @ModelAttribute("project") @Valid ProjectEntity projectEntity,
+                        BindingResult bindingResult, SessionStatus sessionStatus,
+                        Principal principal) {
+
+        if (!projectService.isPeriod(projectEntity)) {
+            model.addAttribute("errorMessage", "Начало периода превышает конец периода");
+            return "project";
+        }
+
         if(bindingResult.hasErrors()) {
             return "project";
         }

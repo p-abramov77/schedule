@@ -94,11 +94,10 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Set<ProjectEntity> findInDay(LocalDate day, Set<ProjectEntity> all) {
+    public Set<ProjectEntity> findInDay(LocalDate date, Set<ProjectEntity> all) {
 
-        Date date = Date.valueOf(day);
         return all.stream()
-                .filter(x -> ! (x.getStop().before(date) || x.getStart().after(date) ) )
+                .filter(x -> ! (x.getStop().isBefore(date) || x.getStart().isAfter(date) ) )
                 .sorted(new Comparator<ProjectEntity>() {
                     @Override
                     public int compare(ProjectEntity o1, ProjectEntity o2) {
@@ -127,5 +126,8 @@ public class ProjectServiceImpl implements ProjectService{
             project.setProducer(isProducer(project, principal));
         }
         return projectEntities;
+    }
+    public boolean isPeriod(ProjectEntity project) {
+        return project.getStart().isBefore(project.getStop().plusDays(1L));
     }
 }

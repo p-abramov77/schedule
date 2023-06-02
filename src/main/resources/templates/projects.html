@@ -71,7 +71,10 @@
     <tbody>
     <tr th:each="project : ${list}">
       <td>
-        <span th:text="${#dates.format(project.start, 'dd-MM-yyyy ')}"></span><b><span th:text="${project.name}"> </span></b><br><span th:text="${#dates.format(project.stop, 'dd-MM-yyyy')}"></span>
+        <span th:text="${#temporals.format(project.start, 'dd-MM-yyyy ')}"></span><b>
+        <span th:text="${project.name}"> </span></b>
+        <br>
+        <span th:text="${#temporals.format(project.stop, 'dd-MM-yyyy')}"></span>
         <br>
         <a th:href="@{/schedule/projectRequest/{id}(id=${project.id})}" class="w3-btn w3-red w3-border w3-round-large ">Запрос на участие</a>
         <br>

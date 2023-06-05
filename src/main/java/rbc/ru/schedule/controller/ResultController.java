@@ -63,7 +63,7 @@ public class ResultController {
         System.out.println("new result " + todo_id + "  TODO = " + toDoEntity);
         ResultEntity resultEntity = new ResultEntity();
         resultEntity.setDateTime(LocalDateTime.now());
-        resultEntity.setTodo(toDoEntity);
+        resultEntity.setToDoEntity(toDoEntity);
         resultEntity.setApproved(false);
 
         model.addAttribute("result", resultEntity);
@@ -82,7 +82,7 @@ public class ResultController {
         //TODO проверить права
         resultService.save(resultEntity);
         //TODO по почте сообщить
-        return "redirect:/schedule/results?todo_id=" + resultEntity.getTodo().getId();
+        return "redirect:/schedule/results?todo_id=" + resultEntity.getToDoEntity().getId();
 
     }
 

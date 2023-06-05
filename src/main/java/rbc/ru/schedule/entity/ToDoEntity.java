@@ -45,7 +45,7 @@ public class ToDoEntity {
     @JoinColumn(name="project_id")
     private ProjectEntity project;
 
-    @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "toDoEntity", cascade = CascadeType.ALL)
     private Set<ResultEntity> results = new HashSet<>();
 
     @ManyToMany(cascade = {

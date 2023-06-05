@@ -17,7 +17,7 @@ public class ResultEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="todo_s_id")
-    private ToDoEntity todo;
+    private ToDoEntity toDoEntity;
 
     @NotNull
     @NotBlank

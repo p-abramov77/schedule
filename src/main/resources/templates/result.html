@@ -18,14 +18,14 @@
         <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{dateTime}" />
         <input type="hidden" th:field="*{approved}" />
-        <input type="hidden" th:field="*{todo}" />
+        <input type="hidden" th:field="*{toDoEntity}" />
 
         <p>
-            <span th:text="'Заказчик: '+ *{todo.producer.username}"></span>
+            <span th:text="'Заказчик: '+ *{toDoEntity.producer.username}"></span>
         <p>
-            <span th:text="'Исполнитель: '+ *{todo.executor.username}"></span>
+            <span th:text="'Исполнитель: '+ *{toDoEntity.executor.username}"></span>
         <p>
-            <span th:text="'Задача: '+ *{todo.content}"></span>
+            <span th:text="'Задача: '+ *{toDoEntity.content}"></span>
 
         <p>
             <label>Введите результат выполнения</label>
@@ -41,7 +41,7 @@
         <p>
     </form>
     <p>
-        <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/results?todo_id={id}(id=${result.todo.id})}"> Не сохранять. Вернуться к списку результатов</a>
+        <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/results?todo_id={id}(id=${result.toDoEntity.id})}"> Не сохранять. Вернуться к списку результатов</a>
     </p>
 </div>
 </body>

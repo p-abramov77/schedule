@@ -47,7 +47,7 @@
             <td th:text="${equipment.name}"></td>
             <td>
                 <a th:if="${isAdmin}" th:href="@{/schedule/editEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
-                <a th:href="@{/schedule/busyEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Когда занято?</a>
+                <a th:href="@{/schedule/busyEquipment/{id}(id=${equipment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Когда и кем занято?</a>
             </td>
         </tr>
         </tbody>

@@ -4,17 +4,13 @@ import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.TagEntity;
-import rbc.ru.schedule.repository.ProjectRepo;
 import rbc.ru.schedule.service.ProjectServiceImpl;
 import rbc.ru.schedule.service.TagServiceImpl;
 
-import javax.validation.Valid;
 import java.security.Principal;
-import java.util.List;
 import java.util.Set;
 
 @Controller

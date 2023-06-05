@@ -43,6 +43,7 @@ public class ToDoController {
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
 
         Set<ToDoEntity> toDoEntities = toDoService.findAllByProjectId(project_id);
+
         model.addAttribute("project", projectService.getById(project_id, principal.getName()));
         model.addAttribute("list", toDoEntities);
 
@@ -61,7 +62,8 @@ public class ToDoController {
         toDoEntity.setStop(LocalDateTime.now());
         toDoEntity.setDateTime(LocalDateTime.now());
 
-        Set<UserEntity> users = userService.getAllUsers();  //TODO только членов проекта
+        Set<UserEntity> users = userService.getAllExecutorsOfProject(project_id);
+
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
@@ -75,9 +77,9 @@ public class ToDoController {
 
         ToDoEntity toDoEntity = toDoService.findById(id);
         toDoEntity.setProducer(userService.findUserByUsername(principal.getName()));
-        toDoEntity.setDateTime(LocalDateTime.now());
 
-        Set<UserEntity> users = userService.getAllUsers();  //TODO только членов проекта
+        Set<UserEntity> users = userService.getAllExecutorsOfProject(toDoEntity.getProject().getId());
+
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
@@ -89,6 +91,9 @@ public class ToDoController {
                        @ModelAttribute("todo") @Valid ToDoEntity toDoEntity,
                        BindingResult bindingResult,
                        Principal principal) {
+
+        //set the time of last change
+        toDoEntity.setDateTime(LocalDateTime.now());
 
         if (!toDoService.isPeriod(toDoEntity)) {
             model.addAttribute("errorMessage", "Начало периода превышает конец периода");

@@ -18,10 +18,6 @@ public class ToDoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="project_id")
-    private ProjectEntity project;
-
     @NotEmpty
     private String content;
 
@@ -44,6 +40,10 @@ public class ToDoEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id", referencedColumnName = "id")
     private UserEntity executor;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id")
+    private ProjectEntity project;
 
     @OneToMany(mappedBy = "todo", cascade = CascadeType.ALL)
     private Set<ResultEntity> results = new HashSet<>();

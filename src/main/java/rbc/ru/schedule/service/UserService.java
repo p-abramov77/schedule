@@ -1,6 +1,5 @@
 package rbc.ru.schedule.service;
 
-import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
 
 import java.util.Set;
@@ -14,4 +13,5 @@ public interface UserService {
     public Set<UserEntity> getAllUsers();
     Set<UserEntity> available(Long project_id);
     void deleteByUsername(String name);
+    Set<UserEntity> getAllExecutorsOfProject(Long project_id);
 }

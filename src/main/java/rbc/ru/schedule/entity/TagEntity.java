@@ -1,7 +1,6 @@
 package rbc.ru.schedule.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;

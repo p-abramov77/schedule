@@ -1,6 +1,5 @@
 package rbc.ru.schedule.controller;
 
-import org.apache.catalina.User;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

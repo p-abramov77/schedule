@@ -15,6 +15,10 @@ public class ResultEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="todo_id")
+    private ToDoEntity todo;
+
     @NotNull
     @NotBlank
     String content;
@@ -25,8 +29,4 @@ public class ResultEntity {
 
     @NotNull
     LocalDateTime dateTime;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="todo_s_id")
-    private ToDoEntity todo;
 }

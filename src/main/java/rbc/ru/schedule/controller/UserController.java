@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import rbc.ru.schedule.entity.TagEntity;
 import rbc.ru.schedule.entity.UserEntity;
-import rbc.ru.schedule.service.TagServiceImpl;
 import rbc.ru.schedule.service.UserServiceImpl;
 import rbc.ru.schedule.validator.UserValidator;
 

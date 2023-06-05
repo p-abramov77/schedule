@@ -7,14 +7,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import rbc.ru.schedule.entity.ResultEntity;
-import rbc.ru.schedule.entity.TagEntity;
 import rbc.ru.schedule.entity.ToDoEntity;
 import rbc.ru.schedule.service.*;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
 import java.security.Principal;
-import java.util.Set;
+import java.time.LocalDateTime;
 
 @Controller
 @RequestMapping("/schedule")
@@ -38,20 +37,30 @@ public class ResultController {
                        Principal principal,
                        @RequestParam(defaultValue = "") Long todo_id) {
 
-        ToDoEntity todo = todoService.findById(todo_id);
+        ResultEntity result = resultService.findByTodoId(todo_id);
+        System.out.println("results ="+ result);
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
         model.addAttribute("isTodoProducer", userValidator.isTodoProducer(principal.getName(), todoService.findById(todo_id)));
         model.addAttribute("isTodoExecutor", userValidator.isTodoExecutor(principal.getName(), todoService.findById(todo_id)));
-        model.addAttribute("todo", todo);
+        model.addAttribute("result", result);
 
         return "results";
     }
 
-    @GetMapping("newResult")
-    public String newOne(Model model) {
+    @GetMapping("newResult{todo_id}")
+    public String newOne(Model model,
+                        Principal principal,
+                        @RequestParam(defaultValue = "") Long todo_id) {
+
+        ToDoEntity toDoEntity = todoService.findById(todo_id);
+        System.out.println("new result " + todo_id + "  TODO = " + toDoEntity);
         ResultEntity resultEntity = new ResultEntity();
+        resultEntity.setDateTime(LocalDateTime.now());
+        resultEntity.setTodo(toDoEntity);
+        resultEntity.setApproved(false);
+
         model.addAttribute("result", resultEntity);
         return "result";
     }
@@ -66,20 +75,28 @@ public class ResultController {
             return "result";
         }
         //TODO проверить права
-
+        resultService.save(resultEntity);
+        //TODO по почте сообщить
         return "redirect:/schedule/results?todo_id=" + resultEntity.getTodo().getId();
 
     }
 
     @GetMapping("editResult/{id}")
     public String edit(Model model, @PathVariable(value = "id") long id) {
-        ResultEntity resultEntity = resultService.getById(id);
+
+        ResultEntity resultEntity = resultService.findById(id);
         model.addAttribute("result", resultEntity);
+
+        resultEntity.setApproved(false);
+        resultEntity.setDateTime(LocalDateTime.now());
+
+        model.addAttribute("result", resultEntity);
+
         return "result";
     }
     @GetMapping("approveResult/{id}")
     public String approve(Model model, @PathVariable(value = "id") long id) {
-        ResultEntity resultEntity = resultService.getById(id);
+        ResultEntity resultEntity = resultService.findById(id);
         model.addAttribute("result", resultEntity);
         return "approve";
     }

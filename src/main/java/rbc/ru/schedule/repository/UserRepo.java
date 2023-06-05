@@ -21,4 +21,6 @@ public interface UserRepo extends JpaRepository<UserEntity, Long> {
     @Transactional
     @Query(value = "delete from users where username = :name", nativeQuery = true)
     void deleteByUsername(String name);
+    @Query(value = "select * from users where id in (select user_id from roles where project_id = :project_id and producer is false)", nativeQuery = true)
+    Set<UserEntity> getAllExecutorsOfProject(Long project_id);
 }

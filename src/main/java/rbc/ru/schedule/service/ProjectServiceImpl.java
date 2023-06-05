@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.ToDoEntity;
-import rbc.ru.schedule.entity.UserEntity;
 import rbc.ru.schedule.repository.ProjectRepo;
 import rbc.ru.schedule.repository.UserRepo;
 import rbc.ru.schedule.validator.UserValidator;
@@ -13,7 +12,6 @@ import rbc.ru.schedule.validator.UserValidator;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Comparator;
-import java.sql.Date;
 import java.util.Set;
 import java.util.stream.Collectors;
 

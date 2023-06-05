@@ -74,4 +74,9 @@ public class UserServiceImpl implements UserService {
     public void deleteByUsername(String name) {
         userRepo.deleteByUsername(name);
     }
+
+    @Override
+    public Set<UserEntity> getAllExecutorsOfProject(Long project_id) {
+        return userRepo.getAllExecutorsOfProject(project_id);
+    }
 }

@@ -17,6 +17,7 @@
         <h1 th:text="'Задачи для события : ' + ${project.name}"></h1>
     </div>
 
+    <p>
     <div th:if="${project.producer}">
         <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newTODO?id={id}(id=${project.id})}" > Добавить задачу </a>
         <p>
@@ -26,6 +27,7 @@
         <thead>
         <tr>
             <th>Задачи</th>
+            <th>Результаты выполнения</th>
             <th>Оборудование</th>
         </tr>
         </thead>
@@ -34,14 +36,23 @@
             <td>
                 <span  th:text="${#temporals.format(todo.start, 'dd-MM-yyyy HH:mm')}"></span>
                 <b><span  th:text="${todo.content}"></span></b>
-                <br>
+                <p>
                 <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
+                <p>
+                <span  th:text="'Заказчик: ' + ${todo.producer.username} + ' Исполнитель: '+ ${todo.executor.username}"></span>
 
+                <!-- //TODO producer of this todo -->
                 <a th:if="${project.producer}" th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
 
-                <a th:href="@{/schedule/results?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
                 <a th:href="@{/schedule/comments?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Комментарии</a>
 
+            </td>
+            <td>
+<!--                <a th:if="${project.producer}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>-->
+                <p>
+<!--                <b><span  th:text="${todo}"></span></b>-->
+                    <a th:if="${todo.results} != null" th:href="@{/schedule/editResult?id={id}(id=${todo.results})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить</a>
+                    <a th:unless="${todo.results} != null" th:href="@{/schedule/newResult?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Создать</a>
             </td>
             <td>
                 <a th:if="${project.producer}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>

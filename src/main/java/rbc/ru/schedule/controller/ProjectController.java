@@ -17,13 +17,10 @@ import rbc.ru.schedule.validator.UserValidator;
 import javax.validation.Valid;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -98,11 +95,6 @@ public class ProjectController {
             message = "События, в которых участвует : " + user;
         }
 
-//        System.out.println("Projects:");
-//        for(ProjectEntity project : list) {
-//            System.out.println(project);
-//        }
-
         model.addAttribute("message", message);
         model.addAttribute("name", name);
         model.addAttribute("list", list);
@@ -163,8 +155,10 @@ public class ProjectController {
 
     }
     @GetMapping("editProject/{id}")
-    public String edit(Model model, Principal principal,
+    public String edit(Model model,
+                       Principal principal,
                        @PathVariable(value = "id") long id) {
+
         ProjectEntity projectEntity = projectService.getById(id, principal.getName());
         model.addAttribute("project", projectEntity);
         return "project";

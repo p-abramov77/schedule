@@ -24,8 +24,17 @@
     <input type="hidden" th:field="*{dateTime}" />
     <input type="hidden" th:field="*{producer}" />
     <p>
-      <span th:text="*{producer.username}"></span>
+      <span th:text="'Producer: '+ *{producer.username}"></span>
 
+
+  <p>
+      <label for="executor">Choose a executor:</label>
+      <select id="executor" th:field="*{executor}">
+        <option th:each="user: ${users}"
+                th:value=" ${user.id}"
+                th:utext=" ${user.username}">
+        </option>
+      </select>
 
     <p>
       <label>Введите название задачи</label>
@@ -39,20 +48,6 @@
       <label>Введите время окончания</label>
       <input class="w3-input w3-border"  type="text" th:field="*{stop}" placeholder="Введите время окончания" value="" >
       <label class="w3-red" th:if="${#fields.hasErrors('stop')}" th:errors="*{stop}">stop Error</label>
-
-        User Name:
-        <input list="users_names" name="names" />
-        <datalist id="users_names">
-          <select>
-            <option th:each="user: ${users}" th:value=" ${user.username}">
-            </option>
-          </select>
-        </datalist>
-
-
-
-
-
 
 
 

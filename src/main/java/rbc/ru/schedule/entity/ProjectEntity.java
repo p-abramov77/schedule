@@ -16,16 +16,20 @@ public class ProjectEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
+
     @NotNull
     private Long creator_id;
     private String name;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Поле должно быть заполнено")
     private LocalDate start;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull(message = "Поле должно быть заполнено")
     private LocalDate stop;
-    private Boolean producer; // вычисляемое поле для отображения только в projects.html
+
+    private Boolean producer; // вычисляемое поле для отображения в projects.html
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -35,6 +39,7 @@ public class ProjectEntity {
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
     private Set<TagEntity> tags = new HashSet<>();
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private Set<RoleEntity> roleEntities = new HashSet<>();
 
@@ -49,7 +54,6 @@ public class ProjectEntity {
         this.tags.remove(tag);
         tag.getProjectEntities().remove(this);
     }
-
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -60,34 +64,6 @@ public class ProjectEntity {
     @Override
     public int hashCode() {
         return 31;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<TagEntity> getTags() {
-        return tags;
-    }
-
-    public Long getCreator_id() {
-        return creator_id;
-    }
-
-    public void setCreator_id(Long creator_id) {
-        this.creator_id = creator_id;
-    }
-
-    public void setTags(Set<TagEntity> tags) {
-        this.tags = tags;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     @Override

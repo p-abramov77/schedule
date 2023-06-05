@@ -14,12 +14,12 @@
     <p>
 
     <div class="w3-container rbc-dark">
-        <h1 th:text="'Результаты для задачи : ' + ${result.todo.content}"></h1>
+        <h1 th:text="'Результаты для задачи : ' + ${todo.content}"></h1>
     </div>
 
     <p>
     <div th:if="${isTodoExecutor}">
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newResult?todo_id={id}(id=${result.todo.id})}" > Добавить результат </a>
+        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newResult?todo_id={id}(id=${todo.id})}" > Добавить результат </a>
         <p>
     </div>
 
@@ -27,11 +27,10 @@
         <thead>
         <tr>
             <th>Результаты</th>
-
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr th:each="result : ${list}">
             <td>
                 <p>
                 <span  th:text="${#temporals.format(result.dateTime, 'dd-MM-yyyy HH:mm')}"></span>

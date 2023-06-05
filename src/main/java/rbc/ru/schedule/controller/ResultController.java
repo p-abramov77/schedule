@@ -14,6 +14,7 @@ import rbc.ru.schedule.validator.UserValidator;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/schedule")
@@ -37,14 +38,17 @@ public class ResultController {
                        Principal principal,
                        @RequestParam(defaultValue = "") Long todo_id) {
 
-        ResultEntity result = resultService.findByTodoId(todo_id);
-        System.out.println("results ="+ result);
+        Set<ResultEntity> list = resultService.findByTodoId(todo_id);
+        System.out.println("results ="+ list);
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
         model.addAttribute("isTodoProducer", userValidator.isTodoProducer(principal.getName(), todoService.findById(todo_id)));
         model.addAttribute("isTodoExecutor", userValidator.isTodoExecutor(principal.getName(), todoService.findById(todo_id)));
-        model.addAttribute("result", result);
+        model.addAttribute("list", list);
+
+        ToDoEntity todo = todoService.findById(todo_id);
+        model.addAttribute("todo", todo);
 
         return "results";
     }

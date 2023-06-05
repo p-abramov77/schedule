@@ -5,15 +5,17 @@ import org.springframework.stereotype.Service;
 import rbc.ru.schedule.entity.ResultEntity;
 import rbc.ru.schedule.repository.ResultRepo;
 
+import java.util.Set;
+
 @Service
 public class ResultServiceImpl implements ResultService {
     @Autowired
     ResultRepo resultRepo;
 
     @Override
-    public ResultEntity findByTodoId(Long id) {
+    public Set<ResultEntity> findByTodoId(Long id) {
 
-        return resultRepo.findByTodoId(id).orElse(null);
+        return resultRepo.findByTodoId(id);
     }
 
     @Override

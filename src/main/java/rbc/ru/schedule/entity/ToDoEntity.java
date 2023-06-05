@@ -45,8 +45,8 @@ public class ToDoEntity {
     @JoinColumn(name="project_id")
     private ProjectEntity project;
 
-    @OneToMany(mappedBy = "toDoEntity", cascade = CascadeType.ALL)
-    private Set<ResultEntity> results = new HashSet<>();
+//    @OneToMany(mappedBy = "toDoEntity", cascade = CascadeType.ALL)
+//    private Set<ResultEntity> results = new HashSet<>();
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,

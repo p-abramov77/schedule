@@ -38,6 +38,7 @@ public class ResultController {
                        Principal principal,
                        @RequestParam(defaultValue = "") Long todo_id) {
 
+        System.out.println("Try to read");
         Set<ResultEntity> list = resultService.findByTodoId(todo_id);
         System.out.println("results ="+ list);
 

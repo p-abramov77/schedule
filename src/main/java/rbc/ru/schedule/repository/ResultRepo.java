@@ -8,5 +8,5 @@ import java.util.Set;
 
 @Repository
 public interface ResultRepo extends JpaRepository<ResultEntity, Long> {
-    Set<ResultEntity> findByTodoId(Long todo_id);
+    Set<ResultEntity> findAllByTodoId(Long todo_id);
 }

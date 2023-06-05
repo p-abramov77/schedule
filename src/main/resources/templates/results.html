@@ -30,17 +30,17 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="result : ${list}">
-            <td>
-                <p>
-                <span  th:text="${#temporals.format(result.dateTime, 'dd-MM-yyyy HH:mm')}"></span>
-                <b><span  th:text="${result.content}"></span></b>
+<!--        <tr th:each="result : ${list}">-->
+<!--            <td>-->
+<!--                <p>-->
+<!--                <span  th:text="${#temporals.format(result.dateTime, 'dd-MM-yyyy HH:mm')}"></span>-->
+<!--                <b><span  th:text="${result.content}"></span></b>-->
 
-                <a th:if="${isTodoProducer}" th:href="@{/schedule/approveResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Подтвердить/Снять подтверждение</a>
-                <a th:if="${isTodoExecutor}" th:href="@{/schedule/editResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
-            </td>
+<!--                <a th:if="${isTodoProducer}" th:href="@{/schedule/approveResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Подтвердить/Снять подтверждение</a>-->
+<!--                <a th:if="${isTodoExecutor}" th:href="@{/schedule/editResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>-->
+<!--            </td>-->
 
-        </tr>
+<!--        </tr>-->
         </tbody>
     </table>
 

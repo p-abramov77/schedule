@@ -15,7 +15,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     public Set<ResultEntity> findByTodoId(Long id) {
 
-        return resultRepo.findByTodoId(id);
+        return resultRepo.findAllByTodoId(id);
     }
 
     @Override

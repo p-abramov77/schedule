@@ -15,13 +15,13 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public List<CommentEntity> findAll(ToDoEntity toDoEntity) {
 
-        return commentRepo.findByToDoEntityOrderByDateTime(toDoEntity);
+        return commentRepo.findByTodoOrderByDateTime(toDoEntity);
     }
 
     @Override
-    public void save(CommentEntity commentEntity) {
+    public void save(CommentEntity comment) {
 
-        commentRepo.save(commentEntity);
+        commentRepo.save(comment);
     }
 
     @Override

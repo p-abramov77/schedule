@@ -12,10 +12,10 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "todo_s")
+@Table(name = "todos")
 public class ToDoEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotEmpty
@@ -41,19 +41,22 @@ public class ToDoEntity {
     @JoinColumn(name = "executor_id", referencedColumnName = "id")
     private UserEntity executor;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="project_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="project_id", referencedColumnName = "id")
     private ProjectEntity project;
 
-//    @OneToMany(mappedBy = "toDoEntity", cascade = CascadeType.ALL)
-//    private Set<ResultEntity> results = new HashSet<>();
+    @OneToMany(mappedBy = "todo")
+    private Set<ResultEntity> results = new HashSet<>();
+
+    @OneToMany(mappedBy = "todo")
+    private Set<CommentEntity> comments = new HashSet<>();
 
     @ManyToMany(cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
     @JoinTable(name = "todo_equipment",
-            joinColumns = @JoinColumn(name = "todo_s_id"),
+            joinColumns = @JoinColumn(name = "todo_id"),
             inverseJoinColumns = @JoinColumn(name = "equipment_id")
     )
     private Set<EquipmentEntity> equipments = new HashSet<>();

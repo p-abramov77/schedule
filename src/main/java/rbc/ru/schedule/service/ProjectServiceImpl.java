@@ -22,8 +22,6 @@ public class ProjectServiceImpl implements ProjectService{
     @Autowired
     UserRepo userRepo;
 
-
-
     @Override
     public ProjectEntity getById(Long id, String principal) {
         ProjectEntity project = projectRepo.findById(id).orElse(null);

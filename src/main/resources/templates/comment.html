@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Задание</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/rbc.css">
+</head>
+
+<body>
+<div class="w3-container">
+  <div class="w3-container rbc-dark">
+    <h1>Комментарий</h1>
+  </div>
+
+  <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveComment}" th:object="${comment}" method="POST">
+    <input type="hidden" th:field="*{id}" />
+    <input type="hidden" th:field="*{todo}" />
+    <input type="hidden" th:field="*{user}" />
+    <input type="hidden" th:field="*{dateTime}" />
+    <p>
+      <span th:text="'User: '+ *{user.username}"></span>
+      <p>
+      <span th:text="'Todo: '+ *{todo.content}"></span>
+
+    <p>
+      <label>Введите комментарий</label>
+      <input class="w3-input w3-border"  type="text" th:field="*{comment}" placeholder="Введите комментарий" value="" autofocus>
+      <label class="w3-red" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">content Error</label>
+    <p>
+    <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
+    <p>
+  </form>
+  <p>
+    <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/comments?todo_id={id}(id=${comment.todo.id})}"> Не сохранять. Вернуться к списку дел</a>
+  </p>
+</div>
+</body>
+
+</html>

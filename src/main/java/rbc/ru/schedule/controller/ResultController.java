@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
+import rbc.ru.schedule.entity.CommentEntity;
 import rbc.ru.schedule.entity.ResultEntity;
 import rbc.ru.schedule.entity.ToDoEntity;
 import rbc.ru.schedule.service.*;
@@ -14,6 +16,7 @@ import rbc.ru.schedule.validator.UserValidator;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -33,77 +36,79 @@ public class ResultController {
     @Autowired
     ToDoServiceImpl todoService;
 
-    @GetMapping("results{todo_id}")
-    public String list(Model model,
-                       Principal principal,
-                       @RequestParam(defaultValue = "") Long todo_id) {
-
-        System.out.println("Try to read");
-        Set<ResultEntity> list = resultService.findByTodoId(todo_id);
-        System.out.println("results ="+ list);
+    @GetMapping("results{id}")
+    public String list(Model model, Principal principal,
+                       @RequestParam(value = "todo_id") Long todo_id) {
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
-        model.addAttribute("isTodoProducer", userValidator.isTodoProducer(principal.getName(), todoService.findById(todo_id)));
-        model.addAttribute("isTodoExecutor", userValidator.isTodoExecutor(principal.getName(), todoService.findById(todo_id)));
-        model.addAttribute("list", list);
 
-        ToDoEntity todo = todoService.findById(todo_id);
-        model.addAttribute("todo", todo);
+        ToDoEntity toDoEntity = todoService.findById(todo_id);
+        Set<ResultEntity> list = resultService.findByTodoId(todo_id);
+        model.addAttribute("todo", toDoEntity);
+        model.addAttribute("list", list);
 
         return "results";
     }
 
     @GetMapping("newResult{todo_id}")
     public String newOne(Model model,
-                        Principal principal,
-                        @RequestParam(defaultValue = "") Long todo_id) {
+                         Principal principal,
+                         @RequestParam(value = "todo_id") Long todo_id) {
 
         ToDoEntity toDoEntity = todoService.findById(todo_id);
-        System.out.println("new result " + todo_id + "  TODO = " + toDoEntity);
+
+        if(! userValidator.isTodoExecutor(principal.getName(), toDoEntity)) { //todo  EXECUTOR???
+            return "redirect:/schedule/results?id=" + todo_id;
+        }
+
         ResultEntity resultEntity = new ResultEntity();
+
+        resultEntity.setTodo(todoService.findById(todo_id));
         resultEntity.setDateTime(LocalDateTime.now());
-        resultEntity.setToDoEntity(toDoEntity);
-        resultEntity.setApproved(false);
 
         model.addAttribute("result", resultEntity);
+
+        return "result";
+    }
+
+    @GetMapping("editResult{id}")
+    public String edit(Model model,
+                       Principal principal,
+                       @RequestParam(value = "id") Long id) {
+
+        ResultEntity resultEntity = resultService.findById(id);
+
+        //TODO изменить может только создатель
+
+        resultEntity.setDateTime(LocalDateTime.now());
+
+        model.addAttribute("result", resultEntity);
+
         return "result";
     }
 
     @PostMapping("saveResult")
-    public String save(Model model,
-                       Principal principal,
-                       @ModelAttribute("result") @Valid ResultEntity resultEntity,
-                       BindingResult bindingResult) {
+    public String save(@ModelAttribute("todo") @Valid ResultEntity resultEntity,
+                       BindingResult bindingResult,
+                       Principal principal) {
+
+        //TODO изменить может только создатель
 
         if(bindingResult.hasErrors()) {
+            System.out.println("comment save Errors");
+            for(FieldError err : bindingResult.getFieldErrors()) {
+                System.out.println(err.toString());
+            }
             return "result";
         }
+
+        System.out.println(resultEntity);  //TODO remove
+
         //TODO проверить права
         resultService.save(resultEntity);
-        //TODO по почте сообщить
-        return "redirect:/schedule/results?todo_id=" + resultEntity.getToDoEntity().getId();
-
-    }
-
-    @GetMapping("editResult/{id}")
-    public String edit(Model model, @PathVariable(value = "id") long id) {
-
-        ResultEntity resultEntity = resultService.findById(id);
-        model.addAttribute("result", resultEntity);
-
-        resultEntity.setApproved(false);
-        resultEntity.setDateTime(LocalDateTime.now());
-
-        model.addAttribute("result", resultEntity);
-
-        return "result";
-    }
-    @GetMapping("approveResult/{id}")
-    public String approve(Model model, @PathVariable(value = "id") long id) {
-        ResultEntity resultEntity = resultService.findById(id);
-        model.addAttribute("result", resultEntity);
-        return "approve";
+        //TODO отправить уведомление по почте
+        return "redirect:/schedule/results?todo_id=" + resultEntity.getTodo().getId();
     }
 
 }

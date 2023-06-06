@@ -9,6 +9,6 @@ import java.util.Set;
 
 @Repository
 public interface ResultRepo extends JpaRepository<ResultEntity, Long> {
-    @Query(value = "select * from results where todo_s_id=:todo_id", nativeQuery = true)
+    @Query(value = "select * from results where todo_id=:todo_id", nativeQuery = true)
     Set<ResultEntity> findAllByTodoId(Long todo_id);
 }

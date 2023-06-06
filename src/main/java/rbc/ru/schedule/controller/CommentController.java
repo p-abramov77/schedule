@@ -37,7 +37,7 @@ public class CommentController {
 
     @GetMapping("comments{id}")
     public String list(Model model, Principal principal,
-                       @RequestParam(value = "id") long todo_id) {
+                       @RequestParam(value = "todo_id") Long todo_id) {
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
@@ -50,19 +50,21 @@ public class CommentController {
         return "comments";
     }
 
-    @GetMapping("newComment{id}")
+    @GetMapping("newComment{todo_id}")
     public String newOne(Model model,
                          Principal principal,
-                         @RequestParam(value = "id") long todo_id) {
+                         @RequestParam(value = "todo_id") Long todo_id) {
 
         ToDoEntity toDoEntity = toDoService.findById(todo_id);
+
         if(! userValidator.isTodoMember(principal.getName(), toDoEntity)) {
             return "redirect:/schedule/comments?id=" + todo_id;
         }
 
         CommentEntity commentEntity = new CommentEntity();
-        commentEntity.setToDoEntity(toDoService.findById(todo_id));
-        commentEntity.setUserEntity(userService.findUserByUsername(principal.getName()));
+
+        commentEntity.setTodo(toDoService.findById(todo_id));
+        commentEntity.setUser(userService.findUserByUsername(principal.getName()));
         commentEntity.setDateTime(LocalDateTime.now());
 
         model.addAttribute("comment", commentEntity);
@@ -73,10 +75,10 @@ public class CommentController {
     @GetMapping("editComment{id}")
     public String edit(Model model,
                        Principal principal,
-                       @RequestParam(value = "id") long id) {
+                       @RequestParam(value = "id") Long id) {
 
         CommentEntity commentEntity = commentService.getById(id);
-        commentEntity.setUserEntity(userService.findUserByUsername(principal.getName()));
+        commentEntity.setUser(userService.findUserByUsername(principal.getName()));  //TODO may be remove?
 
         //TODO изменить может только создатель комментария
 
@@ -101,10 +103,13 @@ public class CommentController {
             }
             return "comment";
         }
+
+        System.out.println(commentEntity);  //TODO remove
+
         //TODO проверить права
         commentService.save(commentEntity);
         //TODO отправить уведомление по почте
-        return "redirect:/schedule/comments?id=" + commentEntity.getToDoEntity().getId();
+        return "redirect:/schedule/comments?todo_id=" + commentEntity.getTodo().getId();
     }
 
 }

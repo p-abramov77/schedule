@@ -37,7 +37,7 @@ public class ToDoController {
 
     @GetMapping("todos{id}")
     public String list(Model model, Principal principal,
-                       @RequestParam(value = "id") long project_id) {
+                       @RequestParam(value = "id") Long project_id) {
 
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
@@ -53,7 +53,7 @@ public class ToDoController {
     @GetMapping("newTODO{id}")
     public String newOne(Model model,
                          Principal principal,
-                         @RequestParam(value = "id") long project_id) {
+                         @RequestParam(value = "id") Long project_id) {
 
         ToDoEntity toDoEntity = new ToDoEntity();
         toDoEntity.setProject(projectService.getById(project_id,principal.getName()));
@@ -73,7 +73,7 @@ public class ToDoController {
     @GetMapping("todoEdit{id}")
     public String edit(Model model,
                          Principal principal,
-                         @RequestParam(value = "id") long id) {
+                         @RequestParam(value = "id") Long id) {
 
         ToDoEntity toDoEntity = toDoService.findById(id);
         toDoEntity.setProducer(userService.findUserByUsername(principal.getName()));

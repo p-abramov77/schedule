@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 @Table(name = "comments")
 public class CommentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="todo_s_id")
-    private ToDoEntity toDoEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="todo_id", referencedColumnName = "id")
+    private ToDoEntity todo;
 
     private String comment;
 
@@ -24,6 +24,10 @@ public class CommentEntity {
     LocalDateTime dateTime;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private UserEntity userEntity;
+    @JoinColumn(name="user_id", referencedColumnName = "id")
+    private UserEntity user;
+
+    public String toString() {
+        return "Todo : " + todo.getContent() + "  Comment: " + comment + "  user: " + user.getUsername() + "  id = " + id;
+    }
 }

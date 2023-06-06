@@ -49,6 +49,17 @@
             </td>
             <td>
                     <a th:href="@{/schedule/results?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
+
+                <p>
+                <menu>
+                    <li th:each="result : ${todo.results}">
+                        <span  th:text="${result.content} "></span>
+                        <span  th:text="${url}"></span>
+                    </li>
+                </menu>
+
+
+
             </td>
             <td>
                 <a th:if="${project.producer}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>

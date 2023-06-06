@@ -2,8 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Результаты</title>
-
+    <title>Results</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="/rbc.css">
 </head>
@@ -14,33 +13,30 @@
     <p>
 
     <div class="w3-container rbc-dark">
-        <h1 th:text="'Результаты для задачи : ' + ${todo.content}"></h1>
+        <h1 th:text="'Results для события : ' + ${todo.content}"></h1>
     </div>
 
-    <p>
-    <div th:if="${isTodoExecutor}">
-        <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newResult?todo_id={id}(id=${todo.id})}" > Добавить результат </a>
-        <p>
-    </div>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
         <tr>
-            <th>Результаты</th>
+            <th>Результат</th>
+            <p>
+                <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newResult?todo_id={id}(id=${todo.id})}" > Добавить Result </a>
+                <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}" > Вернуться к Задачам </a>
+            <p>
         </tr>
         </thead>
         <tbody>
         <tr th:each="result : ${list}">
             <td>
-                <p>
-                <span  th:text="${#temporals.format(result.dateTime, 'dd-MM-yyyy HH:mm')}"></span>
-                    <b><span  th:text="${result.content}"></span></b>
-                    <a  th:if="${result.url} != null" th:text="' '+${result.url}" th:href="${result.url}" ></a>
+                <span  th:text="${#temporals.format(result.dateTime, 'dd-MM-yyyy HH:mm')} "></span>
+                <i><span  th:text="${result.content} "></span></i>
+                <b><span  th:text="${result.url}"></span></b>
 
-                <a th:if="${isTodoProducer}" th:href="@{/schedule/approveResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Подтвердить/Снять подтверждение</a>
-                <a th:if="${isTodoExecutor}" th:href="@{/schedule/editResult/{id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+                <a th:href="@{/schedule/editResult?id={id}(id=${result.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+
             </td>
-
         </tr>
         </tbody>
     </table>

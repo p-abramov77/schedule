@@ -12,14 +12,13 @@ import java.time.LocalDateTime;
 @Table(name="results")
 public class ResultEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="todo_s_id")
-    private ToDoEntity toDoEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="todo_id", referencedColumnName = "id")
+    private ToDoEntity todo;
 
-    @NotNull
     @NotBlank
     String content;
 
@@ -29,4 +28,8 @@ public class ResultEntity {
 
     @NotNull
     LocalDateTime dateTime;
+    public String toString() {
+        return "Todo : " + todo.getContent() + "  Content: " + content  + "  id = " + id;
+    }
+
 }

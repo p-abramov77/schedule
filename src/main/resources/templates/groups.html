@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Группы</title>
+
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/rbc.css">
+</head>
+<body>
+<div class="w3-container w3-border">
+
+    <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
+    <p>
+
+    <div class="w3-container rbc-dark">
+        <h1>Группы</h1>
+    </div>
+
+    <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
+        <thead>
+        <tr>
+            <!--          <th colspan="8">-->
+
+            <input type="text" id="name" name="name" th:attr="value=${name}" placeholder="Введите сюда часть имени (если не заполнено, ищутся все имеющиеся)" class="w3-input">
+            <p>
+                <button id="button" class="w3-btn w3-border w3-round-large"> Нажмите для поиска по части имени </button>
+                <script>
+                        button.onclick = function() {
+                           window.location.href = "?name=" + document.getElementById("name").value;
+                        };
+                    </script>
+
+                <a th:if="${name != null && name.length > 0}" class="w3-btn w3-border w3-round-large" href="groups" >Стереть фильтр и показать всех</a>
+        </tr>
+        <tr>
+            <th>
+                Группа
+                <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newGroup'}" > Добавить </a>
+
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="group : ${list}">
+            <td >
+                <span th:text="${group.name}"></span>
+                <a th:href="@{/schedule/editGroup/{id}(id=${group.id})}" class="w3-btn w3-green w3-border w3-round-large w3-right">Изменить</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!--  <div class="w3-border" th:if="${totalPages > 1}">-->
+    <!--    <div class="w3-container">-->
+    <!--      Всего записей: [[${totalItems}]]-->
+    <!--    </div>-->
+    <!--    <p>-->
+    <!--    <div class="w3-container w3-bar">-->
+    <!--                <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+    <!--                    <a class="w3-button" th:if="${currentPage != i}" th:href="@{'/active/?currentPage=' + ${i}}">[[${i}]]</a>-->
+    <!--                    <span class="w3-button" th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;-->
+    <!--                </span>-->
+    <!--    </div>-->
+    <!--    <p>-->
+    <!--    <div class="w3-container">-->
+    <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${currentPage + 1}}">Следующая страница</a>-->
+    <!--      <a class="w3-button w3-round-large" th:if="${currentPage < totalPages}" th:href="@{'/active/?currentPage=' + ${totalPages}}">Последняя страница</a>-->
+    <!--    </div>-->
+    <!--  </div>-->
+
+
+
+
+
+</div>
+</body>
+</html>

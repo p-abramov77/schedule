@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="/rbc.css">
 </head>
 <body>
-<div class="w3-container w3-border">
+<div class="w3-container">
 
   <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
   <p>
@@ -43,18 +43,18 @@
     <tr th:each="weekdays : ${cells}">
       <div th:each="cell : ${weekdays}">
         <td>
-<!--          <span class = "w3-center w3-btn" th:text="${#temporal.format(cell.date, 'dd-MM-yyyy')}"></span>-->
           <b><a  th:text="${#temporals.format(cell.date,'dd')}" th:href ="@{/schedule/projects?start={date}&stop={date}(date=${cell.date})}"></a></b>
           <p>
 
           <menu>
                <li th:each="project : ${cell.list}">
-                   <div th:if="${project.todos.size} > 0" class="w3-orange" >
-                        <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
+                   <div th:if="${project.todos.size} > 0" >
+<!--                        class="w3-green" >-->
+                        <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}&start={date}&stop={date}(name=${project.name}, date=${cell.date})}"> </a>
                         <span th:text="@{ ({size}) (size=${project.todos.size})}"></span>
                    </div>
                    <div th:unless="${project.todos.size} > 0" class="w3-pink">
-                       <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}(name=${project.name})}"> </a>
+                       <a  th:text="${project.name}" th:href ="@{/schedule/projects?name={name}&start={date}&stop={date}(name=${project.name}, date=${cell.date})}"> </a>
                    </div>
                </li>
           </menu>

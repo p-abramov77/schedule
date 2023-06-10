@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <title>My TODOs</title>
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="/rbc.css">
+</head>
+
+<body>
+
+<div class="w3-container">
+
+    <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
+    <p>
+
+    <div class="w3-container rbc-dark">
+        <h1 th:text="'Задачи для ' + ${me.username}"></h1>
+    </div>
+</div>
+
+</body>
+</html>

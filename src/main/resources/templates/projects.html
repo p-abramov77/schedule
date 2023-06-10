@@ -41,7 +41,7 @@
                           };
       </script>
 
-      <a class="w3-btn w3-border w3-round-large w3-red" href="projects" >Стереть фильтр и показать всех</a>
+      <a class="w3-btn w3-border w3-round-large w3-red" th:text="'Стереть фильтр'" th:href="@{/schedule/projects?start={start}&stop={stop}(start=${start}, stop=${stop})}" ></a>
 
       <div th:if="${message} != '' " >
           <h3 class="rbc-light w3-bold" th:text="${message}" ></h3>
@@ -88,7 +88,7 @@
         <br>
         <menu>
           <li th:each="tag : ${project.tags}">
-            <a  th:text="${tag.name}" th:href="@{/schedule/projects?tag={id}(id=${tag.id})}">tag name</a>
+            <a  th:text="${tag.name}" th:href="@{/schedule/projects?tag={id}&start={start}&stop={stop}(id=${tag.id}, start=${start}, stop=${stop})}">tag name</a>
           </li>
         </menu>
       </td>
@@ -97,8 +97,8 @@
         <br>
         <menu>
           <li th:each="role : ${project.roleEntities}">
-            <b><a th:if="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a></b>
-            <a th:unless="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}(name=${role.user.username})}">user name</a>
+            <b><a th:if="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${start}, stop=${stop})}">user name</a></b>
+            <a th:unless="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${start}, stop=${stop})}">user name</a>
 <!--              <span th:if="${role.producer}"> (*)</span>-->
           </li>
         </menu>

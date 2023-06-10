@@ -20,6 +20,8 @@ public class CommentEntity {
 
     private String comment;
 
+    String url;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     LocalDateTime dateTime;
 

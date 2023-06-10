@@ -64,6 +64,9 @@ public class ToDoController {
 
         Set<UserEntity> users = userService.getAllExecutorsOfProject(project_id);
 
+        if(users.size() == 0) //TODO сообщить об отсутствии исполнителей
+            return "redirect:/schedule/todos?id=" + toDoEntity.getProject().getId();
+
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);
 
@@ -113,5 +116,20 @@ public class ToDoController {
         //TODO отправить уведомление по почте
         return "redirect:/schedule/todos?id=" + toDoEntity.getProject().getId();
     }
+
+    @GetMapping("myToDos")
+    public String my(Model model,
+                       Principal principal) {
+
+        model.addAttribute("userName", principal.getName());
+        model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
+
+        UserEntity me = userService.findUserByUsername(principal.getName());
+
+        model.addAttribute("me", me);
+
+        return "myToDos";
+    }
+
 
 }

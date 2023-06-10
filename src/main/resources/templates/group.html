@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Группа</title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="/rbc.css">
+</head>
+
+<body>
+<div class="w3-container">
+    <div class="w3-container rbc-dark">
+        <h1>Группа</h1>
+    </div>
+    <p>
+        <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
+
+    <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveGroup}" th:object="${group}" method="POST">
+        <input type="hidden" th:field="*{id}" />
+
+        <p>
+            <label>Введите группу</label>
+            <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите группу" value="" autofocus>
+            <label class="w3-red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">group Error</label>
+        <p>
+            <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
+        <p>
+    </form>
+    <p>
+        <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/groups}"> Не сохранять. Вернуться к списку</a>
+    </p>
+</div>
+</body>
+
+</html>

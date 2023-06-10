@@ -19,6 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.Set;
@@ -59,41 +60,58 @@ public class ProjectController {
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
 
-        LocalDate start, stop;
-        try {
-            start = LocalDate.parse(startString);
-            stop = LocalDate.parse(stopString);
-        } catch (DateTimeParseException e) {
-            start = LocalDate.now();
-            stop = LocalDate.now().plusDays(maxLengthOfPeriod);
-        }
-        if(start.isAfter(stop)) stop = start;
-        if(start.until(stop, ChronoUnit.DAYS) > maxLengthOfPeriod) stop = start.plusDays(maxLengthOfPeriod);
-
-        model.addAttribute("start", start);
-        model.addAttribute("stop", stop);
-
         String message;
         if(name.isEmpty())
             message = "";
+
         else
             message  = "Имя события начинается с : " + name;
 
-//        Set<ProjectEntity> list = projectService.findInPeriod(start, stop); //TODO Обновить по образцу getName ???
+        LocalDate startDate, stopDate;
 
-        Set<ProjectEntity> list = projectService.getByName(name, principal.getName());
+        try {
+            startDate = LocalDate.parse(startString);
+            stopDate = LocalDate.parse(stopString);
+        } catch (DateTimeParseException e) {
+            startDate = LocalDate.now();
+            stopDate = LocalDate.now().plusDays(maxLengthOfPeriod);
+            message = "Фильтр: с " + startDate + " по " + stopDate + "; " + message;
+            model.addAttribute("start", startDate);
+            model.addAttribute("stop", stopDate);
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+        }
+        if(startDate.isAfter(stopDate)) {
+            stopDate = startDate;
+            model.addAttribute("start", startDate);
+            model.addAttribute("stop", stopDate);
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+        }
+        if(startDate.until(stopDate, ChronoUnit.DAYS) > maxLengthOfPeriod) {
+            stopDate = startDate.plusDays(maxLengthOfPeriod);
+            model.addAttribute("start", startDate);
+            model.addAttribute("stop", stopDate);
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+        }
+
+        model.addAttribute("start", startDate);
+        model.addAttribute("stop", stopDate);
+
+        LocalDateTime start = startDate.atStartOfDay();
+        LocalDateTime stop = stopDate.plusDays(1).atStartOfDay();
+
+        Set<ProjectEntity> list = projectService.getByName(name, start, stop, principal.getName());
 
         if (!id.isEmpty()){
-//            System.out.println("id="+id);
-            list = projectService.getByTag(Long.valueOf(id), principal.getName());
+            list = projectService.getByTag(Long.valueOf(id), start, stop, principal.getName());
             message = "Тэг события : " + tagService.getById(Long.valueOf(id)).getName();
         }
 
         if (!user.isEmpty()){
-//            System.out.println("user = " + user);
-            list = projectService.getByUsername(user, principal.getName());
+            list = projectService.getByUsername(user, start, stop, principal.getName());
             message = "События, в которых участвует : " + user;
         }
+
+        message = "Фильтр: с " + startDate + " по " + stopDate + ";  " + message;
 
         model.addAttribute("message", message);
         model.addAttribute("name", name);

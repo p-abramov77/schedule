@@ -44,8 +44,10 @@ public class CommentController {
 
         ToDoEntity toDoEntity = toDoService.findById(todo_id);
         List<CommentEntity> list = commentService.findAll(toDoEntity);
+
         model.addAttribute("todo", toDoEntity);
         model.addAttribute("list", list);
+        model.addAttribute("user_id", userService.findUserByUsername(principal.getName()).getId());
 
         return "comments";
     }

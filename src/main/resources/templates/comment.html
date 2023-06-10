@@ -29,6 +29,10 @@
       <input class="w3-input w3-border"  type="text" th:field="*{comment}" placeholder="Введите комментарий" value="" autofocus>
       <label class="w3-red" th:if="${#fields.hasErrors('comment')}" th:errors="*{comment}">content Error</label>
     <p>
+      <label>Введите ссылку</label>
+      <input class="w3-input w3-border"  type="url" th:field="*{url}" placeholder="Введите ссылку" value="" >
+      <label class="w3-red" th:if="${#fields.hasErrors('url')}" th:errors="*{url}">url Error</label>
+    <p>
     <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
     <p>
   </form>

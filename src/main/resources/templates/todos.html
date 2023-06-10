@@ -53,9 +53,12 @@
                 <p>
                 <menu>
                     <li th:each="result : ${todo.results}">
-                        <span  th:text="${result.content} "></span>
-                        <span  th:text="${url}"></span>
-                    </li>
+                        <a  th:if="${result.url.length} > 0" th:text="${result.content}" th:href="${result.url}"></a>
+                        <span  th:unless="${result.url.length} > 0" th:text="${result.content} "></span>
+                        <span class ="w3-green w3-bold" th:if="${result.approved}" th:text="'Подтвержден'"></span>
+                        <span class ="w3-red w3-bold" th:unless="${result.approved}" th:text="'Не подтвержден' "></span>
+
+            </li>
                 </menu>
 
 

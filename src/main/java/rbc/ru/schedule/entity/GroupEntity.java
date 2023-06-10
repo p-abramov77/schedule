@@ -14,8 +14,11 @@ public class GroupEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(unique = true)
     @Size(min = 6)
     private String name;
+
     @ManyToMany(mappedBy = "groups")
     private Set<UserEntity> userEntities = new HashSet<>();
 

@@ -13,6 +13,7 @@ public class TagEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(unique = true)
     private String name;
     private String comment;
     @ManyToMany(mappedBy = "tags")
@@ -30,31 +31,4 @@ public class TagEntity {
         return 31;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getComment() {
-        return comment;
-    }
-
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
-    public Set<ProjectEntity> getProjectEntities() {
-        return projectEntities;
-    }
-
-    public void setProjectEntities(Set<ProjectEntity> projectEntities) {
-        this.projectEntities = projectEntities;
-    }
-
-    public Long getId() {
-        return id;
-    }
 }

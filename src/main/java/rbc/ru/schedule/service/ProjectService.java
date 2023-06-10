@@ -9,11 +9,11 @@ import java.util.Set;
 
 @Service
 public interface ProjectService {
-    Set<ProjectEntity> getByName(String name, String principal);
-    Set<ProjectEntity> getByTag(Long id, String principal);
+    Set<ProjectEntity> getByName(String name, LocalDateTime start, LocalDateTime stop, String principal);
+    Set<ProjectEntity> getByTag(Long id, LocalDateTime start, LocalDateTime stop, String principal);
     ProjectEntity getById(Long id, String principal);
     Long save(ProjectEntity projectEntity);
-    Set<ProjectEntity> getByUsername(String name, String principal);
+    Set<ProjectEntity> getByUsername(String name, LocalDateTime start, LocalDateTime stop, String principal);
     Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop);
     Set<ProjectEntity> findInDay(LocalDate day, Set<ProjectEntity> all);
     boolean isNotLastProducer(ProjectEntity project);

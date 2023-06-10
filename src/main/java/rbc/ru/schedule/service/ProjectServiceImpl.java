@@ -51,8 +51,8 @@ public class ProjectServiceImpl implements ProjectService{
         return projectEntities;
     }
     @Override
-    public Set<ProjectEntity> getByName(String name, String principal) {
-        Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameStartingWithOrderByStart(name);
+    public Set<ProjectEntity> getByName(String name, LocalDateTime start, LocalDateTime stop, String principal) {
+        Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameOrderByStart(name, start, stop);
 
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
@@ -74,9 +74,9 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Set<ProjectEntity> getByUsername(String username, String principal) {
+    public Set<ProjectEntity> getByUsername(String username, LocalDateTime start, LocalDateTime stop, String principal) {
 
-        Set<ProjectEntity> projectEntities = projectRepo.findByUser(userRepo.findByUsername(username).getId());
+        Set<ProjectEntity> projectEntities = projectRepo.findByUser(userRepo.findByUsername(username).getId(), start, stop);
 
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
@@ -114,9 +114,9 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Set<ProjectEntity> getByTag(Long id, String principal) {
+    public Set<ProjectEntity> getByTag(Long id, LocalDateTime start, LocalDateTime stop, String principal) {
 
-        Set<ProjectEntity> projectEntities = projectRepo.findByTag(id);
+        Set<ProjectEntity> projectEntities = projectRepo.findByTag(id, start, stop);
 
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));

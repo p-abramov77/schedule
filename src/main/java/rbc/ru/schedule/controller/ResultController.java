@@ -66,6 +66,7 @@ public class ResultController {
 
         resultEntity.setTodo(todoService.findById(todo_id));
         resultEntity.setDateTime(LocalDateTime.now());
+        resultEntity.setApproved(false);
 
         model.addAttribute("result", resultEntity);
 
@@ -82,6 +83,7 @@ public class ResultController {
         //TODO изменить может только создатель
 
         resultEntity.setDateTime(LocalDateTime.now());
+        resultEntity.setApproved(false);
 
         model.addAttribute("result", resultEntity);
 
@@ -106,6 +108,22 @@ public class ResultController {
         System.out.println(resultEntity);  //TODO remove
 
         //TODO проверить права
+        resultService.save(resultEntity);
+        //TODO отправить уведомление по почте
+        return "redirect:/schedule/results?todo_id=" + resultEntity.getTodo().getId();
+    }
+    @GetMapping("approveResult{id}")
+    public String approve(Model model,
+                          Principal principal,
+                          @RequestParam(value = "id") Long id) {
+
+        ResultEntity resultEntity = resultService.findById(id);
+
+        if(resultEntity.getApproved() == null) resultEntity.setApproved(false);
+
+        //TODO изменить может только Producer
+        //TODO проверить права
+        resultEntity.setApproved(!resultEntity.getApproved());
         resultService.save(resultEntity);
         //TODO отправить уведомление по почте
         return "redirect:/schedule/results?todo_id=" + resultEntity.getTodo().getId();

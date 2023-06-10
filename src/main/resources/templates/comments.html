@@ -2,46 +2,73 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="10">
     <title>Comments</title>
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="/rbc.css">
 </head>
 <body>
 <div class="w3-container">
+    <div id="top"></div>
 
     <div th:include="header ::header (userName=${userName},isAdmin=${isAdmin})">...</div>
     <p>
 
     <div class="w3-container rbc-dark">
-        <h1 th:text="'Comment для события : ' + ${todo.content}"></h1>
+        <h1 th:text="'Комментарии к задаче : ' + ${todo.content}"></h1>
     </div>
 
+    <p>
+        <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}" > Вернуться к Задачам </a>
+    <p>
+
+    <a class="w3-btn w3-green w3-border w3-round-large " href="#bottom">Перейти в конец</a>
+    <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newComment?todo_id={id}(id=${todo.id})}" > Добавить Комментарий </a>
+    <p>
 
     <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
         <thead>
         <tr>
-            <th>Сообщение</th>
-                <p>
-                    <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newComment?todo_id={id}(id=${todo.id})}" > Добавить Comment </a>
-                    <a class="w3-btn w3-blue w3-border w3-round-large" th:href="@{/schedule/todos?id={id}(id=${todo.project.id})}" > Вернуться к Задачам </a>
-                <p>
+            <th>Сообщения мне</th>
+            <th>Сообщения от меня</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="comment : ${list}">
             <td>
-                <span  th:text="${#temporals.format(comment.dateTime, 'dd-MM-yyyy HH:mm')} "></span>
-                <i><span  th:text="${comment.user.username} "></span></i>
-                <b><span  th:text="${comment.comment}"></span></b>
+                <div th:unless="${comment.user.id} == ${user_id}" >
+                    <i><span  th:text="${comment.user.username} "></span></i>
+                    <span  th:text="${#temporals.format(comment.dateTime, 'dd-MM-yyyy HH:mm')} "></span>
+                    <p>
+                    <b><span  th:text="${comment.comment}"></span></b>
+                    <p>
+                    <a  th:if="${comment.url.length} > 0" th:text="Ссылка" th:href="${comment.url}"></a>
 
-                <a th:href="@{/schedule/editComment?id={id}(id=${comment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+                    <!--                    <a th:href="@{/schedule/editComment?id={id}(id=${comment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>-->
+                </div>
+
+            </td>
+            <td>
+                <div th:if="${comment.user.id} == ${user_id}" >
+                    <i><span  th:text="${comment.user.username} "></span></i>
+                    <span  th:text="${#temporals.format(comment.dateTime, 'dd-MM-yyyy HH:mm')} "></span>
+                    <p>
+                    <b><span  th:text="${comment.comment}"></span></b>
+                    <a  th:if="${comment.url.length} > 0" th:text="Ссылка" th:href="${comment.url}"></a>
+
+                    <!--                    <a th:href="@{/schedule/editComment?id={id}(id=${comment.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>-->
+                </div>
 
             </td>
         </tr>
         </tbody>
     </table>
+    <p>
 
+   <a class="w3-btn w3-green w3-border w3-round-large " href="#top">Перейти в начало</a>
+   <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{/schedule/newComment?todo_id={id}(id=${todo.id})}" > Добавить Комментарий </a>
 
+    <div id="bottom"></div>
 
 </div>
 </body>

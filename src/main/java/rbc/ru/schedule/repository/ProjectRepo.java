@@ -5,23 +5,26 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import rbc.ru.schedule.entity.ProjectEntity;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 
 @Repository
 public interface ProjectRepo extends JpaRepository<ProjectEntity, Long> {
-    Set<ProjectEntity> findAllByNameStartingWithOrderByStart(String name);  //TODO from start to stop
+    @Query(value = "select * from project where ( name like %:name% and not (stop < :start or :stop < start) ) order by start",
+            nativeQuery = true)
+    Set<ProjectEntity> findAllByNameOrderByStart(String name, LocalDateTime start, LocalDateTime stop);
 
     @Query(
-            value="select * from project where id in (select distinct project_id from project_tag where tag_id = :tag_id) order by start",
+            value="select * from project where id in (select distinct project_id from project_tag where not (stop < :start or :stop < start) and tag_id = :tag_id) order by start",
             nativeQuery = true)
-    Set<ProjectEntity> findByTag(Long tag_id);
+    Set<ProjectEntity> findByTag(Long tag_id, LocalDateTime start, LocalDateTime stop);
     @Query(
-            value="select * from project where id in (select distinct project_id from roles where user_id = :user_id) order by start",
+            value="select * from project where not (stop < :start or :stop < start) and id in (select distinct project_id from roles where user_id = :user_id) order by start",
             nativeQuery = true)
-    Set<ProjectEntity> findByUser(Long user_id);
+    Set<ProjectEntity> findByUser(Long user_id, LocalDateTime start, LocalDateTime stop);
     @Query(
             value="select * from project where ( not (stop < :start or :stop < start) ) order by start",
             nativeQuery = true)
-    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop); //TODO объединить с findAllByNameStartingWithOrderByStart
+    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop); //TODO добавить группы
 }

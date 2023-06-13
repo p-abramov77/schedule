@@ -20,7 +20,7 @@ public class GroupEntity {
     private String name;
 
     @ManyToMany(mappedBy = "groups")
-    private Set<UserEntity> userEntities = new HashSet<>();
+    private Set<UserEntity> users = new HashSet<>();
 
     //TODO add & remove to user_group
 }

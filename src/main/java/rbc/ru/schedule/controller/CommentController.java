@@ -22,6 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/schedule")
 public class CommentController {
+
     static {
         SpringDocUtils.getConfig().addRestControllers(CommentController.class);
     }
@@ -59,6 +60,7 @@ public class CommentController {
 
         ToDoEntity toDoEntity = toDoService.findById(todo_id);
 
+        // создать комментарий может только заказчик или исполнитель
         if(! userValidator.isTodoMember(principal.getName(), toDoEntity)) {
             return "redirect:/schedule/comments?id=" + todo_id;
         }
@@ -74,29 +76,36 @@ public class CommentController {
         return "comment";
     }
 
-    @GetMapping("editComment{id}")
-    public String edit(Model model,
-                       Principal principal,
-                       @RequestParam(value = "id") Long id) {
-
-        CommentEntity commentEntity = commentService.getById(id);
-        commentEntity.setUser(userService.findUserByUsername(principal.getName()));  //TODO may be remove?
-
-        //TODO изменить может только создатель комментария
-
-        commentEntity.setDateTime(LocalDateTime.now());
-
-        model.addAttribute("comment", commentEntity);
-
-        return "comment";
-    }
+    //TODO remove ???
+//    @GetMapping("editComment{id}")
+//    public String edit(Model model,
+//                       Principal principal,
+//                       @RequestParam(value = "id") Long id) {
+//
+//        CommentEntity commentEntity = commentService.getById(id);
+//
+//        // изменить может только создатель комментария
+//        if(userService.findUserByUsername(principal.getName()).getId() != commentEntity.getUser().getId()) {
+//            return "redirect:/schedule/comments?id=" + commentEntity.getTodo().getId();
+//        }
+//
+//        commentEntity.setDateTime(LocalDateTime.now());
+//
+//        model.addAttribute("comment", commentEntity);
+//
+//        return "comment";
+//    }
 
     @PostMapping("saveComment")
     public String save(@ModelAttribute("todo") @Valid CommentEntity commentEntity,
                        BindingResult bindingResult,
                        Principal principal) {
 
-        //TODO изменить может только создатель комментария
+        //TODO проверить права
+        // изменить может только создатель комментария
+        if(userService.findUserByUsername(principal.getName()).getId() != commentEntity.getUser().getId()) {
+            return "redirect:/schedule/comments?id=" + commentEntity.getTodo().getId();
+        }
 
         if(bindingResult.hasErrors()) {
             System.out.println("comment save Errors");
@@ -106,9 +115,6 @@ public class CommentController {
             return "comment";
         }
 
-        System.out.println(commentEntity);  //TODO remove
-
-        //TODO проверить права
         commentService.save(commentEntity);
         //TODO отправить уведомление по почте
         return "redirect:/schedule/comments?todo_id=" + commentEntity.getTodo().getId();

@@ -7,16 +7,16 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
-import rbc.ru.schedule.entity.CommentEntity;
 import rbc.ru.schedule.entity.ResultEntity;
 import rbc.ru.schedule.entity.ToDoEntity;
-import rbc.ru.schedule.service.*;
+import rbc.ru.schedule.service.ResultServiceImpl;
+import rbc.ru.schedule.service.ToDoServiceImpl;
+import rbc.ru.schedule.service.UserServiceImpl;
 import rbc.ru.schedule.validator.UserValidator;
 
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Set;
 
 @Controller
@@ -58,7 +58,7 @@ public class ResultController {
 
         ToDoEntity toDoEntity = todoService.findById(todo_id);
 
-        if(! userValidator.isTodoExecutor(principal.getName(), toDoEntity)) { //todo  EXECUTOR???
+        if(! userValidator.isTodoExecutor(principal.getName(), toDoEntity)) { //TODO  EXECUTOR???
             return "redirect:/schedule/results?id=" + todo_id;
         }
 
@@ -104,8 +104,6 @@ public class ResultController {
             }
             return "result";
         }
-
-        System.out.println(resultEntity);  //TODO remove
 
         //TODO проверить права
         resultService.save(resultEntity);

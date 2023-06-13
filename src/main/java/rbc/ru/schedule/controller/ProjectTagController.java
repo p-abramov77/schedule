@@ -30,7 +30,6 @@ public class ProjectTagController {
                        @PathVariable(value = "project_id") long project_id) {
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
-        System.out.println(projectEntity);
 
         model.addAttribute("project_id", project_id);
         model.addAttribute("project_name", projectEntity.getName());
@@ -49,13 +48,11 @@ public class ProjectTagController {
     public String add(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
+
         //TODO проверить права
-        System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         projectEntity.addTag(tagService.getById(tag_id));
-
-        System.out.println("After add: "+ projectEntity);
 
         projectService.save(projectEntity);
         //TODO отправить уведомление по почте
@@ -65,8 +62,8 @@ public class ProjectTagController {
     public String remove(Model model, Principal principal,
                       @PathVariable(value = "project_id") long project_id,
                       @PathVariable(value = "tag_id") long tag_id) {
+
         //TODO проверить права
-        System.out.println("project="+project_id+" tag="+tag_id);
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         projectEntity.removeTag(tagService.getById(tag_id));

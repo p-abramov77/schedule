@@ -15,7 +15,7 @@ public class TagEntity {
     private Long id;
     @Column(unique = true)
     private String name;
-    private String comment;
+
     @ManyToMany(mappedBy = "tags")
     private Set<ProjectEntity> projectEntities = new HashSet<>();
 

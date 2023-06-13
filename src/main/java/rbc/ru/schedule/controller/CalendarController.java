@@ -70,7 +70,6 @@ public class CalendarController {
             for (int w = 0; w < 5; w++) {
                 LocalDate day = d.plusDays(w * 7 + l);
                 cells[w][l] = new Cell();
-//                System.out.println(w + " " + l + ' ' + cells[w][l]);
                 cells[w][l].setDate(day);
                 cells[w][l].setList(projectService.findInDay(day, allProjectsInPeriod));
             }

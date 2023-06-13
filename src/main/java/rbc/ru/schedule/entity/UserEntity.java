@@ -19,7 +19,6 @@ import java.util.Set;
 @Table(name="users", uniqueConstraints={@UniqueConstraint(columnNames={"username"})})
 public class UserEntity implements UserDetails {
 
-    private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     private Long id;
@@ -35,6 +34,8 @@ public class UserEntity implements UserDetails {
 
     @NotBlank()
     String email;
+
+    String phone;
 
     Boolean enabled;
     Boolean maker;

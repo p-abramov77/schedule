@@ -27,16 +27,20 @@
             <label>Введите password</label>
             <input class="w3-input w3-border"  type="text" th:field="*{password}" placeholder="Введите password" value="" >
             <label class="w3-red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">password Error</label>
-        <p>
-            <label>Введите email</label>
-            <input class="w3-input w3-border"  type="email" th:field="*{email}" placeholder="Введите email" value="" >
-            <label class="w3-red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</label>
+    <p>
+        <label>Введите email</label>
+        <input class="w3-input w3-border"  type="email" th:field="*{email}" placeholder="Введите email" value="" >
+        <label class="w3-red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">email Error</label>
+    <p>
+        <label>Введите phone</label>
+        <input class="w3-input w3-border"  type="email" th:field="*{email}" placeholder="Введите phone" value="" >
+        <label class="w3-red" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">phone Error</label>
         <p>
             <input type="checkbox" th:field="*{enabled}" value="true" />
             <label th:for="*{enabled}"> Enable </label>
         <p>
             <input type="checkbox" th:field="*{maker}" value="true" />
-            <label th:for="*{maker}"> Is producer </label>
+            <label th:for="*{maker}"> Может создавать события </label>
         <p>
             <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Сохранить </button>
         <p>

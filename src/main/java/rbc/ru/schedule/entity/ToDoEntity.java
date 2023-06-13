@@ -63,11 +63,11 @@ public class ToDoEntity {
 
     public void addEquipment(EquipmentEntity equipment){
         this.equipments.add(equipment);
-        equipment.getToDoEntities().add(this);
+        equipment.getTodos().add(this);
     }
     public void removeEquipment(EquipmentEntity equipment){
         this.equipments.remove(equipment);
-        equipment.getToDoEntities().remove(this);
+        equipment.getTodos().remove(this);
     }
     @Override
     public boolean equals(Object o) {

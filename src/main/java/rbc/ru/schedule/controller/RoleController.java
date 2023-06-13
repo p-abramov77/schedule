@@ -36,19 +36,15 @@ public class RoleController {
                        @PathVariable(value = "project_id") long project_id) {
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
-        System.out.println(projectEntity);
 
         model.addAttribute("isNotLastProducer", projectService.isNotLastProducer(projectEntity));
         model.addAttribute("project_id", project_id);
         model.addAttribute("project_name", projectEntity.getName());
         model.addAttribute("roles", projectEntity.getRoleEntities());
 
-//        System.out.println("Roles "+ projectEntity.getRoleEntities());
-
         Set<UserEntity> available_users;
         if(projectEntity.getRoleEntities().size() == 0) {
             available_users = userService.getAllUsers();
-            System.out.println("All users");
         } else {
             available_users = userService.available(project_id);
         }
@@ -66,7 +62,6 @@ public class RoleController {
                       @PathVariable(value = "user_id") long user_id) {
 
         //TODO проверить права
-        System.out.println("\nADD: project="+project_id+" user="+user_id +" producer = "+isProducer);
 
         ProjectEntity projectEntity = projectService.getById(project_id, principal.getName());
         UserEntity user = userService.getById(user_id);
@@ -92,8 +87,6 @@ public class RoleController {
         //Не удалять себя из списка заказчиков (продюсеров)
         if(user_id == userService.findUserByUsername(principal.getName()).getId())
             return "redirect:/schedule/projectRoles/" + project_id;
-
-        System.out.println("\nRemove:    project="+project_id+" user="+user_id);
 
         roleService.removeByProjectAndUser(project_id, user_id);
         //TODO отправить уведомление по почте

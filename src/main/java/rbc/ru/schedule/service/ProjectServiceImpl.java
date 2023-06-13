@@ -109,7 +109,6 @@ public class ProjectServiceImpl implements ProjectService{
         for(RoleEntity role : project.getRoleEntities()) {
             if(role.isProducer()) countOfProduccers++;
         }
-        System.out.println(countOfProduccers > 1);
         return countOfProduccers > 1;
     }
 

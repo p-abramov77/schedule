@@ -39,6 +39,13 @@
                 <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newGroup'}" > Добавить </a>
 
             </th>
+
+            <th>
+                Пользователи
+
+
+            </th>
+
         </tr>
         </thead>
         <tbody>
@@ -46,6 +53,13 @@
             <td >
                 <span th:text="${group.name}"></span>
                 <a th:href="@{/schedule/editGroup/{id}(id=${group.id})}" class="w3-btn w3-green w3-border w3-round-large w3-right">Изменить</a>
+            </td>
+            <td >
+                <menu>
+                    <li th:each="user : ${group.users}">
+                        <span  th:text="${user.username}" >user name</span>
+                    </li>
+                </menu>
             </td>
         </tr>
         </tbody>

@@ -55,6 +55,15 @@
             <td th:text="${user.maker}     ? 'Да' : '' "></td>
             <td>
                 <a th:if="${isAdmin}" th:href="@{/schedule/userGroups/{id}(id=${user.id})}" class="w3-btn w3-green w3-border w3-round-large ">Группы</a>
+
+                <menu>
+                    <li th:each="group : ${user.groups}">
+                        <span  th:text="${group.name}" >group name</span>
+                    </li>
+                </menu>
+
+                <span th:if="${user.groups.size} == 0" th:text="'Группы не заданы. Задайте их.'" class="w3-red w3-bold"> </span>
+
             </td>
             <td th:text="${!user.enabled}  ? 'Да' : '' "></td>
         </tr>

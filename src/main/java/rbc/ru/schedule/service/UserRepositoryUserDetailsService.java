@@ -22,7 +22,7 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username)
             throws UsernameNotFoundException {
-        UserEntity user = userRepo.findByUsername(username);
+        UserEntity user = userRepo.findByUsernameOrderByUsername(username);
         if (user != null) {
             return user;
         }

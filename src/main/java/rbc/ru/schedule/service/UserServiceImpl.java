@@ -25,7 +25,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserEntity findUserByUsername(String username) {
-        return userRepo.findByUsername(username);
+        return userRepo.findByUsernameOrderByUsername(username);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<UserEntity> listUsers(String name) {
 
-        return userRepo.findByUsernameStartingWith(name)
+        return userRepo.findByUsernameStartingWithOrderByUsername(name)
                         .stream()
                         .filter(u -> !u.getUsername().equals(UserValidator.login))
                         .collect(Collectors.toSet());
@@ -56,7 +56,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public Set<UserEntity> getAllUsers() {
 
-        return userRepo.findByUsernameStartingWith("")
+        return userRepo.findByUsernameStartingWithOrderByUsername("")
                 .stream()
                 .filter(u -> !u.getUsername().equals(UserValidator.login))
                 .collect(Collectors.toSet());

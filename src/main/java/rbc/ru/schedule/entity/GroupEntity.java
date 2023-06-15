@@ -22,5 +22,24 @@ public class GroupEntity {
     @ManyToMany(mappedBy = "groups")
     private Set<UserEntity> users = new HashSet<>();
 
-    //TODO add & remove to user_group
+    @Override
+    public String toString() {
+        return "GroupEntity{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (!(o instanceof GroupEntity)) return false;
+        return id != null && id.equals(((GroupEntity) o).getId());
+    }
+    @Override
+    public int hashCode() {
+        return 31;
+    }
+
 }

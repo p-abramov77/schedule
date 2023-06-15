@@ -65,7 +65,7 @@ public class ProjectServiceImpl implements ProjectService{
     public Boolean isProducer(ProjectEntity project, String principal) {
         if(principal.equals(UserValidator.login)) return true; // superuser
 
-        Long principal_id = userRepo.findByUsername(principal).getId();
+        Long principal_id = userRepo.findByUsernameOrderByUsername(principal).getId();
         for(RoleEntity role : project.getRoleEntities()) {
             if(principal_id == role.getUser().getId() && role.isProducer()) return true;
         }
@@ -76,7 +76,7 @@ public class ProjectServiceImpl implements ProjectService{
     @Override
     public Set<ProjectEntity> getByUsername(String username, LocalDateTime start, LocalDateTime stop, String principal) {
 
-        Set<ProjectEntity> projectEntities = projectRepo.findByUser(userRepo.findByUsername(username).getId(), start, stop);
+        Set<ProjectEntity> projectEntities = projectRepo.findByUser(userRepo.findByUsernameOrderByUsername(username).getId(), start, stop);
 
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));

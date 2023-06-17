@@ -9,6 +9,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import rbc.ru.schedule.entity.ToDoEntity;
 import rbc.ru.schedule.entity.UserEntity;
+import rbc.ru.schedule.repository.ToDoRepo;
 import rbc.ru.schedule.service.ProjectServiceImpl;
 import rbc.ru.schedule.service.ToDoServiceImpl;
 import rbc.ru.schedule.service.UserServiceImpl;
@@ -126,7 +127,11 @@ public class ToDoController {
 
         UserEntity me = userService.findUserByUsername(principal.getName());
 
-        model.addAttribute("me", me);
+        Set<ToDoEntity> toDoEntities = toDoService.findAllByUserId(me.getId());
+
+        model.addAttribute("list", toDoEntities);
+
+        model.addAttribute("user_id", me.getId());
 
         return "myToDos";
     }

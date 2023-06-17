@@ -11,4 +11,7 @@ public interface ToDoRepo extends JpaRepository<ToDoEntity, Long> {
     @Query(value = "select * from todos where project_id = :project_id order by start", nativeQuery = true)
     Set<ToDoEntity> findAllByProjectIdOrderByStart(Long project_id);
 
+    @Query(value = "select * from todos where producer_id = :user_id or executor_id = :user_id order by start", nativeQuery = true)
+    Set<ToDoEntity> findAllByUserId(Long user_id);
+
 }

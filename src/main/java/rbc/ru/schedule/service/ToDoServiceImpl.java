@@ -36,4 +36,9 @@ public class ToDoServiceImpl implements ToDoService{
     public boolean isPeriod(ToDoEntity toDoEntity) {
         return toDoEntity.getStart().isBefore(toDoEntity.getStop().plusMinutes(1L));
     }
+
+    @Override
+    public Set<ToDoEntity> findAllByUserId(Long user_id) {
+        return toDoRepo.findAllByUserId(user_id);
+    }
 }

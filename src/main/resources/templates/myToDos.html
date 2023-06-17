@@ -16,9 +16,67 @@
     <p>
 
     <div class="w3-container rbc-dark">
-        <h1 th:text="'Задачи для ' + ${me.username}"></h1>
+        <h1 th:text="'Задачи для ' + ${userName}"></h1>
     </div>
-</div>
 
+    <p>
+
+    <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
+        <thead>
+        <tr>
+            <th>Задачи</th>
+            <th>Результаты выполнения</th>
+            <th>Оборудование</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="todo : ${list}">
+            <td>
+                <span  th:text="${#temporals.format(todo.start, 'dd-MM-yyyy HH:mm')}"></span>
+                <b><span  th:text="${todo.content}"></span></b>
+                <p>
+                    <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
+                <p>
+                    <span  th:text="'Заказчик: ' + ${todo.producer.username} + ' Исполнитель: '+ ${todo.executor.username}"></span>
+
+                    <!-- //TODO producer of this todo -->
+                    <a th:if="${todo.producer.id} == ${user_id}" th:href="@{/schedule/todoEdit?id={id}(id=${todo.id})}" class="w3-btn w3-green w3-border w3-round-large ">Изменить</a>
+
+                    <a th:href="@{/schedule/comments?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Комментарии</a>
+
+            </td>
+            <td>
+                <a th:href="@{/schedule/results?todo_id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Результаты</a>
+
+                <p>
+                <menu>
+                    <li th:each="result : ${todo.results}">
+                        <a  th:if="${result.url.length} > 0" th:text="${result.content}" th:href="${result.url}"></a>
+                        <span  th:unless="${result.url.length} > 0" th:text="${result.content} "></span>
+                        <span class ="w3-green w3-bold" th:if="${result.approved}" th:text="'Подтвержден'"></span>
+                        <span class ="w3-red w3-bold" th:unless="${result.approved}" th:text="'Не подтвержден' "></span>
+
+                    </li>
+                </menu>
+
+
+
+            </td>
+            <td>
+                <a th:if="${todo.producer.id} == ${user_id}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>
+                <p>
+                <menu>
+                    <li th:each="equip : ${todo.equipments}">
+                        <span  th:text="${equip.name}"></span>
+                    </li>
+                </menu>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+
+
+</div>
 </body>
 </html>

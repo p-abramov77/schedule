@@ -18,14 +18,39 @@
     <h1>Календарь событий</h1>
   </div>
 
+
+
+    <form action="#" th:action="@{/schedule/monthParam}" th:object="${filterParam}" method="POST">
+        <input th:field="*{date}" value="${date}" hidden="true">
+        <p>
+        <input id="oneGroup" type="checkbox" th:field="*{oneGroup}" />
+        <label th:for="*{oneGroup}"> Показать события для группы </label>
+
+<!--        <p>-->
+            <label for="group">Группа : </label>
+            <select id="group" th:field="*{group}">
+                <option th:each="group: ${groups}"
+                        th:value=" ${group.id}"
+                        th:utext=" ${group.name}">
+                </option>
+            </select>
+        <p>
+            <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Найти </button>
+        <p>
+    </form>
+
+
+
+
+
   <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
     <thead>
     <tr>
       <th colspan="7">
         <p align="center">
-          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/minusMonth?dateString={date}(date=${date})}">-</a>
-          <label class="w3-bold " th:text="${#temporals.format(date, 'MM-yyyy')}" ></label>
-          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/plusMonth?dateString={date}(date=${date})}">+</a>
+          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/minusMonth?dateString={date}(date=${filterParam.date})}">-</a>
+          <label class="w3-bold " th:text="${#temporals.format(filterParam.date, 'MM-yyyy')}" ></label>
+          <a class="w3-btn rbc-dark w3-circle" th:href="@{/schedule/plusMonth?dateString={date}(date=${filterParam.date})}">+</a>
         </p>
       </th>
     </tr>

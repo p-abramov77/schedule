@@ -24,10 +24,10 @@
     <input type="hidden" th:field="*{dateTime}" />
     <input type="hidden" th:field="*{producer}" />
     <p>
-      <span th:text="'Producer: '+ *{producer.username}"></span>
+      <span th:text="'Заказчик : '+ *{producer.username}"></span>
 
 
-  <p>
+    <p>
       <label for="executor">Укажите исполнителя : </label>
       <select id="executor" th:field="*{executor}">
         <option th:each="user: ${users}"

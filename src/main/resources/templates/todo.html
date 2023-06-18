@@ -28,7 +28,7 @@
 
 
   <p>
-      <label for="executor">Choose a executor:</label>
+      <label for="executor">Укажите исполнителя : </label>
       <select id="executor" th:field="*{executor}">
         <option th:each="user: ${users}"
                 th:value=" ${user.id}"

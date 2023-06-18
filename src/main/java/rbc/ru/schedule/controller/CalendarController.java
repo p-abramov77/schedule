@@ -62,14 +62,14 @@ public class CalendarController {
 
         LocalDateTime start = d.atStartOfDay();
         LocalDateTime stop = d.plusDays(7*5).atStartOfDay();
-        Cell [][] cells = new Cell[5][7];
+        CellDTO [][] cells = new CellDTO[5][7];
 
         Set<ProjectEntity> allProjectsInPeriod = projectService.findInPeriod(start, stop);
 
         for (int l = 0; l < 7; l++) {
             for (int w = 0; w < 5; w++) {
                 LocalDate day = d.plusDays(w * 7 + l);
-                cells[w][l] = new Cell();
+                cells[w][l] = new CellDTO();
                 cells[w][l].setDate(day);
                 cells[w][l].setList(projectService.findInDay(day, allProjectsInPeriod));
             }
@@ -85,10 +85,10 @@ public class CalendarController {
 }
 
 @Data
-class Cell {
+class CellDTO {
     LocalDate date;
     Set<ProjectEntity> list;
-    public Cell() {
+    public CellDTO() {
         this.list= new HashSet<>();
     }
 }

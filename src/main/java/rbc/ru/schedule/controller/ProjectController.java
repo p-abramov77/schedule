@@ -66,6 +66,7 @@ public class ProjectController {
 
         else
             message  = "Имя события начинается с : " + name;
+
         String nameForRedirect;
         try {
              nameForRedirect = URLEncoder.encode(name, "UTF-8");
@@ -81,21 +82,10 @@ public class ProjectController {
         } catch (DateTimeParseException e) {
             startDate = LocalDate.now();
             stopDate = LocalDate.now().plusDays(maxLengthOfPeriod);
-            message = "Фильтр: с " + startDate + " по " + stopDate + "; " + message;
-            model.addAttribute("start", startDate);
-            model.addAttribute("stop", stopDate);
             return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
         }
-        if(startDate.isAfter(stopDate)) {
-            stopDate = startDate;
-            model.addAttribute("start", startDate);
-            model.addAttribute("stop", stopDate);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
-        }
-        if(startDate.until(stopDate, ChronoUnit.DAYS) > maxLengthOfPeriod) {
+        if(startDate.until(stopDate, ChronoUnit.DAYS) > maxLengthOfPeriod || startDate.isAfter(stopDate)) {
             stopDate = startDate.plusDays(maxLengthOfPeriod);
-            model.addAttribute("start", startDate);
-            model.addAttribute("stop", stopDate);
             return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
         }
 

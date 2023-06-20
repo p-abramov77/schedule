@@ -36,7 +36,7 @@ public class ProjectServiceImpl implements ProjectService{
         ProjectEntity project = projectRepo.save(projectEntity);
         return project.getId();
     }
-    private Set<ProjectEntity> sortingTODO(Set<ProjectEntity> projectEntities) {
+    private Set<ProjectEntity> sorting(Set<ProjectEntity> projectEntities) {
         for(ProjectEntity project : projectEntities) {
             project.setTodos(
                     project.getTodos().stream()
@@ -46,7 +46,23 @@ public class ProjectServiceImpl implements ProjectService{
                                     return o1.getStart().compareTo(o2.getStart());
                                 }
                             })
-                            .collect(Collectors.toSet()));
+                            .collect(Collectors.toSet())
+            );
+//            project.setRoleEntities(
+//                    project.getRoleEntities().stream()
+//                            .sorted(new Comparator<RoleEntity>() {
+//                                @Override
+//                                public int compare(RoleEntity o1, RoleEntity o2) {
+////                                    if(o1.isProducer() && !o2.isProducer()) {
+////                                        return 1;
+////                                    } else if (! o1.isProducer() && o2.isProducer()) {
+////                                        return -1;
+////                                    }
+//                                    return (o1.getUser().getUsername()).compareTo(o2.getUser().getUsername());
+//                                }
+//                            })
+//                            .collect(Collectors.toSet())
+//            );
         }
         return projectEntities;
     }
@@ -57,7 +73,7 @@ public class ProjectServiceImpl implements ProjectService{
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));
         }
-        projectEntities = sortingTODO(projectEntities);
+        projectEntities = sorting(projectEntities);
 
         return projectEntities;
     }

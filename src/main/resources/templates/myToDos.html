@@ -16,7 +16,7 @@
     <p>
 
     <div class="w3-container rbc-dark">
-        <h1 th:text="'Задачи для ' + ${userName}"></h1>
+        <h1 th:text="'Задачи пользователя : ' + ${userName}"></h1>
     </div>
 
     <p>
@@ -26,7 +26,7 @@
         <tr>
             <th>Задачи</th>
             <th>Результаты выполнения</th>
-            <th>Оборудование</th>
+            <th>Событие</th>
         </tr>
         </thead>
         <tbody>
@@ -63,13 +63,7 @@
 
             </td>
             <td>
-                <a th:if="${todo.producer.id} == ${user_id}" th:href="@{/schedule/todoEquipment?id={id}(id=${todo.id})}" class="w3-btn w3-yellow w3-border w3-round-large ">Изменить список оборудования</a>
-                <p>
-                <menu>
-                    <li th:each="equip : ${todo.equipments}">
-                        <span  th:text="${equip.name}"></span>
-                    </li>
-                </menu>
+                <a  th:href="@{/schedule/projects?name={name}&start={start}&stop={start}(name=${todo.project.name}, start=${todo.project.start})}" th:text="${todo.project.name}"></a>
             </td>
         </tr>
         </tbody>

@@ -36,14 +36,12 @@
         <tr>
             <th>
                 Группа
-                <a class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newGroup'}" > Добавить </a>
+                <a th:if="${isAdmin}" class="w3-btn w3-teal w3-border w3-round-large" th:href="@{'/schedule/newGroup'}" > Добавить </a>
 
             </th>
 
             <th>
                 Пользователи
-
-
             </th>
 
         </tr>
@@ -52,7 +50,7 @@
         <tr th:each="group : ${list}">
             <td >
                 <span th:text="${group.name}"></span>
-                <a th:href="@{/schedule/editGroup/{id}(id=${group.id})}" class="w3-btn w3-green w3-border w3-round-large w3-right">Изменить</a>
+                <a th:if="${isAdmin}" th:href="@{/schedule/editGroup/{id}(id=${group.id})}" class="w3-btn w3-green w3-border w3-round-large w3-right">Изменить</a>
             </td>
             <td >
                 <menu>

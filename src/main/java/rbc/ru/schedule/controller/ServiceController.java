@@ -23,5 +23,4 @@ public class ServiceController {
         // TODO уведомление всех пользователей о задачах (вызывается снаружи заданием для системы Cron)
         return "notifying";
     }
-
 }

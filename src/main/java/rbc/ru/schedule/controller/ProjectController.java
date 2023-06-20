@@ -66,6 +66,12 @@ public class ProjectController {
 
         else
             message  = "Имя события начинается с : " + name;
+        String nameForRedirect;
+        try {
+             nameForRedirect = URLEncoder.encode(name, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            nameForRedirect = "";
+        }
 
         LocalDate startDate, stopDate;
 
@@ -73,24 +79,25 @@ public class ProjectController {
             startDate = LocalDate.parse(startString);
             stopDate = LocalDate.parse(stopString);
         } catch (DateTimeParseException e) {
+            System.out.println("Error convert date");
             startDate = LocalDate.now();
             stopDate = LocalDate.now().plusDays(maxLengthOfPeriod);
             message = "Фильтр: с " + startDate + " по " + stopDate + "; " + message;
             model.addAttribute("start", startDate);
             model.addAttribute("stop", stopDate);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
         }
         if(startDate.isAfter(stopDate)) {
             stopDate = startDate;
             model.addAttribute("start", startDate);
             model.addAttribute("stop", stopDate);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
         }
         if(startDate.until(stopDate, ChronoUnit.DAYS) > maxLengthOfPeriod) {
             stopDate = startDate.plusDays(maxLengthOfPeriod);
             model.addAttribute("start", startDate);
             model.addAttribute("stop", stopDate);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate;
+            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
         }
 
         model.addAttribute("start", startDate);

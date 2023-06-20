@@ -79,7 +79,6 @@ public class ProjectController {
             startDate = LocalDate.parse(startString);
             stopDate = LocalDate.parse(stopString);
         } catch (DateTimeParseException e) {
-            System.out.println("Error convert date");
             startDate = LocalDate.now();
             stopDate = LocalDate.now().plusDays(maxLengthOfPeriod);
             message = "Фильтр: с " + startDate + " по " + stopDate + "; " + message;

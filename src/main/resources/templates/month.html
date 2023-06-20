@@ -20,7 +20,7 @@
 
 
 
-    <form action="#" th:action="@{/schedule/monthParam}" th:object="${filterParam}" method="POST">
+        <form  action="#" th:action="@{/schedule/monthParam}" th:object="${filterParam}" method="POST">
         <input th:field="*{date}" value="${date}" hidden="true">
         <p>
         <input id="oneGroup" type="checkbox" th:field="*{oneGroup}" />
@@ -35,10 +35,9 @@
                 </option>
             </select>
         <p>
-            <button class="w3-btn w3-indigo w3-border w3-round-large" type="submit"> Найти </button>
+            <button class="w3-btn rbc-dark w3-border w3-round-large" type="submit"> Найти </button>
         <p>
     </form>
-
 
 
 

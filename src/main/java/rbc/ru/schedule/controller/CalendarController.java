@@ -57,10 +57,12 @@ public class CalendarController {
             group_id = 1L;
         }
 
-        if (oneGroup)
+        if (oneGroup) {
             filterParam.setGroup(groupService.getById(group_id));
-        else
+        }
+        else {
             filterParam.setGroup(groupService.getById(1L));
+        }
 
         filterParam.setDate(date);
 
@@ -72,7 +74,7 @@ public class CalendarController {
         LocalDateTime stop = d.plusDays(7 * 5).atStartOfDay();
         CellDTO[][] cells = new CellDTO[5][7];
 
-        Set<ProjectEntity> projectsInPeriod = projectService.findInPeriod(start, stop); //TODO add filter by group
+        Set<ProjectEntity> projectsInPeriod = projectService.findInPeriod(start, stop, oneGroup, group_id);
 
         for (int l = 0; l < 7; l++) {
             for (int w = 0; w < 5; w++) {

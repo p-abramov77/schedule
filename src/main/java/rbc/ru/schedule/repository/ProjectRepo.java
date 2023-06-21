@@ -26,5 +26,11 @@ public interface ProjectRepo extends JpaRepository<ProjectEntity, Long> {
     @Query(
             value="select * from project where ( not (stop < :start or :stop < start) ) order by start",
             nativeQuery = true)
-    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop); //TODO добавить группы
+    Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop);
+    @Query(
+            value="select * from project where ( not (stop < :start or :stop < start) ) " +
+                    "and id in " +
+                    "(select distinct project_id from roles where user_id in (select user_id from user_group where group_id = :group_id)) order by start",
+            nativeQuery = true)
+    Set<ProjectEntity> findInPeriodByGroup(LocalDateTime start, LocalDateTime stop, Long group_id);
 }

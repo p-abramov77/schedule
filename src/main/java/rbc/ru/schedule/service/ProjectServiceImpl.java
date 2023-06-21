@@ -101,7 +101,11 @@ public class ProjectServiceImpl implements ProjectService{
     }
 
     @Override
-    public Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop) {
+    public Set<ProjectEntity> findInPeriod(LocalDateTime start, LocalDateTime stop, boolean oneGroup, Long group_id) {
+        if(oneGroup) {
+            return projectRepo.findInPeriodByGroup(start, stop, group_id);
+        }
+
         return projectRepo.findInPeriod(start, stop);
     }
 

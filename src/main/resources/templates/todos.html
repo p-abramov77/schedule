@@ -37,7 +37,9 @@
                 <span  th:text="${#temporals.format(todo.start, 'dd-MM-yyyy HH:mm')}"></span>
                 <b><span  th:text="${todo.content}"></span></b>
                 <p>
-                <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
+                    <span  class="w3-text-grey w3-right" th:text="'(Изменено '+${#temporals.format(todo.dateTime, 'dd-MM-yyyy HH:mm')}+')'"></span>
+
+                    <span  th:text="${#temporals.format(todo.stop, 'dd-MM-yyyy  HH:mm')}"></span>
                 <p>
                 <span  th:text="'Заказчик: ' + ${todo.producer.username} + ' Исполнитель: '+ ${todo.executor.username}"></span>
 

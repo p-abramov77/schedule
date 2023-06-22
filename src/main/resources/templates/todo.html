@@ -11,7 +11,7 @@
 <body>
 <div class="w3-container">
   <div class="w3-container rbc-dark">
-    <h1>Задание</h1>
+    <h1 th:text=" 'Задание для события : ' + *{todo.project.name}"></h1>
   </div>
   <p>
     <label class="w3-red" th:if="${errorMessage}" th:text="${errorMessage}"></label>
@@ -19,10 +19,11 @@
   <form class="w3-container w3-border w3-border-cyan" action="#" th:action="@{/schedule/saveTODO}" th:object="${todo}" method="POST">
     <input type="hidden" th:field="*{id}" />
     <input type="hidden" th:field="*{equipments}" />
-    <!--    <input type="hidden" th:field="*{results}" />-->
     <input type="hidden" th:field="*{project}" />
     <input type="hidden" th:field="*{dateTime}" />
     <input type="hidden" th:field="*{producer}" />
+
+    <label class="w3-text-grey" th:text=" 'Интервал события с ' + *{project.start} + ' по ' + *{project.stop}"> </label>
     <p>
       <span th:text="'Заказчик : '+ *{producer.username}"></span>
 

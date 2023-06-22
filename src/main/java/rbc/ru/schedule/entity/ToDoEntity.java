@@ -6,6 +6,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -79,5 +80,13 @@ public class ToDoEntity {
     @Override
     public int hashCode() {
         return 31;
+    }
+    private boolean checkIn(LocalDateTime dateTime) {
+        return dateTime.isAfter(project.getStart().atStartOfDay())
+                &&
+               dateTime.isBefore(project.getStop().plusDays(1L).atStartOfDay());
+    }
+    public boolean checkBoundaries() {
+        return checkIn(start) && checkIn(stop);
     }
 }

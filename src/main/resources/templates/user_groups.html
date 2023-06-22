@@ -46,6 +46,9 @@
                 <thead>
                 </thead>
                 <tbody>
+                <tr th:if="${groups.size} == 0" >
+                    <td><span class="w3-red">У пользователя должна быть задана хотя бы одна группа. Добавьте. </span></td>
+                </tr>
                 <tr th:each="group : ${groups}">
                     <td th:text="${group.name}"></td>
                     <td><a th:href="@{/schedule/userGroups/remove/{user_id}/{id}(user_id=${user_id},id=${group.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>

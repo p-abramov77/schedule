@@ -28,7 +28,8 @@ public class UserController {
     @Autowired
     UserValidator userValidator;
     @GetMapping("users")
-    public String list(Model model, Principal principal,
+    public String list(Model model,
+                       Principal principal,
                        @RequestParam(defaultValue = "") String name) {
         Set<UserEntity> list = userService.listUsers(name);
 
@@ -58,6 +59,11 @@ public class UserController {
             return "user";
         }
         //TODO отправить уведомление по почте
+
+        if(userEntity.getGroups().size() == 0) {
+            return "redirect:/schedule/userGroups/" + userEntity.getId();
+        }
+
         try {
             return "redirect:/schedule/users?name=" + URLEncoder.encode(userEntity.getUsername(), "UTF-8");
         } catch (UnsupportedEncodingException e) {

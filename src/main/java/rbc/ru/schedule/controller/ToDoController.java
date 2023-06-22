@@ -99,6 +99,13 @@ public class ToDoController {
         //set the time of last change
         toDoEntity.setDateTime(LocalDateTime.now());
 
+        // проверка интервала на вхождение в интервал события (project.start, project.stop)
+
+        if (!toDoEntity.checkBoundaries()) {
+            model.addAttribute("errorMessage", "Период задания выходит за период события");
+            return "todo";
+        }
+
         if (!toDoService.isPeriod(toDoEntity)) {
             model.addAttribute("errorMessage", "Начало периода превышает конец периода");
             return "todo";

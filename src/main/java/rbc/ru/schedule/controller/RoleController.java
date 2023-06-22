@@ -41,6 +41,7 @@ public class RoleController {
         model.addAttribute("project_id", project_id);
         model.addAttribute("project_name", projectEntity.getName());
         model.addAttribute("roles", projectEntity.getRoleEntities());
+        model.addAttribute("countOfExecutors", roleService.countOfExecutors(project_id));
 
         Set<UserEntity> available_users;
         if(projectEntity.getRoleEntities().size() == 0) {

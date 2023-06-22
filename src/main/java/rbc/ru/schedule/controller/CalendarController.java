@@ -47,7 +47,7 @@ public class CalendarController {
         }
 
         Boolean oneGroup = Boolean.parseBoolean(justOneGroup); // return "false" when can't parse
-        FilterParamDTO filterParam = new FilterParamDTO();
+        CalendarFilterParamDTO filterParam = new CalendarFilterParamDTO();
         filterParam.setOneGroup(oneGroup);
 
         Long group_id;
@@ -97,7 +97,7 @@ public class CalendarController {
 
     @PostMapping("monthParam")
     public String param(Model model,
-                        @ModelAttribute("filterParam") FilterParamDTO filterParam) {
+                        @ModelAttribute("filterParam") CalendarFilterParamDTO filterParam) {
 
         if (filterParam.getOneGroup()) {
             return "redirect:/schedule/month?dateString=" + filterParam.getDate().toString() + "&oneGroup=true&group_id=" + filterParam.getGroup().getId();
@@ -133,7 +133,7 @@ class CellDTO {
 }
 
 @Data
-class FilterParamDTO {
+class CalendarFilterParamDTO {
     LocalDate date;
     Boolean oneGroup;
     GroupEntity group;

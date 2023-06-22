@@ -65,8 +65,8 @@ public class ToDoController {
 
         Set<UserEntity> users = userService.getAllExecutorsOfProject(project_id);
 
-        if(users.size() == 0) //TODO сообщить об отсутствии исполнителей
-            return "redirect:/schedule/todos?id=" + toDoEntity.getProject().getId();
+        if(users.size() == 0) // сообщить об отсутствии исполнителей
+            return "redirect:/schedule/projectRoles/" + toDoEntity.getProject().getId();
 
         model.addAttribute("users", users);
         model.addAttribute("todo", toDoEntity);

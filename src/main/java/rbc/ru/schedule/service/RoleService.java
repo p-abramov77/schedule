@@ -7,4 +7,5 @@ import rbc.ru.schedule.entity.RoleEntity;
 public interface RoleService {
     public void save(RoleEntity roleEntity);
     public void removeByProjectAndUser(Long project_id, Long user_id);
+    public long countOfExecutors(Long project_id);
 }

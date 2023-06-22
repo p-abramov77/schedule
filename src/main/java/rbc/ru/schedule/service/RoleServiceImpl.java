@@ -19,4 +19,9 @@ public class RoleServiceImpl implements RoleService {
     public void removeByProjectAndUser(Long project_id, Long user_id) {
         roleRepo.removeByProjectAndUser(project_id, user_id);
     }
+
+    @Override
+    public long countOfExecutors(Long project_id) {
+        return roleRepo.countOfExecutors(project_id);
+    }
 }

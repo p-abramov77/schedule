@@ -26,7 +26,6 @@
         <input id="oneGroup" type="checkbox" th:field="*{oneGroup}" />
         <label th:for="*{oneGroup}"> Показать события для группы </label>
 
-<!--        <p>-->
             <label for="group">Группа : </label>
             <select id="group" th:field="*{group}">
                 <option th:each="group: ${groups}"

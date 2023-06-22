@@ -51,7 +51,7 @@
                     <td th:text="${role.user.username}"></td>
                     <td>
                         <a  th:if="${isNotLastProducer}" th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a>
-                        <a  th:if="${!isNotLastProducer}" class="w3-btn w3-gray w3-border w3-round-large">Удалить</a>
+                        <a  th:unless="${isNotLastProducer}" class="w3-btn w3-gray w3-border w3-round-large">Удалить</a>
                     </td>
                 </tr>
                 </tbody>
@@ -63,9 +63,15 @@
                 <thead>
                 </thead>
                 <tbody>
+                <tr th:if="${countOfExecutors} == 0">
+                    <td class="w3-red">Добавьте хотя бы одного исполнителя!</td>
+                </tr>
                 <tr th:each="role : ${roles}" th:if="${!role.producer}">
                     <td  th:text="${role.user.username}"></td>
-                    <td><a th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a></td>
+                    <td>
+                        <a th:if="${countOfExecutors} > 1" th:href="@{/schedule/projectRoles/remove/{project_id}/{id}(project_id=${project_id},id=${role.user.id})}" class="w3-btn w3-red w3-border w3-round-large">Удалить</a>
+                        <a  th:unless="${countOfExecutors} > 1" class="w3-btn w3-gray w3-border w3-round-large">Удалить</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

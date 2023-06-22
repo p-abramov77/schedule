@@ -67,8 +67,13 @@ public class ProjectServiceImpl implements ProjectService{
         return projectEntities;
     }
     @Override
-    public Set<ProjectEntity> getByName(String name, LocalDateTime start, LocalDateTime stop, String principal) {
-        Set<ProjectEntity> projectEntities =  projectRepo.findAllByNameOrderByStart(name, start, stop);
+    public Set<ProjectEntity> getByName(String name, LocalDateTime start, LocalDateTime stop, boolean oneGroup, Long group_id, String principal) {
+        Set<ProjectEntity> projectEntities;
+        if(oneGroup) {
+            projectEntities = projectRepo.findAllByNameByGroupOrderByStart(name, start, stop, group_id);
+        } else {
+            projectEntities = projectRepo.findAllByNameOrderByStart(name, start, stop);
+        }
 
         for(ProjectEntity project : projectEntities) {
             project.setProducer(isProducer(project, principal));

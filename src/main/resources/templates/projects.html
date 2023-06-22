@@ -17,55 +17,47 @@
   </div>
   <p>
 
-<!--  <form  action="#" th:action="@{/schedule/monthParam}" th:object="${filterParam}" method="POST">-->
-<!--    <input th:field="*{date}" value="${date}" hidden="true">-->
-<!--    <p>-->
-<!--      <input id="oneGroup" type="checkbox" th:field="*{oneGroup}" />-->
-<!--      <label th:for="*{oneGroup}"> Показать события для группы </label>-->
+  <form  action="#" th:action="@{/schedule/projectParam}" th:object="${filterParam}" method="POST">
 
-<!--      &lt;!&ndash;        <p>&ndash;&gt;-->
-<!--      <label for="group">Группа : </label>-->
-<!--      <select id="group" th:field="*{group}">-->
-<!--        <option th:each="group: ${groups}"-->
-<!--                th:value=" ${group.id}"-->
-<!--                th:utext=" ${group.name}">-->
-<!--        </option>-->
-<!--      </select>-->
-<!--    <p>-->
-<!--      <button class="w3-btn rbc-dark w3-border w3-round-large" type="submit"> Найти </button>-->
-<!--    <p>-->
-<!--  </form>-->
+<!--  <input class="w3-input w3-border"  type="text" th:field="*{name}" placeholder="Введите группу" value="" autofocus>-->
+
+      <label for="start">Начало интервала поиска </label>
+      <input type="date" id="start" th:field="*{start}" >
+      <p>
+      <label for="stop">Конец интервала поиска </label>
+      <input type="date" id="stop" th:field="*{stop}" >
+      <p>
+
+      <label for="name">Введите сюда часть имени (если не заполнено, ищутся все имеющиеся)</label>
+      <input type="text" id="name" th:field="*{name}" autofocus >
+
+      <p>
+      <input id="oneGroup" type="checkbox" th:field="*{oneGroup}" />
+      <label th:for="*{oneGroup}"> Показать события для </label>
+
+      <label for="group">группы : </label>
+      <select id="group" th:field="*{group}">
+        <option th:each="group: ${groups}"
+                th:value=" ${group.id}"
+                th:utext=" ${group.name}">
+        </option>
+      </select>
+      <p>
+        <button class="w3-btn rbc-dark w3-border w3-round-large" type="submit"> Найти </button>
+        <a class="w3-btn w3-border w3-round-large w3-red" th:text="'Стереть фильтр'" th:href="@{/schedule/projects?start={start}&stop={stop}(start=*{start}, stop=*{stop})}" ></a>
+      <p>
+  </form>
+
+
+
+  <div th:if="${message} != '' " >
+    <h3 class="rbc-light w3-bold" th:text="${message}" ></h3>
+  </div>
+  <p>
 
 
   <table border="1" class = "w3-table-all w3-bordered w3-striped w3-border test w3-hoverable">
     <thead>
-    <tr>
-      <label>Начало интервала поиска </label>
-      <input type="date" id="start" name="start" th:attr="value=${start}"  >
-      <p>
-      <label>Конец интервала поиска </label>
-      <input type="date" id="stop" name="stop" th:attr="value=${stop}" >
-      <p>
-
-      <input type="text" id="name" name="name" th:attr="value=${name}" placeholder="Введите сюда часть имени (если не заполнено, ищутся все имеющиеся)" class="w3-input w3-border" >
-
-      <button id="button" class="w3-btn w3-border w3-round-large w3-yellow"> Нажмите сюда для поиска </button>
-      <script>
-                          button.onclick = function() {
-                             window.location.href = "?name=" + document.getElementById("name").value
-                                                  + "&start=" + document.getElementById("start").value
-                                                  + "&stop=" + document.getElementById("stop").value;
-                          };
-      </script>
-
-      <a class="w3-btn w3-border w3-round-large w3-red" th:text="'Стереть фильтр'" th:href="@{/schedule/projects?start={start}&stop={stop}(start=${start}, stop=${stop})}" ></a>
-
-      <div th:if="${message} != '' " >
-          <h3 class="rbc-light w3-bold" th:text="${message}" ></h3>
-      </div>
-      <p>
-
-    </tr>
     <tr>
       <th>
           <span th:text="Событие  "> </span>
@@ -105,7 +97,7 @@
         <br>
         <menu>
           <li th:each="tag : ${project.tags}">
-            <a  th:text="${tag.name}" th:href="@{/schedule/projects?tag={id}&start={start}&stop={stop}(id=${tag.id}, start=${start}, stop=${stop})}">tag name</a>
+            <a  th:text="${tag.name}" th:href="@{/schedule/projects?tag={id}&start={start}&stop={stop}(id=${tag.id}, start=${filterParam.start}, stop=${filterParam.stop})}">tag name</a>
           </li>
         </menu>
       </td>
@@ -114,8 +106,8 @@
         <br>
         <menu>
           <li th:each="role : ${project.roleEntities}">
-            <b><a th:if="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${start}, stop=${stop})}">user name</a></b>
-            <a th:unless="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${start}, stop=${stop})}">user name</a>
+            <b><a th:if="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${filterParam.start}, stop=${filterParam.stop})}">user name</a></b>
+            <a th:unless="${role.producer}"  th:text="${role.user.username}" th:href="@{/schedule/projects?user={name}&start={start}&stop={stop}(name=${role.user.username}, start=${filterParam.start}, stop=${filterParam.stop})}">user name</a>
 <!--              <span th:if="${role.producer}"> (*)</span>-->
           </li>
         </menu>

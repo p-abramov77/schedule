@@ -14,4 +14,7 @@ public interface RoleRepo extends JpaRepository<RoleEntity, Long> {
     @Transactional
     @Query(value = "DELETE FROM ROLES WHERE project_id = :project_id AND user_id = :user_id", nativeQuery = true)
     public void removeByProjectAndUser(Long project_id, Long user_id);
+
+    @Query(value = "select count(*) from roles where project_id = :project_id and producer is false", nativeQuery = true)
+    public long countOfExecutors(Long project_id);
 }

@@ -1,13 +1,16 @@
 package rbc.ru.schedule.controller;
 
+import lombok.Data;
 import org.springdoc.core.SpringDocUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+import rbc.ru.schedule.entity.GroupEntity;
 import rbc.ru.schedule.entity.ProjectEntity;
 import rbc.ru.schedule.entity.RoleEntity;
 import rbc.ru.schedule.entity.UserEntity;
@@ -44,6 +47,8 @@ public class ProjectController {
     private TagServiceImpl tagService;
     @Autowired
     UserValidator userValidator;
+    @Autowired
+    GroupServiceImpl groupService;
 
     @ModelAttribute("principal")
     public UserEntity getUser(Principal principal) {
@@ -55,7 +60,9 @@ public class ProjectController {
                        @RequestParam(name = "user", defaultValue = "") String user,
                        @RequestParam(name = "name", defaultValue = "") String name,
                        @RequestParam(name = "start", defaultValue = "") String startString,
-                       @RequestParam(name = "stop" , defaultValue = "") String stopString
+                       @RequestParam(name = "stop" , defaultValue = "") String stopString,
+                       @RequestParam(name = "oneGroup", defaultValue = "false") String justOneGroup,
+                       @RequestParam(name = "group_id", defaultValue = "1") String groupIdString
     ) {
         model.addAttribute("userName", principal.getName());
         model.addAttribute("isAdmin", userValidator.isAdmin(principal.getName()));
@@ -67,35 +74,51 @@ public class ProjectController {
         else
             message  = "Имя события начинается с : " + name;
 
-        String nameForRedirect;
+
+        Boolean oneGroup = Boolean.parseBoolean(justOneGroup); // return "false" when can't parse
+
+        ProjectFilterParamDTO filterParam = new ProjectFilterParamDTO();
+
+        filterParam.setOneGroup(oneGroup);
+        filterParam.setName(name);
+
+        Long group_id;
         try {
-             nameForRedirect = URLEncoder.encode(name, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            nameForRedirect = "";
+            group_id = Long.parseLong(groupIdString);
+        } catch (NumberFormatException e) {
+            group_id = 1L;
         }
 
-        LocalDate startDate, stopDate;
+        if (oneGroup) {
+            filterParam.setGroup(groupService.getById(group_id));
+        }
+        else {
+            filterParam.setGroup(groupService.getById(1L));
+        }
+
+        System.out.println("group in filter :"+filterParam.getGroup().getName());
 
         try {
-            startDate = LocalDate.parse(startString);
-            stopDate = LocalDate.parse(stopString);
+            filterParam.setStart(LocalDate.parse(startString));
+            filterParam.setStop(LocalDate.parse(stopString));
         } catch (DateTimeParseException e) {
-            startDate = LocalDate.now();
-            stopDate = LocalDate.now().plusDays(maxLengthOfPeriod);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
+            filterParam.setStart(LocalDate.now());
+            filterParam.setStop(LocalDate.now().plusDays(maxLengthOfPeriod));
+            return "redirect:/schedule/projects" + filterParam;
         }
-        if(startDate.until(stopDate, ChronoUnit.DAYS) > maxLengthOfPeriod || startDate.isAfter(stopDate)) {
-            stopDate = startDate.plusDays(maxLengthOfPeriod);
-            return "redirect:/schedule/projects?start="+startDate+"&stop="+stopDate+"&name="+nameForRedirect;
+        if(filterParam.getStart().until(filterParam.getStop(), ChronoUnit.DAYS) > maxLengthOfPeriod || filterParam.getStart().isAfter(filterParam.getStop())) {
+            filterParam.setStop(filterParam.getStart().plusDays(maxLengthOfPeriod));
+            return "redirect:/schedule/projects" + filterParam;
         }
 
-        model.addAttribute("start", startDate);
-        model.addAttribute("stop", stopDate);
+        model.addAttribute("filterParam", filterParam);
+        model.addAttribute("groups", groupService.getByName(""));
 
-        LocalDateTime start = startDate.atStartOfDay();
-        LocalDateTime stop = stopDate.plusDays(1).atStartOfDay();
+        LocalDateTime start = filterParam.getStart().atStartOfDay();
+        LocalDateTime stop = filterParam.getStop().plusDays(1).atStartOfDay();
 
-        Set<ProjectEntity> list = projectService.getByName(name, start, stop, principal.getName());
+
+        Set<ProjectEntity> list = projectService.getByName(name, start, stop, filterParam.getOneGroup(), filterParam.getGroup().getId(), principal.getName());
 
         if (!id.isEmpty()){
             list = projectService.getByTag(Long.valueOf(id), start, stop, principal.getName());
@@ -107,14 +130,22 @@ public class ProjectController {
             message = "События, в которых участвует : " + user;
         }
 
-        message = "Фильтр: с " + startDate + " по " + stopDate + ";  " + message;
+        message = "Фильтр: с " + filterParam.getStart() + " по " + filterParam.getStop() + ";  " + message;
 
         model.addAttribute("message", message);
-        model.addAttribute("name", name);
         model.addAttribute("list", list);
 
         return "projects";
     }
+
+    @PostMapping("projectParam")
+    public String param(Model model,
+                        @ModelAttribute("filterParam")  ProjectFilterParamDTO filterParam) {
+
+        System.out.println("in POST : "+filterParam);
+        return "redirect:/schedule/projects" + filterParam;
+    }
+
     @GetMapping("newProject")
     public String newOne(Model model,
                          Principal principal) {
@@ -154,6 +185,7 @@ public class ProjectController {
             roleEntity.setProject(projectEntity);
 
             roleService.save(roleEntity);
+            return "redirect:/schedule/projectRoles/" + project_id;
         } else {
             projectService.save(projectEntity);
         }
@@ -177,5 +209,30 @@ public class ProjectController {
         model.addAttribute("project", projectEntity);
         return "project";
     }
+    public static String encodeName(String name) {
+        try {
+            return URLEncoder.encode(name, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+}
+@Data
+class ProjectFilterParamDTO {
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate start;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    LocalDate stop;
+    Boolean oneGroup;
+    GroupEntity group;
+    String name;
 
+    @Override
+    public String toString() {
+        return  "?start=" + start +
+                "&stop=" + stop +
+                "&name=" +  ProjectController.encodeName(name)+
+                "&oneGroup=" + oneGroup +
+                "&group_id=" + group.getId();
+    }
 }
